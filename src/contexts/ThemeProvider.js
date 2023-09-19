@@ -5,11 +5,11 @@ import {
 } from "@mui/material/styles";
 
 const PRIMARY = {
-  lighter: "#FFD07F",
-  light: "#FDA65D",
-  main: "#FF8243",
-  dark: "#E26A2C",
-  darker: "#cc571f",
+  lighter: "#34495E",
+  light: "#2C3E50",
+  main: "#34495E",
+  dark: "#263341",
+  darker: "#19232d",
   contrastText: "#FFF",
 };
 const SECONDARY = {
@@ -32,6 +32,7 @@ const SUCCESS = {
 function ThemeProvider({ children }) {
   const themeOptions = {
     palette: {
+      mode: "dark",
       primary: PRIMARY,
       secondary: SECONDARY,
       success: SUCCESS,

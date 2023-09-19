@@ -19,9 +19,12 @@ import apiService from "../app/apiService";
 import LoadingScreen from "../components/LoadingScreen";
 import { Alert } from "@mui/material";
 
+const ITEMS_PER_PAGE = 20;
+
 function DetailPage() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [error, setError] = useState("");
   const params = useParams();
 

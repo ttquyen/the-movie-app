@@ -10,11 +10,15 @@ import orderBy from "lodash/orderBy";
 import LoadingScreen from "../components/LoadingScreen";
 import { API_KEY } from "../app/config";
 import MovieList from "../components/movieList/movieList";
+import AppCarousel from "../components/carousel/AppCarousel";
+import Pagination from "../components/AppPagination";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [page, setPage] = useState(1);
+  const [count, setCount] = useState(10);
   const defaultValues = {
     gender: [],
     category: "All",
@@ -34,9 +38,10 @@ function HomePage() {
       setLoading(true);
       try {
         const res = await apiService.get(
-          `/movie/popular?api_key=${API_KEY}&language=en-US`
+          `/movie/popular?api_key=${API_KEY}&language=en-US&page=${page}`
         );
         setProducts(res.data?.results);
+        setCount(res.data?.total_pages < 500 ? res.data?.total_pages : 500);
         setError("");
       } catch (error) {
         setError(error.message);
@@ -44,17 +49,21 @@ function HomePage() {
       setLoading(false);
     };
     getProducts();
-  }, []);
+  }, [page]);
+  const handleChangePagination = (event, value) => {
+    console.log(value);
+    setPage(value);
+  };
 
   return (
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 3 }}>
-      <Stack>
+      {/* <Stack>
         <FormProvider methods={methods}>
           <ProductFilter resetFilter={reset} />
         </FormProvider>
-      </Stack>
+      </Stack> */}
       <Stack sx={{ flexGrow: 1 }}>
-        <FormProvider methods={methods}>
+        {/* <FormProvider methods={methods}>
           <Stack
             spacing={2}
             direction={{ xs: "column", sm: "row" }}
@@ -65,7 +74,7 @@ function HomePage() {
             <ProductSearch />
             <ProductSort />
           </Stack>
-        </FormProvider>
+        </FormProvider> */}
         <Box sx={{ position: "relative", height: 1 }}>
           {loading ? (
             <LoadingScreen />
@@ -74,9 +83,16 @@ function HomePage() {
               {error ? (
                 <Alert severity="error">{error}</Alert>
               ) : (
-                //TODO: Change product list to movie list
-                // <ProductList products={filterProducts} />
-                <MovieList movieList={filterProducts} />
+                <>
+                  <AppCarousel movieList={filterProducts} />
+                  <MovieList movieList={filterProducts} />
+                  <Pagination
+                    page={page}
+                    setPage={setPage}
+                    count={count}
+                    handleChangePagination={handleChangePagination}
+                  />
+                </>
               )}
             </>
           )}
