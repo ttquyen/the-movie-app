@@ -16,19 +16,51 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 
-const pages = ["Movies", "TV Shows", "People", "More"];
+const navbarItems = [
+  {
+    label: "Movies",
+    id: "movies",
+    menuItems: ["popular", "now playing", "upcomming", "toprated"],
+  },
+  {
+    label: "TV Shows",
+    id: "tvshows",
+    menuItems: ["popular", "airingtoday", "onTV", "toprated"],
+  },
+  {
+    label: "People",
+    id: "people",
+    menuItems: ["popular", "upcomming", "toprated"],
+  },
+  {
+    label: "More",
+    id: "more",
+    menuItems: ["popular", "nowplaying"],
+  },
+];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 function MainHeader() {
   const { user } = useAuth();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNavItem, setAnchorElNavItem] = React.useState(
+    new Array(4).fill(null)
+  );
 
+  // console.log(first);
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event) => {
+    console.log(event);
     setAnchorElUser(event.currentTarget);
+  };
+  const handleOpenNavBarMenu = (event, index, b) => {
+    let tmpArr = [...anchorElNavItem];
+    tmpArr.splice(index, 1, event.currentTarget);
+    console.log(b);
+    setAnchorElNavItem([...tmpArr]);
   };
 
   const handleCloseNavMenu = () => {
@@ -38,6 +70,15 @@ function MainHeader() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleCloseNavBarMenu = () => {
+    let tmpArr = new Array(4).fill(null);
+    setAnchorElNavItem([...tmpArr]);
+    console.log("leave");
+  };
+  const handleClickNavBar = (nbItem) => {
+    console.log(nbItem);
+  };
+  const NavBarItemWithMenu = () => {};
 
   // return (
   //   <Box>
@@ -74,7 +115,7 @@ function MainHeader() {
           >
             <Logo />
           </IconButton>
-
+          {/* FOR MOBILE */}
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -87,7 +128,7 @@ function MainHeader() {
               <MenuIcon />
             </IconButton>
             <Menu
-              id="menu-appbar"
+              id="menu-nav-bar-mobile"
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: "bottom",
@@ -98,20 +139,25 @@ function MainHeader() {
                 vertical: "top",
                 horizontal: "left",
               }}
-              open={Boolean(anchorElNav)}
+              open={Boolean(anchorElNavItem)}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: "block", md: "none" },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+              {navbarItems.map((nbItem) => (
+                <MenuItem
+                  key={nbItem.id}
+                  onClick={handleOpenNavBarMenu}
+                  onMouseOver={handleOpenNavBarMenu}
+                  onMouseOut={handleCloseNavBarMenu}
+                >
+                  <Typography textAlign="center">{nbItem.label}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-
+          {/* CENTER ICON FOR MOBILE */}
           <IconButton
             edge="start"
             color="inherit"
@@ -129,18 +175,51 @@ function MainHeader() {
           >
             <Logo />
           </IconButton>
+          {/* MAIN NAVBAR */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                {page}
-              </Button>
+            {navbarItems.map((nbItem, index) => (
+              <>
+                <Button
+                  key={nbItem.id}
+                  onClick={(event) => handleOpenNavBarMenu(event, index)}
+                  onMouseEnter={(event) =>
+                    handleOpenNavBarMenu(event, index, "enter")
+                  }
+                  // NEED TO CHECK
+                  // onMouseLeave={handleCloseNavBarMenu}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  {nbItem.label}
+                </Button>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id={"menu" + nbItem.id}
+                  anchorEl={anchorElNavItem?.at(index)}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElNavItem?.at(index))}
+                  onClose={handleCloseNavBarMenu}
+                >
+                  {nbItem?.menuItems.map((i) => (
+                    <MenuItem
+                      key={i + nbItem.id + index}
+                      onClick={handleCloseNavBarMenu}
+                    >
+                      <Typography textAlign="center">{i}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </>
             ))}
           </Box>
-
+          {/* AVATAR */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
