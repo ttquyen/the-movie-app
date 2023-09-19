@@ -34,7 +34,6 @@ function DetailPage() {
           setProduct(res.data);
           setError("");
         } catch (error) {
-          console.log(error);
           setError(error.message);
         }
         setLoading(false);

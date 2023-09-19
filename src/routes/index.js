@@ -2,11 +2,11 @@ import * as React from "react";
 import { Routes, Route } from "react-router-dom";
 import BlankLayout from "../layouts/BlankLayout";
 import MainLayout from "../layouts/MainLayout";
-import DetailPage from "../pages/DetailPage";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import AuthRequire from "./AuthRequire";
+import MovieDetail from "../pages/movieDetail/MovieDetail";
 
 function Router() {
   return (
@@ -20,7 +20,7 @@ function Router() {
         }
       >
         <Route index element={<HomePage />} />
-        <Route path="product/:id" element={<DetailPage />} />
+        <Route path="movie/:id" element={<MovieDetail />}></Route>
       </Route>
 
       <Route element={<BlankLayout />}>

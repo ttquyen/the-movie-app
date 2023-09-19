@@ -3,18 +3,18 @@ import { Alert, Box, Container, Stack } from "@mui/material";
 import ProductFilter from "../components/ProductFilter";
 import ProductSearch from "../components/ProductSearch";
 import ProductSort from "../components/ProductSort";
-import ProductList from "../components/ProductList";
 import { FormProvider } from "../components/form";
 import { useForm } from "react-hook-form";
 import apiService from "../app/apiService";
 import orderBy from "lodash/orderBy";
 import LoadingScreen from "../components/LoadingScreen";
+import { API_KEY } from "../app/config";
+import MovieList from "../components/movieList/movieList";
 
 function HomePage() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   const defaultValues = {
     gender: [],
     category: "All",
@@ -28,16 +28,17 @@ function HomePage() {
   const { watch, reset } = methods;
   const filters = watch();
   const filterProducts = applyFilter(products, filters);
-
+  // update API
   useEffect(() => {
     const getProducts = async () => {
       setLoading(true);
       try {
-        const res = await apiService.get("/products");
-        setProducts(res.data);
+        const res = await apiService.get(
+          `/movie/popular?api_key=${API_KEY}&language=en-US`
+        );
+        setProducts(res.data?.results);
         setError("");
       } catch (error) {
-        console.log(error);
         setError(error.message);
       }
       setLoading(false);
@@ -73,7 +74,9 @@ function HomePage() {
               {error ? (
                 <Alert severity="error">{error}</Alert>
               ) : (
-                <ProductList products={filterProducts} />
+                //TODO: Change product list to movie list
+                // <ProductList products={filterProducts} />
+                <MovieList movieList={filterProducts} />
               )}
             </>
           )}
