@@ -62,3 +62,17 @@
   font-size: 0.75rem;
   margin-bottom: 0.25rem;
 }
+@media (max-width: 600px) {
+  .cards {
+    margin: 0.1rem;
+    cursor: pointer;
+    min-width: 130px;
+    height: 200px;
+  }
+  .cards__img {
+    height: 200px;
+  }
+  .cards__overlay {
+    height: 190px;
+  }
+}

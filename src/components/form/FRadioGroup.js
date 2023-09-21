@@ -18,8 +18,8 @@ function FRadioGroup({ name, options, getOptionLabel, ...other }) {
           <RadioGroup {...field} row {...other}>
             {options.map((option, index) => (
               <FormControlLabel
-                key={option}
-                value={option}
+                key={option.id}
+                value={option?.id}
                 control={<Radio />}
                 label={getOptionLabel?.length ? getOptionLabel[index] : option}
               />

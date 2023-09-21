@@ -49,5 +49,29 @@
   margin-bottom: 0.25rem;
   display: flex;
   text-align: left;
-  width: 50%;
+  width: 100%;
+}
+@media (max-width: 600px) {
+  .posterImage {
+    height: 400px;
+  }
+  .posterImage__title {
+    font-weight: 900;
+    font-size: 2rem;
+    margin-bottom: 0.2rem;
+    text-align: left;
+  }
+  .posterImage__runtime {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  .posterImage__rating {
+    margin-left: 1rem;
+  }
+  .posterImage__description {
+    margin-bottom: 0.1rem;
+  }
+  .posterImage__overlay {
+    padding: 2rem;
+  }
 }
