@@ -3,7 +3,7 @@ import "./MovieDetail.css";
 import { useParams } from "react-router-dom";
 import apiService from "../../app/apiService";
 import { API_KEY } from "../../app/config";
-import { Alert, Box, Container, Stack } from "@mui/material";
+import { Alert } from "@mui/material";
 import LoadingScreen from "../../components/LoadingScreen";
 
 const MovieDetail = () => {
@@ -28,7 +28,7 @@ const MovieDetail = () => {
     };
     getMovieDetail();
     window.scrollTo(0, 0);
-  }, []);
+  }, [id]);
 
   return loading ? (
     <LoadingScreen />

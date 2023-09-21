@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./AppCarousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
@@ -21,6 +21,7 @@ function AppCarousel({ movieList }) {
         >
           <div className="posterImage">
             <img
+              alt="backdrop"
               src={`https://image.tmdb.org/t/p/original${
                 movie && movie.backdrop_path
               }`}
