@@ -4,16 +4,19 @@ import Router from "./routes";
 import { AuthProvider } from "./contexts/AuthContext";
 import ThemeProvider from "./contexts/ThemeProvider";
 import { MovieProvider } from "./contexts/MovieContext";
+import { DrawerProvider } from "./contexts/DrawerContext";
 
 function App() {
   return (
     <AuthProvider>
       <MovieProvider>
-        <BrowserRouter>
-          <ThemeProvider>
-            <Router />
-          </ThemeProvider>
-        </BrowserRouter>
+        <DrawerProvider>
+          <BrowserRouter>
+            <ThemeProvider>
+              <Router />
+            </ThemeProvider>
+          </BrowserRouter>
+        </DrawerProvider>
       </MovieProvider>
     </AuthProvider>
   );

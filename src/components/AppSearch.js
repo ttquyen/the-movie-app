@@ -43,12 +43,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 function AppSearch() {
-  const { movieSearchCtx, setMovieSearchCtx } = React.useContext(MovieContext);
+  const { setMovieSearchCtx } = React.useContext(MovieContext);
   const [searchValue, setSearchValue] = useState("");
 
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    console.log(searchValue);
     setMovieSearchCtx(searchValue);
   };
   return (

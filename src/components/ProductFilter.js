@@ -1,7 +1,5 @@
-import { Box, Button, Stack, Typography } from "@mui/material";
-import { FMultiCheckbox, FRadioGroup, FSelect } from "./form";
-import ClearAllIcon from "@mui/icons-material/ClearAll";
-import MenuItem from "@mui/material/MenuItem";
+import { Stack, Typography } from "@mui/material";
+import { FRadioGroup } from "./form";
 
 export const FILTER_GENDER_OPTIONS = ["Men", "Women", "Kids"];
 

@@ -11,9 +11,10 @@ import AppCarousel from "../components/carousel/AppCarousel";
 import Pagination from "../components/AppPagination";
 import { MovieContext } from "../contexts/MovieContext";
 import AppSearch from "../components/AppSearch";
+import AppDrawer from "../components/AppDrawer";
+import Typography from "@mui/material/Typography";
 
 const applyFilter = (movies, filters) => {
-  console.log(movies, filters);
   let filteredProducts = movies;
   if (filters.genre !== "All") {
     filteredProducts = filteredProducts.filter((movie) =>
@@ -40,8 +41,6 @@ const HomePage = () => {
   const filterProducts = applyFilter(movies, filters);
   const { movieTypeCtx, setMovieTypeCtx, movieSearchCtx, setMovieSearchCtx } =
     useContext(MovieContext);
-
-  // const location = useLocation();
 
   // GENRE LIST
   useEffect(() => {
@@ -81,7 +80,7 @@ const HomePage = () => {
     if (movieSearchCtx) {
       getMovieList();
     }
-  }, [movieSearchCtx, page]);
+  }, [movieSearchCtx, page, setMovieTypeCtx]);
 
   // MOVIE LIST By Type
   useEffect(() => {
@@ -102,7 +101,7 @@ const HomePage = () => {
       setLoading(false);
     };
     getMovieList();
-  }, [movieTypeCtx, page]);
+  }, [movieTypeCtx, page, setMovieSearchCtx]);
 
   const handleChangePagination = (event, value) => {
     setPage(value);
@@ -128,18 +127,33 @@ const HomePage = () => {
                 <>
                   <AppCarousel movieList={filterProducts?.slice(0, 10)} />
                   <MovieList movieList={filterProducts} />
-                  <Pagination
-                    page={page}
-                    setPage={setPage}
-                    count={count}
-                    handleChangePagination={handleChangePagination}
-                  />
+
+                  {filterProducts?.length > 0 ? (
+                    <Pagination
+                      page={page}
+                      setPage={setPage}
+                      count={count}
+                      handleChangePagination={handleChangePagination}
+                    />
+                  ) : (
+                    <Typography sx={{ textAlign: "center" }}>
+                      Sorry... There are no movies for this genre.
+                    </Typography>
+                  )}
                 </>
               )}
             </>
           )}
         </Box>
       </Stack>
+      <AppDrawer>
+        <Box sx={{ p: 2 }}>
+          <AppSearch />
+          <FormProvider methods={methods}>
+            <ProductFilter resetFilter={reset} filterOptions={genreList} />
+          </FormProvider>
+        </Box>
+      </AppDrawer>
     </Container>
   );
 };

@@ -7,12 +7,13 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import Logo from "../components/Logo";
 import useAuth from "../hooks/useAuth";
 import { MovieContext } from "../contexts/MovieContext";
 import Button from "@mui/material/Button";
+import { DrawerContext } from "../contexts/DrawerContext";
 
 export default function MainHeader() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -23,6 +24,7 @@ export default function MainHeader() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const { setMovieTypeCtx } = React.useContext(MovieContext);
+  const { setOpenDrawer } = React.useContext(DrawerContext);
   const MOVIE_TYPE = [
     { type: "popular", label: "Popular" },
     { type: "now_playing", label: "Now Playing" },
@@ -127,6 +129,17 @@ export default function MainHeader() {
             sx={{ mr: 2, ml: 2, display: { xs: "none", md: "flex" } }}
           >
             <Logo />
+          </IconButton>
+          <IconButton
+            edge="start"
+            aria-label="open drawer"
+            size="large"
+            aria-haspopup="true"
+            onClick={() => setOpenDrawer(true)}
+            color="inherit"
+            sx={{ mr: 2, display: { xs: "flex", md: "none" } }}
+          >
+            <SearchIcon />
           </IconButton>
           <IconButton
             edge="start"
