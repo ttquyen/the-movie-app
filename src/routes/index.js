@@ -9,26 +9,30 @@ import AuthRequire from "./AuthRequire";
 import MovieDetail from "../pages/movieDetail/MovieDetail";
 
 function Router() {
-  return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <AuthRequire>
-            <MainLayout />
-          </AuthRequire>
-        }
-      >
-        <Route index element={<HomePage />} />
-        <Route path="movie/:id" element={<MovieDetail />}></Route>
-      </Route>
+    return (
+        <Routes>
+            <Route
+                path="/"
+                element={
+                    <AuthRequire>
+                        <MainLayout />
+                    </AuthRequire>
+                }
+            >
+                <Route index element={<HomePage />} />
+                <Route path="popular" element={<HomePage />} />
+                <Route path="now_playing" element={<HomePage />} />
+                <Route path="upcoming" element={<HomePage />} />
+                <Route path="top_rated" element={<HomePage />} />
+                <Route path="movie/:id" element={<MovieDetail />}></Route>
+            </Route>
 
-      <Route element={<BlankLayout />}>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
-    </Routes>
-  );
+            <Route element={<BlankLayout />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+            </Route>
+        </Routes>
+    );
 }
 
 export default Router;

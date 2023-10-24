@@ -4,17 +4,17 @@ import MainFooter from "./MainFooter";
 import MainHeader from "./MainHeader";
 
 function MainLayout() {
-  return (
-    <Stack sx={{ minHeight: "100vh" }}>
-      <MainHeader />
+    return (
+        <Stack sx={{ minHeight: "100vh" }}>
+            <MainHeader />
 
-      <Outlet />
+            <Outlet />
 
-      <Box sx={{ flexGrow: 1 }} />
+            <Box sx={{ flexGrow: 1 }} />
 
-      <MainFooter />
-    </Stack>
-  );
+            <MainFooter />
+        </Stack>
+    );
 }
 
 export default MainLayout;
