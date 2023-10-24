@@ -108,7 +108,7 @@ const HomePage = () => {
   };
 
   return (
-    <Container sx={{ display: "flex", minHeight: "100vh", mt: 3 }}>
+    <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
         <AppSearch />
         <FormProvider methods={methods}>
