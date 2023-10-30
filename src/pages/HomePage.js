@@ -5,14 +5,16 @@ import { FormProvider } from "../components/form";
 import { useForm } from "react-hook-form";
 import apiService from "../app/apiService";
 import LoadingScreen from "../components/LoadingScreen";
-import { API_KEY } from "../app/config";
-import MovieList from "../components/movieList/movieList";
+import MovieList from "../features/movie/movieList/movieList";
 import AppCarousel from "../components/carousel/AppCarousel";
 import Pagination from "../components/AppPagination";
 import { MovieContext } from "../contexts/MovieContext";
 import AppSearch from "../components/AppSearch";
 import AppDrawer from "../components/AppDrawer";
 import Typography from "@mui/material/Typography";
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getMovieListAsync } from "../features/movie/movieSlice";
 
 const applyFilter = (movies, filters) => {
   let filteredProducts = movies;
@@ -24,12 +26,13 @@ const applyFilter = (movies, filters) => {
   return filteredProducts;
 };
 const HomePage = () => {
-  const [movies, setMovies] = useState([]);
   const [genreList, setGenreList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const [count, setCount] = useState(10);
+  const movieData = useSelector((state) => state.movie);
+  console.log(movieData);
+  const location = useLocation();
   const defaultValues = {
     genre: "All",
   };
@@ -38,19 +41,15 @@ const HomePage = () => {
   });
   const { watch, reset } = methods;
   const filters = watch();
-  const filterProducts = applyFilter(movies, filters);
-  const { movieTypeCtx, setMovieTypeCtx, movieSearchCtx, setMovieSearchCtx } =
-    useContext(MovieContext);
-
+  const filterProducts = applyFilter(movieData.movies, filters);
+  const dispatch = useDispatch();
   // GENRE LIST
   useEffect(() => {
     const getGenreList = async () => {
       setLoading(true);
       try {
-        const res = await apiService.get(
-          `/genre/movie/list?api_key=${API_KEY}&language=en-US`
-        );
-        setGenreList(res.data?.genres);
+        const res = await apiService.get(`/genres`);
+        setGenreList(res.data);
         setError("");
       } catch (error) {
         setError(error.message);
@@ -58,50 +57,9 @@ const HomePage = () => {
       setLoading(false);
     };
     getGenreList();
-  }, []);
-
-  // MOVIE LIST by search
-  useEffect(() => {
-    const getMovieList = async () => {
-      setLoading(true);
-      try {
-        const res = await apiService.get(
-          `/search/movie?api_key=${API_KEY}&language=en-US&page=${page}&query=${movieSearchCtx}`
-        );
-        setMovies(res.data?.results);
-        setCount(res.data?.total_pages < 500 ? res.data?.total_pages : 500);
-        setError("");
-        setMovieTypeCtx("popular");
-      } catch (error) {
-        setError(error.message);
-      }
-      setLoading(false);
-    };
-    if (movieSearchCtx) {
-      getMovieList();
-    }
-  }, [movieSearchCtx, page, setMovieTypeCtx]);
-
-  // MOVIE LIST By Type
-  useEffect(() => {
-    const getMovieList = async () => {
-      setLoading(true);
-      try {
-        const res = await apiService.get(
-          `/movie/${movieTypeCtx}?api_key=${API_KEY}&language=en-US&page=${page}`
-        );
-
-        setMovies(res.data?.results);
-        setCount(res.data?.total_pages < 500 ? res.data?.total_pages : 500);
-        setError("");
-        setMovieSearchCtx(null);
-      } catch (error) {
-        setError(error.message);
-      }
-      setLoading(false);
-    };
-    getMovieList();
-  }, [movieTypeCtx, page, setMovieSearchCtx]);
+    const listType = location.pathname.substring(1) || "top_rated";
+    dispatch(getMovieListAsync({ listType, page }));
+  }, [dispatch, location, page]);
 
   const handleChangePagination = (event, value) => {
     setPage(value);
@@ -132,7 +90,7 @@ const HomePage = () => {
                     <Pagination
                       page={page}
                       setPage={setPage}
-                      count={count}
+                      count={movieData.totalPages}
                       handleChangePagination={handleChangePagination}
                     />
                   ) : (

@@ -3,6 +3,7 @@ import "./AppCarousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import { Link } from "react-router-dom";
+import { fDate } from "../../utils/formatTime";
 
 function AppCarousel({ movieList }) {
   return (
@@ -16,8 +17,8 @@ function AppCarousel({ movieList }) {
       {movieList?.map((movie) => (
         <Link
           style={{ textDecoration: "none", color: "white" }}
-          to={`/movie/${movie.id}`}
-          key={movie.id}
+          to={`/movies/${movie._id}`}
+          key={movie._id}
         >
           <div className="posterImage">
             <img
@@ -28,11 +29,9 @@ function AppCarousel({ movieList }) {
             />
           </div>
           <div className="posterImage__overlay">
-            <div className="posterImage__title">
-              {movie ? movie.original_title : ""}
-            </div>
+            <div className="posterImage__title">{movie ? movie.title : ""}</div>
             <div className="posterImage__runtime">
-              {movie ? movie.release_date : ""}
+              {movie ? fDate(movie.release_date) : ""}
               <span className="posterImage__rating">
                 {movie ? movie.vote_average : ""}
                 <i className="fas fa-star" />{" "}

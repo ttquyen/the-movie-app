@@ -3,6 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { MovieContext } from "../contexts/MovieContext";
+import { useDispatch } from "react-redux";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -45,6 +46,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function AppSearch() {
   const { setMovieSearchCtx } = React.useContext(MovieContext);
   const [searchValue, setSearchValue] = useState("");
+  const dispatch = useDispatch();
 
   const handleSearchMovie = (e) => {
     e.preventDefault();

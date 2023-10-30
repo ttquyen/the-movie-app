@@ -16,9 +16,8 @@ const MovieDetail = () => {
     const getMovieDetail = async () => {
       setLoading(true);
       try {
-        const res = await apiService.get(
-          `/movie/${id}?api_key=${API_KEY}&language=en-US`
-        );
+        const res = await apiService.get(`/movies/${id}`);
+        console.log(res.data);
         setMovie(res.data);
         setError("");
       } catch (error) {

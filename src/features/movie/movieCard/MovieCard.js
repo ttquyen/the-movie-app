@@ -3,6 +3,7 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import "./MovieCard.css";
 import { Link } from "react-router-dom";
+import { fDate } from "../../../utils/formatTime";
 
 const MovieCard = ({ movie }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -23,7 +24,7 @@ const MovieCard = ({ movie }) => {
         </div>
       ) : (
         <Link
-          to={`/movie/${movie.id}`}
+          to={`/movies/${movie._id}`}
           style={{ textDecoration: "none", color: "white" }}
         >
           <div className="cards">
@@ -35,11 +36,9 @@ const MovieCard = ({ movie }) => {
               }`}
             />
             <div className="cards__overlay">
-              <div className="card__title">
-                {movie ? movie.original_title : ""}
-              </div>
+              <div className="card__title">{movie ? movie.title : ""}</div>
               <div className="card__runtime">
-                {movie ? movie.release_date : ""}
+                {movie ? fDate(movie.release_date) : ""}
                 <span className="card__rating">
                   {movie ? movie.vote_average : ""}
                   <i className="fas fa-star" />
