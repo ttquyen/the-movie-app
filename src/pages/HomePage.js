@@ -31,7 +31,6 @@ const HomePage = () => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
   const movieData = useSelector((state) => state.movie);
-  console.log(movieData);
   const location = useLocation();
   const defaultValues = {
     genre: "All",

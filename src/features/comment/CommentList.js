@@ -6,38 +6,41 @@ import { Pagination, Stack, Typography } from "@mui/material";
 import CommentCard from "./CommentCard";
 import LoadingScreen from "../../pages/LoadingScreen";
 
-function CommentList({ postId }) {
+function CommentList({ movieId }) {
+  console.log(movieId);
   const dispatch = useDispatch();
   const {
     commentsById,
-    commentsByPost,
+    commentsByMovie,
     currentPage,
     totalComments,
     isLoading,
   } = useSelector(
     (state) => ({
       commentsById: state.comment.commentsById,
-      commentsByPost: state.comment.commentsByPost[postId],
-      currentPage: state.comment.currentPageByPost[postId] || 1,
-      totalComments: state.comment.totalCommentsByPost[postId],
+      commentsByMovie: state.comment.commentsByMovie[movieId] || [],
+      currentPage: state.comment.currentPage,
+      totalComments: state.comment.totalComments,
       isLoading: state.comment.isLoading,
     }),
     shallowEqual
   );
+  console.log(commentsById, commentsByMovie);
   const totalPage = Math.ceil(totalComments / COMMENT_PER_POST);
   useEffect(() => {
-    if (postId) {
-      dispatch(getCommentListAsync({ postId }));
+    console.log("movieId", movieId);
+    if (movieId) {
+      dispatch(getCommentListAsync({ movieId }));
     }
-  }, [postId, dispatch]);
+  }, [movieId, dispatch]);
 
   let renderComments;
-  if (commentsByPost) {
-    const comments = commentsByPost.map((cmtId) => commentsById[cmtId]);
+  if (commentsByMovie) {
+    const comments = commentsByMovie.map((cmtId) => commentsById[cmtId]);
     renderComments = (
       <Stack spacing={1}>
         {comments.map((cmt) => (
-          <CommentCard key={cmt._id} comment={cmt} postId={postId} />
+          <CommentCard key={cmt._id} comment={cmt} movieId={movieId} />
         ))}
       </Stack>
     );
@@ -64,7 +67,7 @@ function CommentList({ postId }) {
             count={totalPage}
             page={currentPage}
             onChange={(e, page) =>
-              dispatch(getCommentListAsync({ postId, page }))
+              dispatch(getCommentListAsync({ movieId, page }))
             }
           />
         )}

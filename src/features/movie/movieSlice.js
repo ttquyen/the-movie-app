@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import apiService from "../../app/apiService";
-import { POST_PER_PAGE } from "../../app/config";
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -23,18 +22,9 @@ const slice = createSlice({
     getMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log(action.payload);
       const { totalPages, movies } = action.payload;
       state.movies = movies;
       state.totalPages = totalPages;
-      // // filter duplicate movie before push new page to current page
-      // movies.forEach((movie) => {
-      //   state.moviesById[movie._id] = movie;
-      //   if (!state.currentPageMovies.includes(movie._id)) {
-      //     state.currentPageMovies.push(movie._id);
-      //   }
-      // });
-      // state.totalMovie = count;
     },
     sendMovieReactionSuccess(state, action) {
       state.isLoading = false;

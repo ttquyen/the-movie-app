@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./MovieDetail.css";
 import { useParams } from "react-router-dom";
 import apiService from "../../app/apiService";
-import { API_KEY } from "../../app/config";
 import { Alert } from "@mui/material";
 import LoadingScreen from "../../components/LoadingScreen";
+import { fDate } from "../../utils/formatTime";
+import CommentList from "../../features/comment/CommentList";
+import CommentForm from "../../features/comment/CommentForm";
 
 const MovieDetail = () => {
   const [currentMovieDetail, setMovie] = useState();
@@ -17,7 +19,6 @@ const MovieDetail = () => {
       setLoading(true);
       try {
         const res = await apiService.get(`/movies/${id}`);
-        console.log(res.data);
         setMovie(res.data);
         setError("");
       } catch (error) {
@@ -82,7 +83,7 @@ const MovieDetail = () => {
                 </div>
                 <div className="movie__releaseDate">
                   {currentMovieDetail
-                    ? "Release: " + currentMovieDetail.release_date
+                    ? "Release: " + fDate(currentMovieDetail.release_date)
                     : ""}
                 </div>
                 <div className="movie__genres">
@@ -101,7 +102,7 @@ const MovieDetail = () => {
               </div>
               <div className="movie__detailRightBottom">
                 <div className="synopsisText">Synopsis</div>
-                <div>
+                <div className="text">
                   {currentMovieDetail ? currentMovieDetail.overview : ""}
                 </div>
               </div>
@@ -139,6 +140,10 @@ const MovieDetail = () => {
                 </p>
               </a>
             )}
+          </div>
+          <div className="movie__comments">
+            <CommentList movieId={currentMovieDetail._id} />
+            <CommentForm movieId={currentMovieDetail._id} />
           </div>
         </div>
       )}

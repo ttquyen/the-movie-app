@@ -5,13 +5,13 @@ import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
 import { createCommentAsync } from "./commentSlice";
 
-function CommentForm({ postId }) {
+function CommentForm({ movieId }) {
   const { user } = useAuth();
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createCommentAsync({ content, postId }));
+    dispatch(createCommentAsync({ content, movieId }));
     setContent("");
   };
   return (
