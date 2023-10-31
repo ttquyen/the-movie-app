@@ -38,7 +38,7 @@ function AppCarousel({ movieList }) {
               </span>
             </div>
             <div className="posterImage__description">
-              {movie ? `${movie.overview.slice(0, 100)}...` : ""}
+              {movie ? `${movie.overview.slice(0, 250)}...` : ""}
             </div>
           </div>
         </Link>

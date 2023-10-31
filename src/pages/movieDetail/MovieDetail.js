@@ -7,14 +7,14 @@ import LoadingScreen from "../../components/LoadingScreen";
 import { fDate } from "../../utils/formatTime";
 import CommentList from "../../features/comment/CommentList";
 import CommentForm from "../../features/comment/CommentForm";
-import { Stack } from "@mui/material";
-
+import { Stack, Typography, Box } from "@mui/material";
+import Rating from "@mui/material/Rating";
 const MovieDetail = () => {
   const [currentMovieDetail, setMovie] = useState();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [rating, setRating] = useState(0);
   useEffect(() => {
     const getMovieDetail = async () => {
       setLoading(true);
@@ -30,6 +30,11 @@ const MovieDetail = () => {
     getMovieDetail();
     window.scrollTo(0, 0);
   }, [id]);
+  const handleRating = (newValue) => {
+    setRating(newValue);
+    //TODO
+    //set rating to this film
+  };
 
   return loading ? (
     <LoadingScreen />
@@ -59,6 +64,21 @@ const MovieDetail = () => {
                   alt="movie__poster"
                 />
               </div>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  mt: 2,
+                }}
+              >
+                <Typography variant="h5">Your Rating: </Typography>
+                <Rating
+                  name="simple-controlled"
+                  value={rating}
+                  onChange={(event, value) => handleRating(value)}
+                />
+              </Box>
             </div>
             <div className="movie__detailRight">
               <div className="movie__detailRightTop">
@@ -88,6 +108,7 @@ const MovieDetail = () => {
                     : ""}
                 </div>
                 <div className="movie__genres">
+                  {/* TODO: Mapping genres */}
                   {currentMovieDetail && currentMovieDetail.genres
                     ? currentMovieDetail.genres.map((genre) => (
                         <span
@@ -98,7 +119,7 @@ const MovieDetail = () => {
                           {genre.name}
                         </span>
                       ))
-                    : ""}
+                    : "---TODO--- "}
                 </div>
               </div>
               <div className="movie__detailRightBottom">
@@ -136,7 +157,7 @@ const MovieDetail = () => {
               >
                 <p>
                   <span className="movie__imdbButton movie__Button">
-                    IMDb<i className="newTab fas fa-external-link-alt"></i>
+                    Trailer<i className="newTab fas fa-external-link-alt"></i>
                   </span>
                 </p>
               </a>

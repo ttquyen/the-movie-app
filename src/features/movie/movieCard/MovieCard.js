@@ -44,9 +44,6 @@ const MovieCard = ({ movie }) => {
                   <i className="fas fa-star" />
                 </span>
               </div>
-              {/* <div className="card__description">
-                {movie ? movie.overview.slice(0, 118) + "..." : ""}
-              </div> */}
             </div>
           </div>
         </Link>
