@@ -1,6 +1,6 @@
 import { Avatar, IconButton, Paper, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { fDateTime } from "../../utils/formatTime";
+import { fToNow } from "../../utils/formatTime";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteCommentDialog from "./DeteleCommentDialog";
 import { useDispatch } from "react-redux";
@@ -60,27 +60,25 @@ function CommentCard({ comment, movieId }) {
   return (
     <Stack direction="row" spacing={2}>
       <Avatar alt={comment.author?.name} src={comment.author?.avatarUrl} />
-      <Paper sx={{ p: 1.5, flexGrow: 1, bgcolor: "background.neutral" }}>
+      <Paper sx={{ p: 1, flexGrow: 1, bgcolor: "background.neutral" }}>
         <Stack
           direction="row"
           alignItems={{ sm: "center" }}
           justifyContent="space-between"
-          sx={{ mb: 0.5 }}
+          // sx={{ mb: 0.5 }}
         >
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {comment.author?.name}
           </Typography>
-          <Stack alignItems="center">
-            <Typography variant="caption" sx={{ color: "text.disabled" }}>
-              {fDateTime(comment.createdAt)}
-            </Typography>
-            <IconButton onClick={handleMenuOpen} sx={{ width: "fit-content" }}>
-              <MoreVertIcon />
-            </IconButton>
-          </Stack>
+          <IconButton size="small" onClick={handleMenuOpen}>
+            <MoreVertIcon />
+          </IconButton>
         </Stack>
-        <Typography variant="body2" sx={{ color: "text.secondary" }}>
+        <Typography variant="body2" sx={{ color: "text.secondary", ml: 2 }}>
           {comment.content}
+        </Typography>
+        <Typography variant="caption" sx={{ color: "text.disabled" }}>
+          {fToNow(comment.updatedAt)}
         </Typography>
       </Paper>
       <DeleteCommentDialog

@@ -4,7 +4,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import React, { useState } from "react";
 import { Box, Stack } from "@mui/material";
 
-import { Button, DialogContent, DialogContentText } from "@mui/material";
+import { Button, DialogContent } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { TextField } from "@mui/material";
 import { updateCommentAsync } from "./commentSlice";

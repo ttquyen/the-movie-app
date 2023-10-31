@@ -17,8 +17,8 @@ function CommentList({ movieId }) {
   } = useSelector(
     (state) => ({
       commentsById: state.comment.commentsById,
-      commentsByMovie: state.comment.commentsByMovie[movieId] || [],
-      currentPage: state.comment.currentPage,
+      commentsByMovie: state.comment.commentsByMovie[movieId],
+      currentPage: state.comment.currentPage || 1,
       totalComments: state.comment.totalComments,
       isLoading: state.comment.isLoading,
     }),

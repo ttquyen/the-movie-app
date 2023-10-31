@@ -7,6 +7,7 @@ import LoadingScreen from "../../components/LoadingScreen";
 import { fDate } from "../../utils/formatTime";
 import CommentList from "../../features/comment/CommentList";
 import CommentForm from "../../features/comment/CommentForm";
+import { Stack } from "@mui/material";
 
 const MovieDetail = () => {
   const [currentMovieDetail, setMovie] = useState();
@@ -141,10 +142,10 @@ const MovieDetail = () => {
               </a>
             )}
           </div>
-          <div className="movie__comments">
+          <Stack className="movie__comments" spacing={2}>
             <CommentList movieId={currentMovieDetail._id} />
             <CommentForm movieId={currentMovieDetail._id} />
-          </div>
+          </Stack>
         </div>
       )}
     </>
