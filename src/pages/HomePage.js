@@ -8,7 +8,6 @@ import LoadingScreen from "../components/LoadingScreen";
 import MovieList from "../features/movie/movieList/movieList";
 import AppCarousel from "../components/carousel/AppCarousel";
 import Pagination from "../components/AppPagination";
-import { MovieContext } from "../contexts/MovieContext";
 import AppSearch from "../components/AppSearch";
 import AppDrawer from "../components/AppDrawer";
 import Typography from "@mui/material/Typography";

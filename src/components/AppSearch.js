@@ -4,6 +4,8 @@ import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { MovieContext } from "../contexts/MovieContext";
 import { useDispatch } from "react-redux";
+import { getMovieListAsync } from "../features/movie/movieSlice";
+import { useLocation } from "react-router-dom";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -44,13 +46,14 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 function AppSearch() {
-  const { setMovieSearchCtx } = React.useContext(MovieContext);
   const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
+  const location = useLocation();
+  const listType = location.pathname.substring(1) || "top_rated";
 
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    setMovieSearchCtx(searchValue);
+    dispatch(getMovieListAsync({ listType, title: searchValue }));
   };
   return (
     <Search onSubmit={handleSearchMovie}>
