@@ -90,6 +90,19 @@ export const getCommentListAsync =
     }
   };
 
+export const updateCommentAsync =
+  ({ commentId, content }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      await apiService.put(`/comments/${commentId}`, { content });
+      dispatch(slice.actions.updateCommentSuccess(commentId));
+      toast.success("Update Comment successfully");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 export const deleteCommentAsync = (commentId) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {

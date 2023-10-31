@@ -1,19 +1,62 @@
 import { Avatar, IconButton, Paper, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
 import { fDateTime } from "../../utils/formatTime";
-import DeleteIcon from "@mui/icons-material/Delete";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteCommentDialog from "./DeteleCommentDialog";
 import { useDispatch } from "react-redux";
 import { getCommentListAsync } from "./commentSlice";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import EditCommentDialog from "./EditCommentDialog";
 function CommentCard({ comment, movieId }) {
   const [openDel, setOpenDel] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useDispatch();
-
-  const handleDelete = (message) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleDeleteDialog = (message) => {
     if (message === "OK") {
       dispatch(getCommentListAsync({ movieId: movieId, page: 1 }));
     }
   };
+  const handleEditDialog = (message) => {
+    if (message === "OK") {
+      dispatch(getCommentListAsync({ movieId: movieId, page: 1 }));
+    }
+  };
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleEditComment = () => {
+    setOpenEdit(true);
+    handleMenuClose();
+  };
+  const handleDeleteComment = () => {
+    setOpenDel(true);
+    handleMenuClose();
+  };
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id="comment-menu"
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(anchorEl)}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleEditComment}>Edit</MenuItem>
+      <MenuItem onClick={handleDeleteComment}>Delete</MenuItem>
+    </Menu>
+  );
   return (
     <Stack direction="row" spacing={2}>
       <Avatar alt={comment.author?.name} src={comment.author?.avatarUrl} />
@@ -27,12 +70,12 @@ function CommentCard({ comment, movieId }) {
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {comment.author?.name}
           </Typography>
-          <Stack>
+          <Stack alignItems="center">
             <Typography variant="caption" sx={{ color: "text.disabled" }}>
               {fDateTime(comment.createdAt)}
             </Typography>
-            <IconButton onClick={() => setOpenDel(true)}>
-              <DeleteIcon />
+            <IconButton onClick={handleMenuOpen} sx={{ width: "fit-content" }}>
+              <MoreVertIcon />
             </IconButton>
           </Stack>
         </Stack>
@@ -44,8 +87,15 @@ function CommentCard({ comment, movieId }) {
         open={openDel}
         setOpen={setOpenDel}
         comment={comment}
-        callback={handleDelete}
+        callback={handleDeleteDialog}
       />
+      <EditCommentDialog
+        open={openEdit}
+        setOpen={setOpenEdit}
+        comment={comment}
+        callback={handleEditDialog}
+      />
+      {renderMenu}
     </Stack>
   );
 }

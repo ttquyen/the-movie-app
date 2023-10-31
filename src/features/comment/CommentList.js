@@ -7,7 +7,6 @@ import CommentCard from "./CommentCard";
 import LoadingScreen from "../../pages/LoadingScreen";
 
 function CommentList({ movieId }) {
-  console.log(movieId);
   const dispatch = useDispatch();
   const {
     commentsById,
@@ -25,10 +24,8 @@ function CommentList({ movieId }) {
     }),
     shallowEqual
   );
-  console.log(commentsById, commentsByMovie);
   const totalPage = Math.ceil(totalComments / COMMENT_PER_POST);
   useEffect(() => {
-    console.log("movieId", movieId);
     if (movieId) {
       dispatch(getCommentListAsync({ movieId }));
     }
