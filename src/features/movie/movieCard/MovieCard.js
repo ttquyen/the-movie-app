@@ -24,7 +24,7 @@ const MovieCard = ({ movie }) => {
         </div>
       ) : (
         <Link
-          to={`/movies/${movie._id}`}
+          to={`/movies/detail/${movie._id}`}
           style={{ textDecoration: "none", color: "white" }}
         >
           <div className="cards">

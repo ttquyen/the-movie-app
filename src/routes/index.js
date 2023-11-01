@@ -25,7 +25,7 @@ function AppRouter() {
         <Route path="now_playing" element={<HomePage />} />
         <Route path="upcoming" element={<HomePage />} />
         <Route path="top_rated" element={<HomePage />} />
-        <Route path="movies/:id" element={<MovieDetail />}></Route>
+        <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
       </Route>
 
       <Route element={<BlankLayout />}>

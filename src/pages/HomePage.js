@@ -55,8 +55,12 @@ const HomePage = () => {
       setLoading(false);
     };
     getGenreList();
-    const listType = location.pathname.substring(1) || "top_rated";
-    dispatch(getMovieListAsync({ listType, page }));
+    const listType = location.pathname?.substring(1);
+    if (listType) {
+      dispatch(getMovieListAsync({ listType, page }));
+    } else {
+      dispatch(getMovieListAsync({ page }));
+    }
   }, [dispatch, location, page]);
 
   const handleChangePagination = (event, value) => {
@@ -93,7 +97,7 @@ const HomePage = () => {
                     />
                   ) : (
                     <Typography sx={{ textAlign: "center" }}>
-                      Sorry... There are no movies for this genre.
+                      Sorry... There are no movies for the current filter.
                     </Typography>
                   )}
                 </>

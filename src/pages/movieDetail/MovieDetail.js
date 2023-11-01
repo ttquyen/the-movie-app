@@ -17,22 +17,20 @@ import useAuth from "../../hooks/useAuth";
 const MovieDetail = () => {
   // const [currentMovieDetail, setMovie] = useState();
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [rating, setRating] = useState(0);
   const dispatch = useDispatch();
   const { user } = useAuth();
 
   const currentMovieDetail = useSelector((state) => state.movie.currentMovie);
+  const currentRating = useSelector((state) => state.movie.currentRating);
   useEffect(() => {
     dispatch(getSingleMovieAsync({ movieId: id, userId: user._id }));
-  }, [id, dispatch, user, rating]);
+    // scroll()
+    window.scrollTo(0, 0);
+  }, [id, dispatch, user]);
 
-  const handleRating = async (newValue) => {
-    //TODO
-    //set rating to this film
-    await dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
-    setRating(newValue);
+  const handleRating = (newValue) => {
+    dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
   };
 
   return (
@@ -74,7 +72,7 @@ const MovieDetail = () => {
                 <Rating
                   name="simple-controlled"
                   max={10}
-                  value={currentMovieDetail.user_rated || rating}
+                  value={currentRating}
                   onChange={(event, value) => handleRating(value)}
                 />
               </Box>
@@ -88,7 +86,9 @@ const MovieDetail = () => {
                   {currentMovieDetail ? currentMovieDetail.tagline : ""}
                 </div>
                 <div className="movie__rating">
-                  {currentMovieDetail ? currentMovieDetail.vote_average : ""}{" "}
+                  {currentMovieDetail
+                    ? currentMovieDetail.vote_average?.toFixed(2)
+                    : ""}{" "}
                   <i className="fas fa-star" />
                   <span className="movie__voteCount">
                     {currentMovieDetail

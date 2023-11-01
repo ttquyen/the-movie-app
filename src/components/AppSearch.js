@@ -49,7 +49,7 @@ function AppSearch() {
   const [searchValue, setSearchValue] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
-  const listType = location.pathname.substring(1) || "top_rated";
+  const listType = location.pathname?.substring(1);
 
   const handleSearchMovie = (e) => {
     e.preventDefault();

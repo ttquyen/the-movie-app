@@ -17,7 +17,7 @@ function AppCarousel({ movieList }) {
       {movieList?.map((movie) => (
         <Link
           style={{ textDecoration: "none", color: "white" }}
-          to={`/movies/${movie._id}`}
+          to={`/movies/detail/${movie._id}`}
           key={movie._id}
         >
           <div className="posterImage">
@@ -33,7 +33,7 @@ function AppCarousel({ movieList }) {
             <div className="posterImage__runtime">
               {movie ? fDate(movie.release_date) : ""}
               <span className="posterImage__rating">
-                {movie ? movie.vote_average : ""}
+                {movie ? movie.vote_average?.toFixed(2) : ""}
                 <i className="fas fa-star" />{" "}
               </span>
             </div>
