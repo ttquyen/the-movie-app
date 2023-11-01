@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./MovieDetail.css";
 import { useParams } from "react-router-dom";
-import apiService from "../../app/apiService";
 import { Alert } from "@mui/material";
 import LoadingScreen from "../../components/LoadingScreen";
 import { fDate } from "../../utils/formatTime";
@@ -9,37 +8,35 @@ import CommentList from "../../features/comment/CommentList";
 import CommentForm from "../../features/comment/CommentForm";
 import { Stack, Typography, Box } from "@mui/material";
 import Rating from "@mui/material/Rating";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getSingleMovieAsync,
+  sendMovieRatingAsync,
+} from "../../features/movie/movieSlice";
+import useAuth from "../../hooks/useAuth";
 const MovieDetail = () => {
-  const [currentMovieDetail, setMovie] = useState();
+  // const [currentMovieDetail, setMovie] = useState();
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [rating, setRating] = useState(0);
+  const dispatch = useDispatch();
+  const { user } = useAuth();
+
+  const currentMovieDetail = useSelector((state) => state.movie.currentMovie);
   useEffect(() => {
-    const getMovieDetail = async () => {
-      setLoading(true);
-      try {
-        const res = await apiService.get(`/movies/${id}`);
-        setMovie(res.data);
-        setError("");
-      } catch (error) {
-        setError(error.message);
-      }
-      setLoading(false);
-    };
-    getMovieDetail();
-    window.scrollTo(0, 0);
-  }, [id]);
-  const handleRating = (newValue) => {
-    setRating(newValue);
+    dispatch(getSingleMovieAsync({ movieId: id, userId: user._id }));
+  }, [id, dispatch, user, rating]);
+
+  const handleRating = async (newValue) => {
     //TODO
     //set rating to this film
+    await dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
+    setRating(newValue);
   };
 
-  return loading ? (
-    <LoadingScreen />
-  ) : (
-    <>
+  return (
+    <Box>
       {error ? (
         <Alert severity="error">{error}</Alert>
       ) : (
@@ -67,6 +64,7 @@ const MovieDetail = () => {
               <Box
                 sx={{
                   display: "flex",
+                  flexDirection: "column",
                   alignItems: "center",
                   justifyContent: "space-evenly",
                   mt: 2,
@@ -75,7 +73,8 @@ const MovieDetail = () => {
                 <Typography variant="h5">Your Rating: </Typography>
                 <Rating
                   name="simple-controlled"
-                  value={rating}
+                  max={10}
+                  value={currentMovieDetail.user_rated || rating}
                   onChange={(event, value) => handleRating(value)}
                 />
               </Box>
@@ -103,12 +102,12 @@ const MovieDetail = () => {
                     : ""}
                 </div>
                 <div className="movie__releaseDate">
-                  {currentMovieDetail
-                    ? "Release: " + fDate(currentMovieDetail.release_date)
+                  {currentMovieDetail.release_date
+                    ? "Release: " +
+                      fDate(currentMovieDetail?.release_date || "")
                     : ""}
                 </div>
                 <div className="movie__genres">
-                  {/* TODO: Mapping genres */}
                   {currentMovieDetail && currentMovieDetail.genres
                     ? currentMovieDetail.genres.map((genre) => (
                         <span
@@ -119,7 +118,7 @@ const MovieDetail = () => {
                           {genre.name}
                         </span>
                       ))
-                    : "---TODO--- "}
+                    : ""}
                 </div>
               </div>
               <div className="movie__detailRightBottom">
@@ -157,19 +156,20 @@ const MovieDetail = () => {
               >
                 <p>
                   <span className="movie__imdbButton movie__Button">
-                    Trailer<i className="newTab fas fa-external-link-alt"></i>
+                    Trailer
+                    <i className="newTab fas fa-external-link-alt"></i>
                   </span>
                 </p>
               </a>
             )}
           </div>
           <Stack className="movie__comments" spacing={2}>
-            <CommentList movieId={currentMovieDetail._id} />
-            <CommentForm movieId={currentMovieDetail._id} />
+            <CommentList movieId={currentMovieDetail?._id} />
+            <CommentForm movieId={currentMovieDetail?._id} />
           </Stack>
         </div>
       )}
-    </>
+    </Box>
   );
 };
 

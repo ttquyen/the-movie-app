@@ -7,6 +7,7 @@ const initialState = {
   error: null,
   totalPages: 0,
   movies: [],
+  currentMovie: {},
 };
 const slice = createSlice({
   name: "movie",
@@ -26,11 +27,21 @@ const slice = createSlice({
       state.movies = movies;
       state.totalPages = totalPages;
     },
-    sendMovieReactionSuccess(state, action) {
+    getSingleMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      const { movieId, reactions } = action.payload;
-      state.moviesById[movieId].reactions = { ...reactions };
+      console.log(action.payload);
+      console.log("REDUCER: get single movie");
+      state.currentMovie = { ...action.payload };
+    },
+    sendMovieRatingSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log("REDUCER: ratingggg");
+      console.log(action.payload);
+      state.currentMovie.star = action.payload.data.star;
+      // const { movieId, reactions } = action.payload;
+      // state.moviesById[movieId].reactions = { ...reactions };
     },
   },
 });
@@ -50,23 +61,32 @@ export const getMovieListAsync =
       toast.error(error.message);
     }
   };
-
-export const sendMovieReactionAsync =
-  ({ movieId, emoji }) =>
+export const getSingleMovieAsync =
+  ({ movieId, userId }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await apiService.movie("/reactions", {
-        targetType: "Movie",
-        targetId: movieId,
-        emoji,
+      const params = { userId };
+      const response = await apiService.get(`/movies/${movieId}`, {
+        params,
       });
-      dispatch(
-        slice.actions.sendMovieReactionSuccess({
-          reactions: response.data,
-          movieId,
-        })
-      );
+      dispatch(slice.actions.getSingleMovieSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+
+export const sendMovieRatingAsync =
+  ({ movieId, star }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post("/ratings", {
+        movieId,
+        star,
+      });
+      dispatch(slice.actions.sendMovieRatingSuccess(response));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }
