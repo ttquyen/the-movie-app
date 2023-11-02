@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./MovieDetail.css";
+// import "./MovieDetail.css";
 import { useParams } from "react-router-dom";
 import { fDate } from "../../utils/formatTime";
 import CommentList from "../../features/comment/CommentList";
@@ -41,9 +41,15 @@ const MovieDetail = () => {
       }}
     >
       {/* BACKDROP */}
-      <Stack sx={{ width: "100%" }}>
+      <Stack height={{ xs: 300, md: 400 }} sx={{ width: "100%", mt: 6 }}>
         <img
-          className="movie__backdrop"
+          style={{
+            width: "100%",
+            objectFit: "cover",
+            objectPosition: "0 35%",
+            maxHeight: "500px",
+          }}
+          // className="movie__backdrop"
           src={`https://image.tmdb.org/t/p/original${
             currentMovieDetail ? currentMovieDetail.backdrop_path : ""
           }`}
@@ -52,82 +58,122 @@ const MovieDetail = () => {
       </Stack>
       {/* INFO */}
       <Stack
-        direction="row"
-        justifyContent="space-between"
+        className="main__content"
         sx={{
-          // width: "75%",
-          bottom: "150px",
+          bottom: "200px",
           position: "relative",
+          px: 1,
         }}
+        spacing={2}
       >
-        <Box>
-          <img
-            className="movie__poster"
-            src={`https://image.tmdb.org/t/p/original${
-              currentMovieDetail ? currentMovieDetail.poster_path : ""
-            }`}
-            alt="movie__poster"
-          />
-        </Box>
-        <Box sx={{ textShadow: "0px 0px 5px #000000" }}>
-          <Typography variant="h4" sx={{ fontWeight: 600 }}>
-            {currentMovieDetail ? currentMovieDetail.original_title : ""}
-          </Typography>
-          <Typography variant="body1">
-            {currentMovieDetail ? currentMovieDetail.tagline : ""}
-          </Typography>
-          <Stack direction="row" alignItems="center">
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 600, fontSize: 20 }}
-            >
-              {currentMovieDetail
-                ? currentMovieDetail.vote_average?.toFixed(2)
-                : ""}{" "}
+        <Stack
+          className="title__poster"
+          direction="row"
+          justifyContent="space-evenly"
+          alignItems="center"
+        >
+          <Box className="poster">
+            <img
+              className="movie__poster"
+              style={{
+                width: "100%",
+                objectFit: "cover",
+                objectPosition: "0 35%",
+                maxHeight: "350px",
+                minHeight: "150px",
+                minWidth: "100px",
+              }}
+              src={`https://image.tmdb.org/t/p/original${
+                currentMovieDetail ? currentMovieDetail.poster_path : ""
+              }`}
+              alt="movie__poster"
+            />
+          </Box>
+          <Stack
+            className="title"
+            sx={{ textShadow: "0px 0px 5px #000000", pl: 1.5 }}
+            spacing={{ xs: 1, md: 2 }}
+          >
+            <Typography sx={{ fontWeight: 600, fontSize: { xs: 30, md: 50 } }}>
+              {currentMovieDetail ? currentMovieDetail.original_title : ""}
             </Typography>
-            <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
-              /10
+            <Typography variant="body2">
+              {currentMovieDetail ? currentMovieDetail.tagline : ""}
             </Typography>
-            {/* <i className="fas fa-star" /> */}
-            <GradeIcon color="warning" />
-            <Typography sx={{ ml: 1 }}>
-              {currentMovieDetail
-                ? "(" + currentMovieDetail.vote_count + ") votes"
+            <Stack direction="row" alignItems="center">
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: 600, fontSize: 20 }}
+              >
+                {currentMovieDetail
+                  ? currentMovieDetail.vote_average?.toFixed(2)
+                  : ""}{" "}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
+                /10
+              </Typography>
+              {/* <i className="fas fa-star" /> */}
+              <GradeIcon color="warning" />
+              <Typography sx={{ ml: 1 }}>
+                {currentMovieDetail
+                  ? "(" + currentMovieDetail.vote_count + ") votes"
+                  : ""}
+              </Typography>
+            </Stack>
+            <Stack className="run__time">
+              <Typography variant="body2">
+                {currentMovieDetail ? currentMovieDetail.runtime + " mins" : ""}
+              </Typography>
+            </Stack>
+            <Stack className="release__date">
+              <Typography variant="body2">
+                {currentMovieDetail.release_date
+                  ? "Release: " + fDate(currentMovieDetail?.release_date || "")
+                  : ""}
+              </Typography>
+            </Stack>
+            <Stack className="genre__chip" direction="row">
+              {currentMovieDetail && currentMovieDetail.genres
+                ? currentMovieDetail.genres.map((genre) => (
+                    <Chip
+                      id={genre.id}
+                      key={genre.id}
+                      label={genre.name}
+                      size="small"
+                      sx={{
+                        backgroundColor: "#fae190",
+                        textShadow: "none",
+                        mx: 0.5,
+                      }}
+                    />
+                  ))
                 : ""}
-            </Typography>
+            </Stack>
           </Stack>
-          <div className="movie__runtime">
-            {currentMovieDetail ? currentMovieDetail.runtime + " mins" : ""}
-          </div>
-          <div className="movie__releaseDate">
-            {currentMovieDetail.release_date
-              ? "Release: " + fDate(currentMovieDetail?.release_date || "")
-              : ""}
-          </div>
-          <div className="movie__genres">
-            {currentMovieDetail && currentMovieDetail.genres
-              ? currentMovieDetail.genres.map((genre) => (
-                  <Chip
-                    id={genre.id}
-                    key={genre.id}
-                    label={genre.name}
-                    size="small"
-                    sx={{
-                      backgroundColor: "#fae190",
-                      textShadow: "none",
-                      mx: 0.5,
-                    }}
-                  />
-                ))
-              : ""}
-          </div>
-          <Stack direction="row">
+        </Stack>
+        <Stack
+          className="external__and__rating"
+          direction="column"
+          justifyContent="center"
+          sx={{ px: 3 }}
+        >
+          <Stack
+            className="external__link"
+            direction="row"
+            justifyContent="center"
+            sx={{ my: 1 }}
+            spacing={3}
+          >
             {currentMovieDetail && currentMovieDetail.homepage && (
               <Button
                 color="error"
                 variant="contained"
                 endIcon={<LaunchIcon />}
-                sx={{ textTransform: "none", fontWeight: 600, mx: 1 }}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 600,
+                  width: "fit-content",
+                }}
               >
                 <a
                   href={currentMovieDetail.homepage}
@@ -147,6 +193,7 @@ const MovieDetail = () => {
                   bgcolor: "#f5c518",
                   textTransform: "none",
                   fontWeight: 600,
+                  width: "fit-content",
                 }}
               >
                 <a
@@ -162,132 +209,50 @@ const MovieDetail = () => {
               </Button>
             )}
           </Stack>
-        </Box>
-      </Stack>
-
-      <Stack>
-        <div className="movie__detailLeft">
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              mt: 2,
-            }}
+          <Stack
+            className="rating"
+            alignItems="center"
+            spacing={0.5}
+            // direction={{ md: "row" }}
+            // justifyContent={{ md: "center" }}
           >
-            <Typography variant="h5">Your Rating: </Typography>
+            <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
+              Your Rating:{" "}
+            </Typography>
             <Rating
               name="simple-controlled"
               max={10}
               value={currentRating}
               onChange={(event, value) => handleRating(value)}
             />
-          </Box>
-        </div>
-        <div className="movie__detailRight">
-          {/* <div className="movie__detailRightTop">
-                <div className="movie__name">
-                  {currentMovieDetail ? currentMovieDetail.original_title : ""}
-                </div>
-                <div className="movie__tagline">
-                  {currentMovieDetail ? currentMovieDetail.tagline : ""}
-                </div>
-                <Stack
-                  className="movie__rating"
-                  direction="row"
-                  alignItems="center"
-                >
-                  <Typography
-                    variant="subtitle2"
-                    sx={{ fontWeight: 600, fontSize: 20 }}
-                  >
-                    {currentMovieDetail
-                      ? currentMovieDetail.vote_average?.toFixed(2)
-                      : ""}{" "}
-                  </Typography>
-                  <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
-                    /10
-                  </Typography>
-                  <i className="fas fa-star" />
-                  <span className="movie__voteCount">
-                    {currentMovieDetail
-                      ? "(" + currentMovieDetail.vote_count + ") votes"
-                      : ""}
-                  </span>
-                </Stack>
-                <div className="movie__runtime">
-                  {currentMovieDetail
-                    ? currentMovieDetail.runtime + " mins"
-                    : ""}
-                </div>
-                <div className="movie__releaseDate">
-                  {currentMovieDetail.release_date
-                    ? "Release: " +
-                      fDate(currentMovieDetail?.release_date || "")
-                    : ""}
-                </div>
-                <div className="movie__genres">
-                  {currentMovieDetail && currentMovieDetail.genres
-                    ? currentMovieDetail.genres.map((genre) => (
-                        <span
-                          className="movie__genre"
-                          id={genre.id}
-                          key={genre.id}
-                        >
-                          {genre.name}
-                        </span>
-                      ))
-                    : ""}
-                </div>
-                <Stack direction="row">
-                  {currentMovieDetail && currentMovieDetail.homepage && (
-                    <a
-                      href={currentMovieDetail.homepage}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <p>
-                        <span className="movie__homeButton movie__Button">
-                          Homepage{" "}
-                          <i className="newTab fas fa-external-link-alt"></i>
-                        </span>
-                      </p>
-                    </a>
-                  )}
-                  {currentMovieDetail && currentMovieDetail.imdb_id && (
-                    <a
-                      href={
-                        "https://www.imdb.com/title/" +
-                        currentMovieDetail.imdb_id
-                      }
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ textDecoration: "none" }}
-                    >
-                      <p>
-                        <span className="movie__imdbButton movie__Button">
-                          Trailer
-                          <i className="newTab fas fa-external-link-alt"></i>
-                        </span>
-                      </p>
-                    </a>
-                  )}
-                </Stack>
-              </div> */}
-          <div className="movie__detailRightBottom">
-            <div className="synopsisText">Synopsis</div>
-            <div className="text">
-              {currentMovieDetail ? currentMovieDetail.overview : ""}
-            </div>
-          </div>
-        </div>
-      </Stack>
+          </Stack>
+        </Stack>
 
-      <Stack className="movie__comments" spacing={2}>
-        <CommentList movieId={currentMovieDetail?._id} />
-        <CommentForm movieId={currentMovieDetail?._id} />
+        <Stack className="overview" spacing={1} sx={{ px: { md: 10 } }}>
+          <Typography sx={{ fontWeight: 600, fontSize: { xs: 25, md: 30 } }}>
+            Overview
+          </Typography>
+          <Typography variant="subtitle2">
+            {currentMovieDetail ? currentMovieDetail.overview : ""}
+          </Typography>
+        </Stack>
+        <Stack className="movie__comments" spacing={2} sx={{ px: { md: 10 } }}>
+          <Typography sx={{ fontWeight: 600, fontSize: { xs: 25, md: 30 } }}>
+            Comments
+          </Typography>
+
+          <Stack
+            className="comment__list"
+            width={{ xs: "100%", md: "80%" }}
+            sx={{ mx: "auto" }}
+            spacing={1}
+          >
+            <CommentList movieId={currentMovieDetail?._id} />
+            <CommentForm movieId={currentMovieDetail?._id} />
+            {/* <Stack></Stack> */}
+            {/* <Stack className="comment__form"></Stack> */}
+          </Stack>
+        </Stack>
       </Stack>
     </Container>
   );
