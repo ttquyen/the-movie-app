@@ -52,9 +52,10 @@ export default function MainHeader() {
           navigate("/login");
         });
       } catch (error) {}
-    }
-    if (closeType === "favorite") {
+    } else if (closeType === "favorite") {
       navigate("/favorite");
+    } else if (closeType === "info") {
+      console.log("open dialog");
     }
     setAnchorEl(null);
     handleMobileMenuClose();
@@ -81,7 +82,10 @@ export default function MainHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => handleMenuClose("favorite")}>Profile</MenuItem>
+      <MenuItem onClick={() => handleMenuClose("info")}>My Account</MenuItem>
+      <MenuItem onClick={() => handleMenuClose("favorite")}>
+        My Favorites
+      </MenuItem>
       <MenuItem onClick={() => handleMenuClose("logout")}>Logout</MenuItem>
     </Menu>
   );

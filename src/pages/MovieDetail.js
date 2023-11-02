@@ -91,7 +91,7 @@ const MovieDetail = () => {
           </Box>
           <Stack
             className="title"
-            sx={{ textShadow: "0px 0px 5px #000000", pl: 1.5 }}
+            sx={{ textShadow: "0px 0px 5px #000000", color: "#fff", pl: 1.5 }}
             spacing={{ xs: 1, md: 2 }}
           >
             <Typography sx={{ fontWeight: 600, fontSize: { xs: 30, md: 50 } }}>

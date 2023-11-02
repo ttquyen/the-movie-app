@@ -29,7 +29,7 @@ const slice = createSlice({
       state.movies = movies;
       state.totalPages = totalPages;
     },
-    getFavoriteMovieSuccess(state, action) {
+    getRatedMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
       const { count, totalPages, movies } = action.payload;
@@ -66,7 +66,6 @@ export const getMovieListAsync =
     dispatch(slice.actions.startLoading());
     try {
       const params = { page, limit, title, listType };
-      console.log(listType);
       const response = await apiService.get(`/movies/lists`, {
         params,
       });
@@ -76,18 +75,17 @@ export const getMovieListAsync =
       toast.error(error.message);
     }
   };
-export const getFavoriteListAsync =
+export const getRatedListAsync =
   ({ title, listType, page, limit }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const params = { page, limit, title, listType };
-      console.log(listType);
-      const response = await apiService.get("/movies/favorite", {
+      const response = await apiService.get("/movies/rated", {
         params,
       });
       console.log("call fav", response);
-      dispatch(slice.actions.getFavoriteMovieSuccess(response.data));
+      dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);
