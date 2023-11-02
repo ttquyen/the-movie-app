@@ -9,6 +9,7 @@ const initialState = {
   movies: [],
   currentMovie: {},
   currentRating: 0,
+  totalMovies: null,
 };
 const slice = createSlice({
   name: "movie",
@@ -27,6 +28,15 @@ const slice = createSlice({
       const { totalPages, movies } = action.payload;
       state.movies = movies;
       state.totalPages = totalPages;
+    },
+    getFavoriteMovieSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const { count, totalPages, movies } = action.payload;
+      console.log("REDUCER:", action.payload);
+      state.movies = movies;
+      state.totalPages = totalPages;
+      state.totalMovies = count;
     },
     getSingleMovieSuccess(state, action) {
       state.isLoading = false;
@@ -61,6 +71,23 @@ export const getMovieListAsync =
         params,
       });
       dispatch(slice.actions.getMovieSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
+export const getFavoriteListAsync =
+  ({ title, listType, page, limit }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const params = { page, limit, title, listType };
+      console.log(listType);
+      const response = await apiService.get("/movies/favorite", {
+        params,
+      });
+      console.log("call fav", response);
+      dispatch(slice.actions.getFavoriteMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.message);

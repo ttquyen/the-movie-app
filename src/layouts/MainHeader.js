@@ -53,6 +53,9 @@ export default function MainHeader() {
         });
       } catch (error) {}
     }
+    if (closeType === "favorite") {
+      navigate("/favorite");
+    }
     setAnchorEl(null);
     handleMobileMenuClose();
   };
@@ -78,7 +81,7 @@ export default function MainHeader() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={() => handleMenuClose("favorite")}>Profile</MenuItem>
       <MenuItem onClick={() => handleMenuClose("logout")}>Logout</MenuItem>
     </Menu>
   );

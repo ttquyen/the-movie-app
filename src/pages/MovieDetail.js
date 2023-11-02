@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 // import "./MovieDetail.css";
 import { useParams } from "react-router-dom";
-import { fDate } from "../../utils/formatTime";
-import CommentList from "../../features/comment/CommentList";
-import CommentForm from "../../features/comment/CommentForm";
+import { fDate } from "../utils/formatTime";
+import CommentList from "../features/comment/CommentList";
+import CommentForm from "../features/comment/CommentForm";
 import { Stack, Typography, Box, Container, Chip, Button } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,8 +12,8 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import {
   getSingleMovieAsync,
   sendMovieRatingAsync,
-} from "../../features/movie/movieSlice";
-import useAuth from "../../hooks/useAuth";
+} from "../features/movie/movieSlice";
+import useAuth from "../hooks/useAuth";
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -112,7 +112,6 @@ const MovieDetail = () => {
               <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
                 /10
               </Typography>
-              {/* <i className="fas fa-star" /> */}
               <GradeIcon color="warning" />
               <Typography sx={{ ml: 1 }}>
                 {currentMovieDetail

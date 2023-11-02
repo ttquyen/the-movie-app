@@ -14,7 +14,7 @@ function Profile({ profile }) {
       <Grid item xs={12} md={4}>
         {profile && (
           <Stack spacing={3}>
-            <ProfileScoreCard profile={profile} />
+            {/* <ProfileScoreCard profile={profile} /> */}
             <ProfileAbout profile={profile} />
             <ProfileSocial profile={profile} />
           </Stack>
