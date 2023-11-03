@@ -28,7 +28,7 @@ const slice = createSlice({
     updateUserProfileSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-
+      console.log("REDUCER:update user profile");
       state.updatedProfile = action.payload;
     },
   },
@@ -47,16 +47,13 @@ export const getUserByIdAsync =
     }
   };
 export const updateAccountAsync =
-  ({ id, ...params }) =>
+  ({ name }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       // const imageUrl=await
-      const data = {
-        name: params?.name,
-      };
 
-      const response = await apiService.put(`/users/${id}`, data);
+      const response = await apiService.put(`/users/me`, { name });
 
       dispatch(slice.actions.updateUserProfileSuccess(response.data));
       toast.success("Update Profile successfully");
