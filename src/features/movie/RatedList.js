@@ -18,7 +18,6 @@ function RatedList({ userId }) {
   const { totalMovies, movies, isLoading } = useSelector(
     (state) => state.movie
   );
-  let sortedMovies = _.cloneDeep(movies);
   const sortFilter = [
     { id: "highest", label: "Highest to Lowest" },
     { id: "lowest", label: "Highest to Lowest" },
@@ -35,8 +34,6 @@ function RatedList({ userId }) {
     //use lodash sort by
     switch (event.target.value) {
       case "highest":
-        // sortedMovies = _.sortBy(sortedMovies, ["star"]);
-
         break;
       case "lowest":
         break;
@@ -61,7 +58,7 @@ function RatedList({ userId }) {
         </FormControl>
       </Box>
       <Stack>
-        {sortedMovies?.map((p) => (
+        {movies?.map((p) => (
           <MovieDetailCard movie={p} key={p._id} />
         ))}
       </Stack>
@@ -74,9 +71,7 @@ function RatedList({ userId }) {
             onClick={() => {
               setPage((page) => page + 1);
             }}
-            disabled={
-              Boolean(totalMovies) && sortedMovies.length >= totalMovies
-            }
+            disabled={Boolean(totalMovies) && movies.length >= totalMovies}
           >
             Load more
           </LoadingButton>
