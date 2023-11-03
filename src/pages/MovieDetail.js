@@ -9,17 +9,20 @@ import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import GradeIcon from "@mui/icons-material/Grade";
 import LaunchIcon from "@mui/icons-material/Launch";
+import MovieIcon from "@mui/icons-material/Movie";
 import {
   getSingleMovieAsync,
   sendMovieRatingAsync,
 } from "../features/movie/movieSlice";
 import useAuth from "../hooks/useAuth";
 import LoadingScreen from "./LoadingScreen";
+import TrailerDialog from "./TrailerDialog";
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useAuth();
-
+  const [openTrailer, setOpenTrailer] = useState(false);
+  const VIDEO_URL = "https://www.youtube.com/embed/9fJtM5z0g7M";
   const {
     currentMovie: currentMovieDetail,
     currentRating,
@@ -211,14 +214,22 @@ const MovieDetail = () => {
                 </a>
               </Button>
             )}
+            <Button
+              variant="contained"
+              endIcon={<MovieIcon />}
+              sx={{
+                bgcolor: "#f5c518",
+                textTransform: "none",
+                fontWeight: 600,
+                width: "fit-content",
+              }}
+              onClick={() => setOpenTrailer(true)}
+            >
+              {" "}
+              Trailer
+            </Button>
           </Stack>
-          <Stack
-            className="rating"
-            alignItems="center"
-            spacing={0.5}
-            // direction={{ md: "row" }}
-            // justifyContent={{ md: "center" }}
-          >
+          <Stack className="rating" alignItems="center" spacing={0.5}>
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
               Your Rating:{" "}
             </Typography>
@@ -258,6 +269,11 @@ const MovieDetail = () => {
         </Stack>
       </Stack>
       {isLoading && <LoadingScreen />}
+      <TrailerDialog
+        open={openTrailer}
+        setOpen={setOpenTrailer}
+        video={VIDEO_URL}
+      />
     </Container>
   );
 };
