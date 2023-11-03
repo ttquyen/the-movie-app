@@ -14,13 +14,17 @@ import {
   sendMovieRatingAsync,
 } from "../features/movie/movieSlice";
 import useAuth from "../hooks/useAuth";
+import LoadingScreen from "./LoadingScreen";
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useAuth();
 
-  const currentMovieDetail = useSelector((state) => state.movie.currentMovie);
-  const currentRating = useSelector((state) => state.movie.currentRating);
+  const {
+    currentMovie: currentMovieDetail,
+    currentRating,
+    isLoading,
+  } = useSelector((state) => state.movie);
   useEffect(() => {
     dispatch(getSingleMovieAsync({ movieId: id, userId: user._id }));
     window.scrollTo(0, 0);
@@ -126,7 +130,7 @@ const MovieDetail = () => {
             </Stack>
             <Stack className="release__date">
               <Typography variant="body2">
-                {currentMovieDetail.release_date
+                {currentMovieDetail?.release_date
                   ? "Release: " + fDate(currentMovieDetail?.release_date || "")
                   : ""}
               </Typography>
@@ -253,6 +257,7 @@ const MovieDetail = () => {
           </Stack>
         </Stack>
       </Stack>
+      {isLoading && <LoadingScreen />}
     </Container>
   );
 };

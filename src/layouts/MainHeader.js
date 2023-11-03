@@ -12,7 +12,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import Logo from "../components/Logo";
 import useAuth from "../hooks/useAuth";
 import { MovieContext } from "../contexts/MovieContext";
-import Button from "@mui/material/Button";
 import { DrawerContext } from "../contexts/DrawerContext";
 import Link from "@mui/material/Link";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
@@ -52,8 +51,8 @@ export default function MainHeader() {
           navigate("/login");
         });
       } catch (error) {}
-    } else if (closeType === "favorite") {
-      navigate("/favorite");
+    } else if (closeType === "rated") {
+      navigate("/rated");
     } else if (closeType === "info") {
       console.log("open dialog");
     }
@@ -83,9 +82,7 @@ export default function MainHeader() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={() => handleMenuClose("info")}>My Account</MenuItem>
-      <MenuItem onClick={() => handleMenuClose("favorite")}>
-        My Favorites
-      </MenuItem>
+      <MenuItem onClick={() => handleMenuClose("rated")}>Rated Movies</MenuItem>
       <MenuItem onClick={() => handleMenuClose("logout")}>Logout</MenuItem>
     </Menu>
   );
@@ -234,6 +231,7 @@ export default function MainHeader() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {/* {renderEditUserDialog} */}
     </Box>
   );
 }

@@ -41,7 +41,6 @@ const slice = createSlice({
     getSingleMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log(action.payload);
       console.log("REDUCER: get single movie");
       state.currentMovie = { ...action.payload };
       state.currentRating = action.payload.user_rated
@@ -52,7 +51,6 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
       console.log("REDUCER: ratingggg");
-      console.log(action.payload);
       state.currentRating = action.payload.data.star;
       // const { movieId, reactions } = action.payload;
       // state.moviesById[movieId].reactions = { ...reactions };
@@ -117,6 +115,8 @@ export const sendMovieRatingAsync =
         star,
       });
       dispatch(slice.actions.sendMovieRatingSuccess(response));
+      toast.success("Rating movie successfull");
+      dispatch(getSingleMovieAsync({ movieId, userId: response.data.author }));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }

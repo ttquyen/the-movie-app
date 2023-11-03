@@ -8,14 +8,17 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import LoadingScreen from "../../pages/LoadingScreen";
+import _ from "lodash";
 
 function RatedList({ userId }) {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("");
-  const { totalMovies, totalPages, movies, isLoading } = useSelector(
+  const { totalMovies, movies, isLoading } = useSelector(
     (state) => state.movie
   );
+  let sortedMovies = _.cloneDeep(movies);
   const sortFilter = [
     { id: "highest", label: "Highest to Lowest" },
     { id: "lowest", label: "Highest to Lowest" },
@@ -23,16 +26,28 @@ function RatedList({ userId }) {
 
   useEffect(() => {
     if (userId) {
-      dispatch(getRatedListAsync({ userId, page, sort }));
+      dispatch(getRatedListAsync({ userId, page }));
     }
-  }, [userId, page, sort, dispatch]);
+  }, [userId, page, dispatch]);
   const handleChange = (event) => {
     setSort(event.target.value);
     //TODO
     //use lodash sort by
+    switch (event.target.value) {
+      case "highest":
+        // sortedMovies = _.sortBy(sortedMovies, ["star"]);
+
+        break;
+      case "lowest":
+        break;
+
+      default:
+        break;
+    }
   };
   return (
     <Container sx={{ px: { md: 20 } }}>
+      {isLoading && <LoadingScreen />}
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="sort-rated-movie">Sort by:</InputLabel>
@@ -46,7 +61,7 @@ function RatedList({ userId }) {
         </FormControl>
       </Box>
       <Stack>
-        {movies?.map((p) => (
+        {sortedMovies?.map((p) => (
           <MovieDetailCard movie={p} key={p._id} />
         ))}
       </Stack>
@@ -59,7 +74,9 @@ function RatedList({ userId }) {
             onClick={() => {
               setPage((page) => page + 1);
             }}
-            disabled={Boolean(totalMovies) && movies.length >= totalMovies}
+            disabled={
+              Boolean(totalMovies) && sortedMovies.length >= totalMovies
+            }
           >
             Load more
           </LoadingButton>

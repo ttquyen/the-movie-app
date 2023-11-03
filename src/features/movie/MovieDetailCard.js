@@ -11,7 +11,6 @@ import ShareIcon from "@mui/icons-material/Share";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 function MovieDetailCard({ movie }) {
-  console.log(movie);
   const navigate = useNavigate();
   const handleSelectCard = () => {
     navigate(`/movies/detail/${movie._id}`);
