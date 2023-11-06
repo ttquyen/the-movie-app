@@ -4,15 +4,21 @@ import useAuth from "../../hooks/useAuth";
 import SendIcon from "@mui/icons-material/Send";
 import { useDispatch } from "react-redux";
 import { createCommentAsync } from "./commentSlice";
+import { useNavigate } from "react-router-dom";
 
 function CommentForm({ movieId }) {
   const { user } = useAuth();
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createCommentAsync({ content, movieId }));
-    setContent("");
+    if (!user) {
+      navigate("/login");
+    } else {
+      dispatch(createCommentAsync({ content, movieId }));
+      setContent("");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>

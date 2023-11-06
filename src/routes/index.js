@@ -13,6 +13,14 @@ import CustomMovieListPage from "../pages/CustomMovieListPage";
 function AppRouter() {
   return (
     <Routes>
+      <Route path="/" element={<MainLayout />}>
+        <Route index element={<HomePage />} />
+        <Route path="popular" element={<HomePage />} />
+        <Route path="now_playing" element={<HomePage />} />
+        <Route path="upcoming" element={<HomePage />} />
+        <Route path="top_rated" element={<HomePage />} />
+        <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
+      </Route>
       <Route
         path="/"
         element={
@@ -21,12 +29,6 @@ function AppRouter() {
           </AuthRequire>
         }
       >
-        <Route index element={<HomePage />} />
-        <Route path="popular" element={<HomePage />} />
-        <Route path="now_playing" element={<HomePage />} />
-        <Route path="upcoming" element={<HomePage />} />
-        <Route path="top_rated" element={<HomePage />} />
-        <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
         <Route path="my_list" element={<CustomMovieListPage />}></Route>
       </Route>
 

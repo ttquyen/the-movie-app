@@ -14,7 +14,7 @@ import useAuth from "../../hooks/useAuth";
 export default function EditUserInfoDialog({ open, setOpen, callback }) {
   const dispatch = useDispatch();
   const { user } = useAuth();
-  const [name, setName] = useState(user.name || "");
+  const [name, setName] = useState(user?.name || "");
   const handleClose = () => {
     setOpen(false);
   };
@@ -49,7 +49,7 @@ export default function EditUserInfoDialog({ open, setOpen, callback }) {
                   fontWeight: 600,
                 }}
               >
-                {user.name}
+                {user?.name}
               </Typography>
               <Typography
                 variant="body2"
@@ -59,7 +59,7 @@ export default function EditUserInfoDialog({ open, setOpen, callback }) {
                   bottom: "10px",
                 }}
               >
-                {user.email}
+                {user?.email}
               </Typography>
             </Box>
           </Stack>

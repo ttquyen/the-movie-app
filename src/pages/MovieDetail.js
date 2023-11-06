@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 // import "./MovieDetail.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fDate } from "../utils/formatTime";
 import CommentList from "../features/comment/CommentList";
 import CommentForm from "../features/comment/CommentForm";
@@ -33,6 +33,7 @@ const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [openTrailer, setOpenTrailer] = useState(false);
   const {
     currentMovie: currentMovieDetail,
@@ -40,18 +41,26 @@ const MovieDetail = () => {
     isLoading,
   } = useSelector((state) => state.movie);
   useEffect(() => {
-    dispatch(getSingleMovieAsync({ movieId: id, userId: user._id }));
+    dispatch(getSingleMovieAsync({ movieId: id, userId: user?._id }));
     window.scrollTo(0, 0);
   }, [id, dispatch, user]);
 
   const handleRating = (newValue) => {
-    dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
+    if (!user) {
+      navigate("/login");
+    } else {
+      dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
+    }
   };
   const handleFavorite = (type) => {
-    if (type === "add") {
-      dispatch(addFavoriteMovieAsync({ movieId: id }));
-    } else if (type === "remove") {
-      dispatch(removeFavoriteMovieAsync({ movieId: id }));
+    if (!user) {
+      navigate("/login");
+    } else {
+      if (type === "add") {
+        dispatch(addFavoriteMovieAsync({ movieId: id }));
+      } else if (type === "remove") {
+        dispatch(removeFavoriteMovieAsync({ movieId: id }));
+      }
     }
   };
 

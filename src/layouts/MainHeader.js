@@ -1,11 +1,13 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  IconButton,
+  Toolbar,
+  Box,
+  AppBar,
+} from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -209,40 +211,52 @@ export default function MainHeader() {
                 component={RouterLink}
                 to={mvType.type}
                 key={mvType.type}
-                // onClick={() =>
-                //     handleSelectMovieType(mvType.type)
-                // }
               >
                 {mvType.label}
               </Link>
             ))}
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
+
+          {user ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
             >
-              <AccountCircle />
-            </IconButton>
-            <Typography
-              variant="h6"
-              color="inherit"
-              component="div"
-              sx={{ pl: 1, display: { xs: "none", md: "flex" } }}
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+              <Typography
+                variant="h6"
+                color="inherit"
+                component="div"
+                sx={{ pl: 1, display: { xs: "none", md: "flex" } }}
+              >
+                {user?.name}
+              </Typography>
+            </Box>
+          ) : (
+            <Link
+              sx={{
+                color: "white",
+                display: "block",
+                m: 2,
+              }}
+              component={RouterLink}
+              to="/login"
             >
-              {user?.name}
-            </Typography>
-          </Box>
+              Login
+            </Link>
+          )}
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
