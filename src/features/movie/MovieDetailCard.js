@@ -63,7 +63,7 @@ function MovieDetailCard({ movie, isFavorite = false }) {
               <Typography variant="subtitle2">Rated: </Typography>
               <Typography
                 variant="subtitle2"
-                sx={{ fontWeight: 600, fontSize: 20, pl: 1 }}
+                sx={{ fontWeight: 600, fontSize: { md: 20, xs: 16 }, pl: 0.5 }}
               >
                 {movie ? movie.user_rated?.toFixed(2) : ""}{" "}
               </Typography>

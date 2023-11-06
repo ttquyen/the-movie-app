@@ -1,9 +1,8 @@
 import * as React from "react";
 import Drawer from "@mui/material/Drawer";
-import { DrawerContext } from "../contexts/DrawerContext";
 
-export default function AppDrawer({ children }) {
-  const { openDrawer, setOpenDrawer } = React.useContext(DrawerContext);
+export default function AppDrawer({ children, openDrawer, setOpenDrawer }) {
+  // const { openDrawer, setOpenDrawer } = React.useContext(DrawerContext);
 
   const toggleDrawer = () => {
     setOpenDrawer((pre) => !pre);
