@@ -55,6 +55,10 @@ export default function MainHeader() {
     }
     setAnchorEl(null);
   };
+  const handeleCloseDrawer = ({ target }) => {
+    navigate(target);
+    setOpenDrawer(false);
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -93,7 +97,7 @@ export default function MainHeader() {
             <ListItem
               key={mvType.type}
               disablePadding
-              onClick={() => setOpenDrawer(false)}
+              onClick={() => handeleCloseDrawer({ target: mvType.type })}
             >
               <ListItemButton>
                 <Link
