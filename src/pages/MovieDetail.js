@@ -73,7 +73,6 @@ const MovieDetail = () => {
             objectPosition: "0 35%",
             maxHeight: "500px",
           }}
-          // className="movie__backdrop"
           src={`https://image.tmdb.org/t/p/original${
             currentMovieDetail ? currentMovieDetail.backdrop_path : ""
           }`}
@@ -93,10 +92,20 @@ const MovieDetail = () => {
         <Stack
           className="title__poster"
           direction="row"
-          justifyContent={{ xs: "center", md: "space-evenly" }}
+          justifyContent="center"
+          // justifyContent={{ xs: "center", md: "space-evenly" }}
           alignItems="center"
         >
-          <Box className="poster" sx={{ position: "relative" }}>
+          <Box
+            className="poster"
+            sx={{
+              position: "relative",
+              maxHeight: { xs: "220px", md: "250px" },
+              minHeight: { xs: "120px", md: "150px" },
+              maxWidth: { xs: "160px", md: "250px" },
+              minWidth: { xs: "100px", md: "150px" },
+            }}
+          >
             {/* //TODO min-max-height */}
             <img
               className="movie__poster"
@@ -104,10 +113,10 @@ const MovieDetail = () => {
                 width: "100%",
                 objectFit: "cover",
                 objectPosition: "0 35%",
-                maxHeight: "320px",
-                minHeight: "150px",
-                minWidth: "100px",
-                maxWidth: "150px",
+                // maxHeight: "320px",
+                // minHeight: "150px",
+                // minWidth: "100px",
+                // maxWidth: "150px",
               }}
               src={`https://image.tmdb.org/t/p/original${
                 currentMovieDetail ? currentMovieDetail.poster_path : ""
@@ -134,7 +143,11 @@ const MovieDetail = () => {
           </Box>
           <Stack
             className="title"
-            sx={{ textShadow: "0px 0px 5px #000000", color: "#fff", pl: 1.5 }}
+            sx={{
+              textShadow: "0px 0px 5px #000000",
+              color: "#fff",
+              pl: { xs: 1.5, md: 5 },
+            }}
             spacing={{ xs: 1, md: 2 }}
           >
             <Typography sx={{ fontWeight: 600, fontSize: { xs: 30, md: 50 } }}>
@@ -197,7 +210,7 @@ const MovieDetail = () => {
           className="external__and__rating"
           direction="column"
           justifyContent="center"
-          sx={{ px: 3 }}
+          sx={{ px: 3, pt: { xs: 1, md: 15 } }}
         >
           <Stack
             className="external__link"
