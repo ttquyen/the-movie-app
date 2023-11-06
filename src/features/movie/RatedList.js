@@ -42,21 +42,19 @@ function RatedList({ userId }) {
       case "highest":
         tmp = _.orderBy(tmp, "user_rated", "desc");
         setSortedMovies(tmp);
-        console.log(tmp);
         break;
       case "lowest":
         tmp = _.orderBy(tmp, "user_rated", "asc");
         setSortedMovies(tmp);
-        console.log(tmp);
         break;
       default:
         break;
     }
   };
   return (
-    <Container sx={{ px: { md: 20 } }}>
+    <Container>
       {isLoading && <LoadingScreen />}
-      <Box sx={{ minWidth: 120 }}>
+      <Stack sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
           <InputLabel id="sort-rated-movie">Sort by:</InputLabel>
           <Select value={sort} label="Sort" onChange={handleChange}>
@@ -67,7 +65,7 @@ function RatedList({ userId }) {
             ))}
           </Select>
         </FormControl>
-      </Box>
+      </Stack>
       <Stack>
         {sortedMovies?.map((p) => (
           <MovieDetailCard movie={p} key={p._id} />

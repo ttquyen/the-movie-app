@@ -89,6 +89,22 @@ export const getRatedListAsync =
       toast.error(error.message);
     }
   };
+export const getFavoriteListAsync =
+  ({ title, page, limit }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const params = { page, limit, title };
+      const response = await apiService.get("/movies/favorites", {
+        params,
+      });
+      console.log("call fav", response);
+      dispatch(slice.actions.getRatedMovieSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.message);
+    }
+  };
 export const getSingleMovieAsync =
   ({ movieId, userId }) =>
   async (dispatch) => {

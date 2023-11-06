@@ -56,7 +56,7 @@ export default function MainHeader() {
         });
       } catch (error) {}
     } else if (closeType === "rated") {
-      navigate("/rated");
+      navigate("/my_list");
     } else if (closeType === "info") {
       setOpenEditUserDialog(true);
     }

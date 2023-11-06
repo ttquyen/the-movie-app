@@ -8,7 +8,7 @@ import NotFoundPage from "../pages/NotFoundPage";
 import AuthRequire from "./AuthRequire";
 import MovieDetail from "../pages/MovieDetail";
 import RegisterPage from "../pages/RegisterPage";
-import RatedMoviePage from "../pages/RatedMoviePage";
+import CustomMovieListPage from "../pages/CustomMovieListPage";
 
 function AppRouter() {
   return (
@@ -27,7 +27,7 @@ function AppRouter() {
         <Route path="upcoming" element={<HomePage />} />
         <Route path="top_rated" element={<HomePage />} />
         <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
-        <Route path="rated" element={<RatedMoviePage />}></Route>
+        <Route path="my_list" element={<CustomMovieListPage />}></Route>
       </Route>
 
       <Route element={<BlankLayout />}>
