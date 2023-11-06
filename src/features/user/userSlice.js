@@ -22,13 +22,11 @@ const slice = createSlice({
     getUserByIdSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-
       state.selectedUser = action.payload;
     },
     updateUserProfileSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER:update user profile");
       state.updatedProfile = action.payload;
     },
   },

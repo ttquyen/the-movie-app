@@ -245,31 +245,7 @@ const MovieDetail = () => {
               </Button>
             )}
           </Stack>
-          {/* <Stack>
-            {currentMovieDetail && currentMovieDetail.imdb_id && (
-              <Button
-                variant="contained"
-                endIcon={<LaunchIcon />}
-                sx={{
-                  bgcolor: "#f5c518",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  minWidth: "88px",
-                }}
-              >
-                <a
-                  href={
-                    "https://www.imdb.com/title/" + currentMovieDetail.imdb_id
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                  style={{ textDecoration: "none", color: "#FFF" }}
-                >
-                  IMDb
-                </a>
-              </Button>
-            )}
-          </Stack> */}
+
           <Stack className="rating" alignItems="center" spacing={0.5}>
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
               Your Rating:{" "}

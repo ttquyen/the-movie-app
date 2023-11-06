@@ -33,7 +33,6 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
       const { count, totalPages, movies } = action.payload;
-      console.log("REDUCER:", action.payload);
       state.movies = movies;
       state.totalPages = totalPages;
       state.totalMovies = count;
@@ -41,7 +40,6 @@ const slice = createSlice({
     getSingleMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: get single movie");
       state.currentMovie = { ...action.payload };
       state.currentRating = action.payload.user_rated
         ? action.payload.user_rated
@@ -50,21 +48,16 @@ const slice = createSlice({
     sendMovieRatingSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: ratingggg");
       state.currentRating = action.payload.data.star;
-      // const { movieId, reactions } = action.payload;
-      // state.moviesById[movieId].reactions = { ...reactions };
     },
     addFavoriteMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: add fav");
       state.currentMovie.isFavorite = true;
     },
     removeFavoriteMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: remove fav");
       state.currentMovie.isFavorite = false;
     },
   },
@@ -94,7 +87,6 @@ export const getRatedListAsync =
       const response = await apiService.get("/movies/rated", {
         params,
       });
-      console.log("call fav", response);
       dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
@@ -110,7 +102,6 @@ export const getFavoriteListAsync =
       const response = await apiService.get("/movies/favorites", {
         params,
       });
-      console.log("call fav", response);
       dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));

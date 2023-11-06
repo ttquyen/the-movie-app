@@ -37,8 +37,6 @@ const slice = createSlice({
     getCommentSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: Get all comments ");
-
       const { comments, count, page, movieId } = action.payload;
       comments.forEach((comment) => {
         state.commentsById[comment._id] = comment;
@@ -50,7 +48,6 @@ const slice = createSlice({
     updateCommentSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log("REDUCER: Update comment ");
     },
     deleteCommentSuccess(state, action) {
       state.isLoading = false;
