@@ -6,16 +6,16 @@ function TrailerDialog({ open, setOpen, video }) {
   const handleClose = () => {
     setOpen(false);
   };
+  const trailerUrl = `https://www.youtube.com/embed/${video?.key}`;
   return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
+    <Dialog open={open} onClose={handleClose} fullWidth sx={{ p: 0 }}>
       <DialogTitle id="alert-dialog-title">{"Official Trailer"}</DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{ p: 0 }}>
         <iframe
           width="100%"
           height="315"
-          src={video}
+          src={trailerUrl}
           title="Youtube Player"
-          frameborder="0"
           allowFullScreen
         />
       </DialogContent>

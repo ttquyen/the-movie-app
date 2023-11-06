@@ -214,20 +214,22 @@ const MovieDetail = () => {
                 </a>
               </Button>
             )}
-            <Button
-              variant="contained"
-              endIcon={<MovieIcon />}
-              sx={{
-                bgcolor: "#f5c518",
-                textTransform: "none",
-                fontWeight: 600,
-                width: "fit-content",
-              }}
-              onClick={() => setOpenTrailer(true)}
-            >
-              {" "}
-              Trailer
-            </Button>
+            {currentMovieDetail?.trailer?.length > 0 && (
+              <Button
+                variant="contained"
+                endIcon={<MovieIcon />}
+                sx={{
+                  bgcolor: "#f5c518",
+                  textTransform: "none",
+                  fontWeight: 600,
+                  width: "fit-content",
+                }}
+                onClick={() => setOpenTrailer(true)}
+              >
+                {" "}
+                Trailer
+              </Button>
+            )}
           </Stack>
           <Stack className="rating" alignItems="center" spacing={0.5}>
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
@@ -269,11 +271,13 @@ const MovieDetail = () => {
         </Stack>
       </Stack>
       {isLoading && <LoadingScreen />}
-      <TrailerDialog
-        open={openTrailer}
-        setOpen={setOpenTrailer}
-        video={VIDEO_URL}
-      />
+      {currentMovieDetail?.trailer?.length > 0 && (
+        <TrailerDialog
+          open={openTrailer}
+          setOpen={setOpenTrailer}
+          video={currentMovieDetail?.trailer[0]}
+        />
+      )}
     </Container>
   );
 };
