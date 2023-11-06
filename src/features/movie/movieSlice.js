@@ -55,6 +55,18 @@ const slice = createSlice({
       // const { movieId, reactions } = action.payload;
       // state.moviesById[movieId].reactions = { ...reactions };
     },
+    addFavoriteMovieSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log("REDUCER: add fav");
+      state.currentMovie.isFavorite = true;
+    },
+    removeFavoriteMovieSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log("REDUCER: remove fav");
+      state.currentMovie.isFavorite = false;
+    },
   },
 });
 
@@ -133,6 +145,32 @@ export const sendMovieRatingAsync =
       dispatch(slice.actions.sendMovieRatingSuccess(response));
       toast.success("Rating movie successfull");
       dispatch(getSingleMovieAsync({ movieId, userId: response.data.author }));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+    }
+  };
+export const addFavoriteMovieAsync =
+  ({ movieId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post("/favorites", {
+        movieId,
+      });
+      dispatch(slice.actions.addFavoriteMovieSuccess(response));
+      toast.success("Add favorite movie successfull");
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+    }
+  };
+export const removeFavoriteMovieAsync =
+  ({ movieId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(`/favorites/${movieId}`);
+      dispatch(slice.actions.removeFavoriteMovieSuccess(response));
+      toast.success("Remove favorite movie successfull");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
     }

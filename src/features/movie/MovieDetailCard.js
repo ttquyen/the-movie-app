@@ -8,9 +8,8 @@ import { useNavigate } from "react-router-dom";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import GradeIcon from "@mui/icons-material/Grade";
 import ShareIcon from "@mui/icons-material/Share";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-function MovieDetailCard({ movie }) {
+function MovieDetailCard({ movie, isFavorite = false }) {
   const navigate = useNavigate();
   const handleSelectCard = () => {
     navigate(`/movies/detail/${movie._id}`);
@@ -57,19 +56,23 @@ function MovieDetailCard({ movie }) {
           >
             {movie.overview.slice(0, 100)}...
           </Typography>
-          <Stack direction="row" alignItems="center">
-            <Typography variant="subtitle2">Rated: </Typography>
-            <Typography
-              variant="subtitle2"
-              sx={{ fontWeight: 600, fontSize: 20, pl: 1 }}
-            >
-              {movie ? movie.user_rated?.toFixed(2) : ""}{" "}
-            </Typography>
-            <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
-              /10
-            </Typography>
-            <GradeIcon color="warning" />
-          </Stack>
+          {isFavorite ? (
+            <FavoriteIcon color="error" />
+          ) : (
+            <Stack direction="row" alignItems="center">
+              <Typography variant="subtitle2">Rated: </Typography>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: 600, fontSize: 20, pl: 1 }}
+              >
+                {movie ? movie.user_rated?.toFixed(2) : ""}{" "}
+              </Typography>
+              <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
+                /10
+              </Typography>
+              <GradeIcon color="warning" />
+            </Stack>
+          )}
         </CardContent>
       </CardActionArea>
       <CardActions

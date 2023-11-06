@@ -19,7 +19,6 @@ function CustomMovieListPage() {
         height: "100vh",
       }}
     >
-      {/* <ProfileCover profile={user} /> */}
       <Stack alignItems="center">
         <ToggleButtonGroup
           color="primary"
@@ -35,13 +34,9 @@ function CustomMovieListPage() {
         </Typography>
       </Stack>
       {listType === "favorites" ? (
-        // <Stack sx={{ mt: 10 }}>
         <FavoriteList userId={user?._id} />
       ) : (
-        // </Stack>
-        // <Stack sx={{ mt: 10 }}>
         <RatedList userId={user?._id} />
-        // </Stack>
       )}
     </Container>
   );

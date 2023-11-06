@@ -4,14 +4,26 @@ import { useParams } from "react-router-dom";
 import { fDate } from "../utils/formatTime";
 import CommentList from "../features/comment/CommentList";
 import CommentForm from "../features/comment/CommentForm";
-import { Stack, Typography, Box, Container, Chip, Button } from "@mui/material";
+import {
+  Stack,
+  Typography,
+  Box,
+  Container,
+  Chip,
+  Button,
+  IconButton,
+} from "@mui/material";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
 import GradeIcon from "@mui/icons-material/Grade";
 import LaunchIcon from "@mui/icons-material/Launch";
 import MovieIcon from "@mui/icons-material/Movie";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import {
+  addFavoriteMovieAsync,
   getSingleMovieAsync,
+  removeFavoriteMovieAsync,
   sendMovieRatingAsync,
 } from "../features/movie/movieSlice";
 import useAuth from "../hooks/useAuth";
@@ -22,7 +34,6 @@ const MovieDetail = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const [openTrailer, setOpenTrailer] = useState(false);
-  const VIDEO_URL = "https://www.youtube.com/embed/9fJtM5z0g7M";
   const {
     currentMovie: currentMovieDetail,
     currentRating,
@@ -36,13 +47,19 @@ const MovieDetail = () => {
   const handleRating = (newValue) => {
     dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
   };
+  const handleFavorite = (type) => {
+    if (type === "add") {
+      dispatch(addFavoriteMovieAsync({ movieId: id }));
+    } else if (type === "remove") {
+      dispatch(removeFavoriteMovieAsync({ movieId: id }));
+    }
+  };
 
   return (
     <Container
       sx={{
-        width: "100%",
+        width: "100vw",
         position: "relative",
-        display: "flex",
         flexDirection: "column",
         alignItems: "center",
       }}
@@ -76,25 +93,44 @@ const MovieDetail = () => {
         <Stack
           className="title__poster"
           direction="row"
-          justifyContent="space-evenly"
+          justifyContent={{ xs: "center", md: "space-evenly" }}
           alignItems="center"
         >
-          <Box className="poster">
+          <Box className="poster" sx={{ position: "relative" }}>
+            {/* //TODO min-max-height */}
             <img
               className="movie__poster"
               style={{
                 width: "100%",
                 objectFit: "cover",
                 objectPosition: "0 35%",
-                maxHeight: "350px",
+                maxHeight: "320px",
                 minHeight: "150px",
                 minWidth: "100px",
+                maxWidth: "150px",
               }}
               src={`https://image.tmdb.org/t/p/original${
                 currentMovieDetail ? currentMovieDetail.poster_path : ""
               }`}
               alt="movie__poster"
             />
+            {currentMovieDetail?.isFavorite ? (
+              <IconButton
+                color="error"
+                sx={{ position: "absolute", right: 0 }}
+                onClick={() => handleFavorite("remove")}
+              >
+                <FavoriteIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                color="error"
+                sx={{ position: "absolute", right: 0 }}
+                onClick={() => handleFavorite("add")}
+              >
+                <FavoriteBorderIcon />
+              </IconButton>
+            )}
           </Box>
           <Stack
             className="title"
@@ -138,7 +174,7 @@ const MovieDetail = () => {
                   : ""}
               </Typography>
             </Stack>
-            <Stack className="genre__chip" direction="row">
+            <Stack className="genre__chip" direction="row" flexWrap="wrap">
               {currentMovieDetail && currentMovieDetail.genres
                 ? currentMovieDetail.genres.map((genre) => (
                     <Chip
@@ -149,7 +185,7 @@ const MovieDetail = () => {
                       sx={{
                         backgroundColor: "#fae190",
                         textShadow: "none",
-                        mx: 0.5,
+                        m: 0.3,
                       }}
                     />
                   ))
@@ -178,7 +214,7 @@ const MovieDetail = () => {
                 sx={{
                   textTransform: "none",
                   fontWeight: 600,
-                  width: "fit-content",
+                  minWidth: "108px",
                 }}
               >
                 <a
@@ -191,6 +227,25 @@ const MovieDetail = () => {
                 </a>
               </Button>
             )}
+
+            {currentMovieDetail?.trailer?.length > 0 && (
+              <Button
+                variant="contained"
+                endIcon={<MovieIcon />}
+                sx={{
+                  bgcolor: "#f5c518",
+                  textTransform: "none",
+                  fontWeight: 600,
+                  minWidth: "88px",
+                }}
+                onClick={() => setOpenTrailer(true)}
+              >
+                {" "}
+                Trailer
+              </Button>
+            )}
+          </Stack>
+          {/* <Stack>
             {currentMovieDetail && currentMovieDetail.imdb_id && (
               <Button
                 variant="contained"
@@ -199,7 +254,7 @@ const MovieDetail = () => {
                   bgcolor: "#f5c518",
                   textTransform: "none",
                   fontWeight: 600,
-                  width: "fit-content",
+                  minWidth: "88px",
                 }}
               >
                 <a
@@ -214,23 +269,7 @@ const MovieDetail = () => {
                 </a>
               </Button>
             )}
-            {currentMovieDetail?.trailer?.length > 0 && (
-              <Button
-                variant="contained"
-                endIcon={<MovieIcon />}
-                sx={{
-                  bgcolor: "#f5c518",
-                  textTransform: "none",
-                  fontWeight: 600,
-                  width: "fit-content",
-                }}
-                onClick={() => setOpenTrailer(true)}
-              >
-                {" "}
-                Trailer
-              </Button>
-            )}
-          </Stack>
+          </Stack> */}
           <Stack className="rating" alignItems="center" spacing={0.5}>
             <Typography sx={{ fontSize: { xs: 16, md: 20 } }}>
               Your Rating:{" "}
