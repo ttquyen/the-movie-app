@@ -18,9 +18,10 @@ function RatedList({ userId }) {
   const { totalMovies, movies, isLoading } = useSelector(
     (state) => state.movie
   );
+  const [sortedMovies, setSortedMovies] = useState();
   const sortFilter = [
     { id: "highest", label: "Highest to Lowest" },
-    { id: "lowest", label: "Highest to Lowest" },
+    { id: "lowest", label: "Lowest to Highest" },
   ];
 
   useEffect(() => {
@@ -28,16 +29,26 @@ function RatedList({ userId }) {
       dispatch(getRatedListAsync({ userId, page }));
     }
   }, [userId, page, dispatch]);
+
+  useEffect(() => {
+    setSortedMovies(movies);
+  }, [movies]);
+
   const handleChange = (event) => {
     setSort(event.target.value);
-    //TODO
-    //use lodash sort by
+    let tmp = [...movies];
+    //use lodash sort by key
     switch (event.target.value) {
       case "highest":
+        tmp = _.orderBy(tmp, "user_rated", "desc");
+        setSortedMovies(tmp);
+        console.log(tmp);
         break;
       case "lowest":
+        tmp = _.orderBy(tmp, "user_rated", "asc");
+        setSortedMovies(tmp);
+        console.log(tmp);
         break;
-
       default:
         break;
     }
@@ -58,7 +69,7 @@ function RatedList({ userId }) {
         </FormControl>
       </Box>
       <Stack>
-        {movies?.map((p) => (
+        {sortedMovies?.map((p) => (
           <MovieDetailCard movie={p} key={p._id} />
         ))}
       </Stack>
