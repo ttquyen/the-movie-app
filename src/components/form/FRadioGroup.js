@@ -15,7 +15,7 @@ function FRadioGroup({ name, options, getOptionLabel, ...other }) {
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div>
-          <RadioGroup {...field} row {...other}>
+          <RadioGroup {...field} {...other}>
             {options.map((option, index) => (
               <FormControlLabel
                 key={option.id}

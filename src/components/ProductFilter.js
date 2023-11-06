@@ -28,16 +28,6 @@ function ProductFilter({ resetFilter, filterOptions }) {
           options={filterOptions}
           getOptionLabel={filterOptions?.map((o) => o.name)}
         ></FRadioGroup>
-        {/* <FSelect name="genre">
-          <option key="all" value="All">
-            All
-          </option>
-          {filterOptions.map((option) => (
-            <option key={option.id} value={option.id}>
-              {option.name}
-            </option>
-          ))}
-        </FSelect> */}
       </Stack>
     </Stack>
   );
