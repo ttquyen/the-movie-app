@@ -43,13 +43,13 @@ function AppSearch() {
     e.preventDefault();
     setSearchValue(e.target.value);
   };
-
+  // eslint-disable-next-line
   const delayedQuery = useCallback(
-    debounce(() => {
+    (debounce(() => {
       // Delay function
       dispatch(getMovieListAsync({ listType, title: searchValue }));
     }, 500),
-    [searchValue]
+    [searchValue])
   );
   useEffect(() => {
     delayedQuery();
