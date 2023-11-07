@@ -34,7 +34,7 @@ function CustomMovieListPage() {
           My {listType === "favorites" ? "Favorite" : "Rated"} Movies:
         </Typography>
       </Stack>
-      <Stack fullWidth>
+      <Stack>
         {listType === "favorites" ? (
           <FavoriteList userId={user?._id} />
         ) : (

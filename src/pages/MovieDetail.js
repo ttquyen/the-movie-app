@@ -12,6 +12,7 @@ import {
   Chip,
   Button,
   IconButton,
+  Link,
 } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import { useDispatch, useSelector } from "react-redux";
@@ -78,18 +79,18 @@ const MovieDetail = () => {
       {/* BACKDROP */}
 
       <Stack height={{ xs: 300, md: 400 }} sx={{ width: "100%", mt: 6 }}>
-        <img
-          style={{
-            width: "100%",
-            objectFit: "cover",
-            objectPosition: "0 35%",
-            maxHeight: "500px",
-          }}
-          src={`https://image.tmdb.org/t/p/original${
-            currentMovieDetail ? currentMovieDetail.backdrop_path : ""
-          }`}
-          alt="movie__backdrop"
-        />
+        {currentMovieDetail?.backdrop_path && (
+          <img
+            style={{
+              width: "100%",
+              objectFit: "cover",
+              objectPosition: "0 35%",
+              maxHeight: "500px",
+            }}
+            src={`https://image.tmdb.org/t/p/original${currentMovieDetail.backdrop_path}`}
+            alt="movie__backdrop"
+          />
+        )}
       </Stack>
       {/* INFO */}
       <Stack
@@ -118,19 +119,18 @@ const MovieDetail = () => {
               minWidth: { xs: "100px", md: "150px" },
             }}
           >
-            {/* //TODO min-max-height */}
-            <img
-              className="movie__poster"
-              style={{
-                width: "100%",
-                objectFit: "cover",
-                objectPosition: "0 35%",
-              }}
-              src={`https://image.tmdb.org/t/p/original${
-                currentMovieDetail ? currentMovieDetail.poster_path : ""
-              }`}
-              alt="movie__poster"
-            />
+            {currentMovieDetail?.poster_path && (
+              <img
+                className="movie__poster"
+                style={{
+                  width: "100%",
+                  objectFit: "cover",
+                  objectPosition: "0 35%",
+                }}
+                src={`https://image.tmdb.org/t/p/original${currentMovieDetail?.poster_path}`}
+                alt="movie__poster"
+              />
+            )}
             {currentMovieDetail?.isFavorite ? (
               <IconButton
                 color="error"
@@ -179,14 +179,16 @@ const MovieDetail = () => {
               </Typography>
               <GradeIcon color="warning" />
               <Typography sx={{ ml: 1 }}>
-                {currentMovieDetail
+                {currentMovieDetail.vote_count
                   ? "(" + currentMovieDetail.vote_count + ") votes"
                   : ""}
               </Typography>
             </Stack>
             <Stack className="run__time">
               <Typography variant="body2">
-                {currentMovieDetail ? currentMovieDetail.runtime + " mins" : ""}
+                {currentMovieDetail.runtime
+                  ? currentMovieDetail.runtime + " mins"
+                  : ""}
               </Typography>
             </Stack>
             <Stack className="release__date">
@@ -238,14 +240,14 @@ const MovieDetail = () => {
                   minWidth: "108px",
                 }}
               >
-                <a
+                <Link
                   href={currentMovieDetail.homepage}
                   target="_blank"
                   rel="noreferrer"
                   style={{ textDecoration: "none", color: "#FFF" }}
                 >
                   Homepage
-                </a>
+                </Link>
               </Button>
             )}
 

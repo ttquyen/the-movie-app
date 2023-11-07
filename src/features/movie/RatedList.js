@@ -56,8 +56,8 @@ function RatedList({ userId }) {
       {isLoading && <LoadingScreen />}
       <Stack sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
-          <InputLabel id="sort-rated-movie">Sort by:</InputLabel>
-          <Select value={sort} label="Sort" onChange={handleChange}>
+          <InputLabel id="sort-rated-movie">Sort by Rating</InputLabel>
+          <Select value={sort} label="Sort by Rating" onChange={handleChange}>
             {sortFilter.map((item) => (
               <MenuItem value={item.id} key={item.id}>
                 {item.label}
