@@ -41,16 +41,18 @@ function AppSearch() {
   const listType = location.pathname?.substring(1);
   const handleSearchMovie = (e) => {
     e.preventDefault();
+    dispatch(getMovieListAsync({ listType, title: searchValue }));
+  };
+  const onChange = (e) => {
     setSearchValue(e.target.value);
   };
+  const handleGetMovie = () => {
+    dispatch(getMovieListAsync({ listType, title: searchValue }));
+  };
   // eslint-disable-next-line
-  const delayedQuery = useCallback(
-    (debounce(() => {
-      // Delay function
-      dispatch(getMovieListAsync({ listType, title: searchValue }));
-    }, 500),
-    [searchValue])
-  );
+  const delayedQuery = useCallback(debounce(handleGetMovie, 500), [
+    searchValue,
+  ]);
   useEffect(() => {
     delayedQuery();
 
@@ -64,7 +66,7 @@ function AppSearch() {
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
         name="Seach"
-        onChange={handleSearchMovie}
+        onChange={onChange}
       />
       <IconButton sx={{ position: "absolute", right: 0, borderRadius: "8px" }}>
         <SearchIcon />
