@@ -84,9 +84,12 @@ const HomePage = () => {
                 <Alert severity="error">{error}</Alert>
               ) : (
                 <>
-                  <AppCarousel movieList={filterProducts?.slice(0, 10)} />
-                  <MovieList movieList={filterProducts} />
-
+                  <Stack sx={{ mb: 2 }}>
+                    <AppCarousel movieList={filterProducts?.slice(0, 10)} />
+                  </Stack>
+                  <Stack>
+                    <MovieList movieList={filterProducts} />
+                  </Stack>
                   {filterProducts?.length > 0 ? (
                     <Pagination
                       page={page}

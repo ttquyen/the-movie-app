@@ -64,7 +64,7 @@ const slice = createSlice({
 });
 
 export const getMovieListAsync =
-  ({ title, listType, page, limit }) =>
+  ({ title, listType, page, limit = 12 }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {

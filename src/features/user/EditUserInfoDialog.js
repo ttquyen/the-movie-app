@@ -1,7 +1,7 @@
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogTitle from "@mui/material/DialogTitle";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Stack } from "@mui/material";
 
 import { Button, DialogContent } from "@mui/material";
@@ -15,8 +15,13 @@ export default function EditUserInfoDialog({ open, setOpen, callback }) {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const [name, setName] = useState(user?.name || "");
+  useEffect(() => {
+    setName(user?.name);
+  }, [user]);
+
   const handleClose = () => {
     setOpen(false);
+    setName(user.name);
   };
   const handleEditUserInfo = () => {
     handleClose();
