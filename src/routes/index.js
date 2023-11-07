@@ -17,7 +17,6 @@ function AppRouter() {
         <Route index element={<HomePage />} />
         <Route path="popular" element={<HomePage />} />
         <Route path="now_playing" element={<HomePage />} />
-        <Route path="upcoming" element={<HomePage />} />
         <Route path="top_rated" element={<HomePage />} />
         <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
       </Route>

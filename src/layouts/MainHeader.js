@@ -149,7 +149,8 @@ export default function MainHeader() {
           >
             <MenuIcon />
           </IconButton>
-          <IconButton
+          <Button
+            disableRipple
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -157,11 +158,13 @@ export default function MainHeader() {
               mr: 2,
               ml: 2,
               display: { xs: "none", md: "flex" },
+              ":hover": { backgroundColor: "transparent" },
             }}
           >
             <Logo />
-          </IconButton>
-          <IconButton
+          </Button>
+          <Button
+            disableRipple
             edge="start"
             color="inherit"
             aria-label="menu"
@@ -169,10 +172,11 @@ export default function MainHeader() {
               mr: 1,
               display: { xs: "flex", md: "none" },
               flexGrow: 1,
+              ":hover": { backgroundColor: "transparent" },
             }}
           >
             <Logo />
-          </IconButton>
+          </Button>
           <Box
             sx={{
               flexGrow: 1,
@@ -202,6 +206,14 @@ export default function MainHeader() {
                 alignItems: "center",
               }}
             >
+              <Typography
+                variant="h6"
+                color="inherit"
+                component="div"
+                sx={{ pl: 1, display: { xs: "none", md: "flex" } }}
+              >
+                {user?.name}
+              </Typography>
               <IconButton
                 size="large"
                 edge="end"
@@ -213,28 +225,9 @@ export default function MainHeader() {
               >
                 <AccountCircle />
               </IconButton>
-              <Typography
-                variant="h6"
-                color="inherit"
-                component="div"
-                sx={{ pl: 1, display: { xs: "none", md: "flex" } }}
-              >
-                {user?.name}
-              </Typography>
             </Box>
           ) : (
             <Button onClick={() => navigate("/login")}>Login</Button>
-            // <Link
-            //   sx={{
-            //     color: "white",
-            //     display: "block",
-            //     m: 2,
-            //   }}
-            //   component={RouterLink}
-            //   to="/login"
-            // >
-            //   Login
-            // </Link>
           )}
         </Toolbar>
       </AppBar>
