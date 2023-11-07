@@ -8,11 +8,13 @@ import { getCommentListAsync } from "./commentSlice";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditCommentDialog from "./EditCommentDialog";
+import useAuth from "../../hooks/useAuth";
 function CommentCard({ comment, movieId }) {
   const [openDel, setOpenDel] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
+  const { user } = useAuth();
   const handleDeleteDialog = (message) => {
     if (message === "OK") {
       dispatch(getCommentListAsync({ movieId: movieId, page: 1 }));
@@ -70,9 +72,11 @@ function CommentCard({ comment, movieId }) {
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {comment.author?.name}
           </Typography>
-          <IconButton size="small" onClick={handleMenuOpen}>
-            <MoreVertIcon />
-          </IconButton>
+          {user?._id === comment?.author._id && (
+            <IconButton size="small" onClick={handleMenuOpen}>
+              <MoreVertIcon />
+            </IconButton>
+          )}
         </Stack>
         <Typography variant="body2" sx={{ color: "text.secondary", ml: 2 }}>
           {comment.content}
