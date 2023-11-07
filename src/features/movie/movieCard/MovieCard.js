@@ -40,7 +40,7 @@ const MovieCard = ({ movie }) => {
               <div className="card__runtime">
                 {movie ? fDate(movie.release_date) : ""}
                 <span className="card__rating">
-                  {movie ? movie.vote_average : ""}
+                  {movie ? movie.vote_average?.toFixed(2) : ""}
                   <i className="fas fa-star" />
                 </span>
               </div>
