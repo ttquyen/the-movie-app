@@ -41,7 +41,7 @@ export const getUserByIdAsync =
       dispatch(slice.actions.getUserByIdSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const updateAccountAsync =
@@ -57,7 +57,7 @@ export const updateAccountAsync =
       toast.success("Update Profile successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const getCurrentUserProfile = () => async (dispatch) => {

@@ -75,7 +75,7 @@ export const getMovieListAsync =
       dispatch(slice.actions.getMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const getRatedListAsync =
@@ -90,7 +90,7 @@ export const getRatedListAsync =
       dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const getFavoriteListAsync =
@@ -104,8 +104,9 @@ export const getFavoriteListAsync =
       });
       dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
+      console.log(error);
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const getSingleMovieAsync =
@@ -120,7 +121,7 @@ export const getSingleMovieAsync =
       dispatch(slice.actions.getSingleMovieSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 
@@ -134,10 +135,11 @@ export const sendMovieRatingAsync =
         star,
       });
       dispatch(slice.actions.sendMovieRatingSuccess(response));
-      toast.success("Rating movie successfull");
+      toast.success("Rating movie successful");
       dispatch(getSingleMovieAsync({ movieId, userId: response.data.author }));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const addFavoriteMovieAsync =
@@ -149,9 +151,10 @@ export const addFavoriteMovieAsync =
         movieId,
       });
       dispatch(slice.actions.addFavoriteMovieSuccess(response));
-      toast.success("Add favorite movie successfull");
+      toast.success("Add favorite movie successful");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const removeFavoriteMovieAsync =
@@ -161,9 +164,11 @@ export const removeFavoriteMovieAsync =
     try {
       const response = await apiService.delete(`/favorites/${movieId}`);
       dispatch(slice.actions.removeFavoriteMovieSuccess(response));
-      toast.success("Remove favorite movie successfull");
+      toast.success("Remove favorite movie successful");
     } catch (error) {
+      console.log(error);
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 

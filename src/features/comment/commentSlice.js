@@ -68,6 +68,7 @@ export const createCommentAsync =
       dispatch(getCommentListAsync({ movieId }));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const getCommentListAsync =
@@ -84,6 +85,7 @@ export const getCommentListAsync =
       );
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 
@@ -97,7 +99,7 @@ export const updateCommentAsync =
       toast.success("Update Comment successfully");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
-      toast.error(error.message);
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export const deleteCommentAsync = (commentId) => async (dispatch) => {
@@ -108,7 +110,7 @@ export const deleteCommentAsync = (commentId) => async (dispatch) => {
     toast.success("Delete Comment successfully");
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
-    toast.error(error.message);
+    toast.error(error?.response?.data?.errors?.message);
   }
 };
 export default slice.reducer;

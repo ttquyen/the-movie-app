@@ -55,7 +55,7 @@ function LoginPage() {
       });
     } catch (error) {
       reset();
-      setError("responseError", error);
+      setError("responseError", error.response.data.errors);
       console.log(error);
     }
   };

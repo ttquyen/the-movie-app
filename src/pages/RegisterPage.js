@@ -61,7 +61,7 @@ function RegisterPage() {
       });
     } catch (error) {
       reset();
-      setError("responseError", error);
+      setError("responseError", error.response.data.errors);
     }
   };
   return (
