@@ -34,8 +34,8 @@ export default function MainHeader() {
   const dispatch = useDispatch();
   const MOVIE_TYPE = [
     { type: "popular", label: "POPULAR" },
-    { type: "now_playing", label: "NOW PLAYING" },
-    { type: "top_rated", label: "TOP RATED" },
+    { type: "now-playing", label: "NOW PLAYING" },
+    { type: "top-rated", label: "TOP RATED" },
   ];
 
   const handleProfileMenuOpen = (event) => {
@@ -50,7 +50,7 @@ export default function MainHeader() {
         });
       } catch (error) {}
     } else if (closeType === "rated") {
-      navigate("/my_list");
+      navigate("/my-list");
     } else if (closeType === "info") {
       setOpenEditUserDialog(true);
     }

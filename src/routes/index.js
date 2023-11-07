@@ -16,8 +16,8 @@ function AppRouter() {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<HomePage />} />
         <Route path="popular" element={<HomePage />} />
-        <Route path="now_playing" element={<HomePage />} />
-        <Route path="top_rated" element={<HomePage />} />
+        <Route path="now-playing" element={<HomePage />} />
+        <Route path="top-rated" element={<HomePage />} />
         <Route path="movies/detail/:id" element={<MovieDetail />}></Route>
       </Route>
       <Route
@@ -28,7 +28,7 @@ function AppRouter() {
           </AuthRequire>
         }
       >
-        <Route path="my_list" element={<CustomMovieListPage />}></Route>
+        <Route path="my-list" element={<CustomMovieListPage />}></Route>
       </Route>
 
       <Route element={<BlankLayout />}>
