@@ -11,4 +11,7 @@
   .movie__list {
     padding: 0;
   }
+  .list__cards {
+    justify-content: center;
+  }
 }
