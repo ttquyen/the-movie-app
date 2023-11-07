@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import { IconButton } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { getMovieListAsync } from "../features/movie/movieSlice";
 import { useLocation } from "react-router-dom";
+import { debounce } from "lodash";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -21,22 +23,10 @@ const Search = styled("form")(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    padding: theme.spacing(1),
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
@@ -49,23 +39,36 @@ function AppSearch() {
   const dispatch = useDispatch();
   const location = useLocation();
   const listType = location.pathname?.substring(1);
-
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    dispatch(getMovieListAsync({ listType, title: searchValue }));
+    setSearchValue(e.target.value);
   };
+
+  const delayedQuery = useCallback(
+    debounce(() => {
+      // Delay function
+      dispatch(getMovieListAsync({ listType, title: searchValue }));
+    }, 500),
+    [searchValue]
+  );
+  useEffect(() => {
+    delayedQuery();
+
+    // Cancel previous debounce calls during useEffect cleanup.
+    return delayedQuery.cancel;
+  }, [searchValue, delayedQuery]);
   return (
     <Search onSubmit={handleSearchMovie}>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
         name="Seach"
-        onChange={(e) => setSearchValue(e.target.value)}
+        onChange={handleSearchMovie}
       />
+      <IconButton sx={{ position: "absolute", right: 0, borderRadius: "8px" }}>
+        <SearchIcon />
+      </IconButton>
     </Search>
   );
 }
