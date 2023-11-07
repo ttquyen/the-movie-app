@@ -55,9 +55,18 @@ export default function EditCommentDialog({
                 {comment.author.name}
               </Typography>
             </Box>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{
+                position: { xs: "absolute", md: "inherit" },
+                top: { xs: "100px" },
+                left: { xs: "82px" },
+                fontSize: { xs: "12px" },
+              }}
+            >
               {" "}
-              {fDateTime(comment.updatedAt)}
+              {fDateTime(comment?.updatedAt)}
             </Typography>
           </Stack>
           <TextField

@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.black, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.95),
   "&:hover": {
     backgroundColor: alpha(theme.palette.common.black, 0.25),
   },
@@ -63,6 +63,7 @@ function AppSearch() {
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
+        name="Seach"
         onChange={(e) => setSearchValue(e.target.value)}
       />
     </Search>

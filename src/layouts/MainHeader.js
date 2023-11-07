@@ -8,6 +8,7 @@ import {
   Box,
   AppBar,
   Stack,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -160,17 +161,6 @@ export default function MainHeader() {
           >
             <Logo />
           </IconButton>
-          {/* <IconButton
-            edge="start"
-            aria-label="open drawer"
-            size="large"
-            aria-haspopup="true"
-            onClick={() => setOpenDrawer(true)}
-            color="inherit"
-            sx={{ mr: 2, display: { xs: "flex", md: "none" } }}
-          >
-            <SearchIcon />
-          </IconButton> */}
           <IconButton
             edge="start"
             color="inherit"
@@ -233,17 +223,18 @@ export default function MainHeader() {
               </Typography>
             </Box>
           ) : (
-            <Link
-              sx={{
-                color: "white",
-                display: "block",
-                m: 2,
-              }}
-              component={RouterLink}
-              to="/login"
-            >
-              Login
-            </Link>
+            <Button onClick={() => navigate("/login")}>Login</Button>
+            // <Link
+            //   sx={{
+            //     color: "white",
+            //     display: "block",
+            //     m: 2,
+            //   }}
+            //   component={RouterLink}
+            //   to="/login"
+            // >
+            //   Login
+            // </Link>
           )}
         </Toolbar>
       </AppBar>

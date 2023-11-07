@@ -4,11 +4,11 @@ import { CssBaseline, alpha, createTheme } from "@mui/material";
 import customizeComponentTheme from "./customizations";
 function ThemeProvider({ children }) {
   const PRIMARY = {
-    lighter: "#C8FACD",
-    light: "#5BE584",
-    main: "#00AB55",
-    dark: "#007B55",
-    darker: "#005249",
+    lighter: "#790252",
+    light: "#FFFB73",
+    main: "#00d473",
+    dark: "#177b4d",
+    darker: "#AA5D1A",
     contrastText: "#FFF",
   };
   const SECONDARY = {
@@ -51,18 +51,24 @@ function ThemeProvider({ children }) {
 
   const themeOptions = {
     palette: {
+      mode: "dark",
       primary: PRIMARY,
       secondary: SECONDARY,
       success: SUCCESS,
-      text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-      background: { paper: "#fff", default: "#fff", neutral: GREY[200] },
+      text: {
+        primary: GREY[100],
+        secondary: GREY[300],
+        disabled: GREY[600],
+      },
+      background: { paper: "#0c131b", default: "#0c131b", neutral: "#0e161e" },
       action: {
-        active: GREY[600],
-        hover: GREY[500_8],
-        selected: GREY[500_16],
-        disabled: GREY[500_80],
-        disabledBackground: GREY[500_24],
-        focus: GREY[500_24],
+        // active: ,
+        active: PRIMARY.main,
+        hover: PRIMARY.dark,
+        selected: "#306425",
+        disabled: GREY["700"],
+        disabledBackground: "#5F7161",
+        focus: "#D8E9A8",
         hoverOpacity: 0.08,
         disabledOpacity: 0.48,
       },

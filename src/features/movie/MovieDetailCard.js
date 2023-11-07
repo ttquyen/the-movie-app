@@ -20,7 +20,7 @@ function MovieDetailCard({ movie, isFavorite = false }) {
         display: "flex",
         flexDirection: { md: "row", xs: "column" },
         m: { md: 1, xs: 0.5 },
-        bgcolor: "#fdf5f587",
+        bgcolor: "#171f27",
       }}
     >
       <CardActionArea

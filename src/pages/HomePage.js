@@ -41,7 +41,6 @@ const HomePage = () => {
   const filters = watch();
   const filterProducts = applyFilter(movieData.movies, filters);
   const dispatch = useDispatch();
-  // GENRE LIST
   useEffect(() => {
     const getGenreList = async () => {
       setLoading(true);

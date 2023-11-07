@@ -56,6 +56,7 @@ function LoginPage() {
     } catch (error) {
       reset();
       setError("responseError", error);
+      console.log(error);
     }
   };
   return (
@@ -65,7 +66,7 @@ function LoginPage() {
           {!!errors.responseError && (
             <Alert severity="error">{errors.responseError.message}</Alert>
           )}
-          <Alert severity="info">
+          <Alert severity="info" color="primary">
             Don't have an account?{" "}
             <Link variant="subtitle2" to="/register" component={RouterLink}>
               Get started
@@ -96,9 +97,9 @@ function LoginPage() {
           alignItems="center"
         >
           <FCheckbox name="remember" label="Remember me" />
-          <Link variant="subtitle2" to="/" component={RouterLink}>
+          {/* <Link variant="subtitle2" to="/" component={RouterLink} aria-disabled>
             Forgot Password?
-          </Link>
+          </Link> */}
         </Stack>
         <LoadingButton
           fullWidth

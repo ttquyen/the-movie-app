@@ -11,6 +11,8 @@ function LoadingScreen() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "#0c131bc7",
+        zIndex: 10,
       }}
     >
       <CircularProgress />

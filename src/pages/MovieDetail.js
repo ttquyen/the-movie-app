@@ -73,7 +73,10 @@ const MovieDetail = () => {
         alignItems: "center",
       }}
     >
+      {isLoading && <LoadingScreen />}
+
       {/* BACKDROP */}
+
       <Stack height={{ xs: 300, md: 400 }} sx={{ width: "100%", mt: 6 }}>
         <img
           style={{
@@ -111,7 +114,7 @@ const MovieDetail = () => {
               position: "relative",
               maxHeight: { xs: "220px", md: "250px" },
               minHeight: { xs: "120px", md: "150px" },
-              maxWidth: { xs: "160px", md: "250px" },
+              maxWidth: { xs: "140px", md: "250px" },
               minWidth: { xs: "100px", md: "150px" },
             }}
           >
@@ -122,10 +125,6 @@ const MovieDetail = () => {
                 width: "100%",
                 objectFit: "cover",
                 objectPosition: "0 35%",
-                // maxHeight: "320px",
-                // minHeight: "150px",
-                // minWidth: "100px",
-                // maxWidth: "150px",
               }}
               src={`https://image.tmdb.org/t/p/original${
                 currentMovieDetail ? currentMovieDetail.poster_path : ""
@@ -156,6 +155,7 @@ const MovieDetail = () => {
               textShadow: "0px 0px 5px #000000",
               color: "#fff",
               pl: { xs: 1.5, md: 5 },
+              width: "60%",
             }}
             spacing={{ xs: 1, md: 2 }}
           >
@@ -205,7 +205,6 @@ const MovieDetail = () => {
                       label={genre.name}
                       size="small"
                       sx={{
-                        backgroundColor: "#fae190",
                         textShadow: "none",
                         m: 0.3,
                       }}
@@ -307,7 +306,6 @@ const MovieDetail = () => {
           </Stack>
         </Stack>
       </Stack>
-      {isLoading && <LoadingScreen />}
       {currentMovieDetail?.trailer?.length > 0 && (
         <TrailerDialog
           open={openTrailer}

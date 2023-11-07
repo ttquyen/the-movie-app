@@ -17,9 +17,10 @@ function CustomMovieListPage() {
         px: { md: 20 },
         mt: 10,
         height: "100vh",
+        position: "relative",
       }}
     >
-      <Stack alignItems="center">
+      <Stack alignItems="center" spacing={2} sx={{ mb: 1 }}>
         <ToggleButtonGroup
           color="primary"
           value={listType}
@@ -33,11 +34,13 @@ function CustomMovieListPage() {
           My {listType === "favorites" ? "Favorite" : "Rated"} Movies:
         </Typography>
       </Stack>
-      {listType === "favorites" ? (
-        <FavoriteList userId={user?._id} />
-      ) : (
-        <RatedList userId={user?._id} />
-      )}
+      <Stack fullWidth>
+        {listType === "favorites" ? (
+          <FavoriteList userId={user?._id} />
+        ) : (
+          <RatedList userId={user?._id} />
+        )}
+      </Stack>
     </Container>
   );
 }
