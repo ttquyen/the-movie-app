@@ -50,7 +50,7 @@ Besides that users can add a movie to their favorite list, leave comments, and v
 
 ## Endpoint APIs
 
-Please refer [API Endpoints](docs/api.endpoints.md) in document for more info mation
+Please refer [API Endpoints](https://github.com/ttquyen/the-movie-app-be/blob/main/docs/api.endpoints.md) in document for more info mation
 
 # Getting Started with Create React App and Redux
 
