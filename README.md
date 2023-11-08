@@ -1,5 +1,7 @@
 # the-movie-app-be
 
+The demo app is running on: https://quyentt-movie-app-final.netlify.app/
+
 ## Functional Specification
 
 Welcome to our movie application, where we dive deep into the world of cinema and bring you concise and comprehensive summaries of your favorite films.
