@@ -83,6 +83,7 @@ function RegisterPage() {
             name="password"
             type={showPassWord ? "text" : "password"}
             label="Password"
+            helperText="At least 6 characters in length"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
