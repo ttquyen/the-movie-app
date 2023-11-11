@@ -35,7 +35,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 function AppSearch() {
   const location = useLocation();
   let currentSearch = new URLSearchParams(location.search);
-  const [searchValue, setSearchValue] = useState(currentSearch.get("title"));
+  const [searchValue, setSearchValue] = useState(
+    currentSearch.get("title") || ""
+  );
   const navigate = useNavigate();
   const handleSearchMovie = (e) => {
     e.preventDefault();

@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Alert, Box, Container, Stack } from "@mui/material";
-import ProductFilter from "../components/ProductFilter";
-import { FormProvider } from "../components/form";
-import { useForm } from "react-hook-form";
 import apiService from "../app/apiService";
 import LoadingScreen from "../components/LoadingScreen";
 import MovieList from "../features/movie/movieList/movieList";
 import AppCarousel from "../components/carousel/AppCarousel";
 import Pagination from "../components/AppPagination";
 import AppSearch from "../components/AppSearch";
-import AppDrawer from "../components/AppDrawer";
 import Typography from "@mui/material/Typography";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovieListAsync } from "../features/movie/movieSlice";
-const applyFilter = (movies, filters) => {
-  let filteredProducts = movies;
-  if (filters.genre !== "All") {
-    filteredProducts = filteredProducts.filter((movie) =>
-      movie?.genre_ids.includes(+filters.genre)
-    );
-  }
-  return filteredProducts;
-};
+import FilterGenre from "../features/movie/FilterGenre";
+
 const HomePage = () => {
   const [genreList, setGenreList] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -30,15 +19,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
-  const defaultValues = {
-    genre: "All",
-  };
-  const methods = useForm({
-    defaultValues,
-  });
-  const { watch, reset } = methods;
-  const filters = watch();
-  const filterProducts = applyFilter(movieData.movies, filters);
+
   const dispatch = useDispatch();
   const location = useLocation();
   useEffect(() => {
@@ -58,12 +39,12 @@ const HomePage = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    console.log(params);
     const title = params.get("title");
     const page = params.get("page");
+    const genreId = params.get("genreId");
     const listType = location.pathname?.substring(1);
 
-    dispatch(getMovieListAsync({ listType, page, title }));
+    dispatch(getMovieListAsync({ listType, page, title, genreId }));
   }, [dispatch, location, page]);
 
   const handleChangePagination = (event, value) => {
@@ -77,10 +58,7 @@ const HomePage = () => {
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
         <AppSearch />
-
-        <FormProvider methods={methods}>
-          <ProductFilter resetFilter={reset} filterOptions={genreList} />
-        </FormProvider>
+        <FilterGenre genres={genreList} />
       </Stack>
       <Stack sx={{ flexGrow: 1 }}>
         <Box sx={{ position: "relative", height: 1 }}>
@@ -93,12 +71,12 @@ const HomePage = () => {
               ) : (
                 <>
                   <Stack sx={{ mb: 2 }}>
-                    <AppCarousel movieList={filterProducts?.slice(0, 10)} />
+                    <AppCarousel movieList={movieData.movies?.slice(0, 10)} />
                   </Stack>
                   <Stack>
-                    <MovieList movieList={filterProducts} />
+                    <MovieList movieList={movieData.movies} />
                   </Stack>
-                  {filterProducts?.length > 0 ? (
+                  {movieData.movies?.length > 0 ? (
                     <Pagination
                       page={page}
                       setPage={setPage}
@@ -116,14 +94,6 @@ const HomePage = () => {
           )}
         </Box>
       </Stack>
-      <AppDrawer>
-        <Box sx={{ p: 2 }}>
-          <AppSearch />
-          <FormProvider methods={methods}>
-            <ProductFilter resetFilter={reset} filterOptions={genreList} />
-          </FormProvider>
-        </Box>
-      </AppDrawer>
     </Container>
   );
 };

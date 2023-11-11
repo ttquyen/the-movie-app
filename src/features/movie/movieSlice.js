@@ -64,11 +64,11 @@ const slice = createSlice({
 });
 
 export const getMovieListAsync =
-  ({ title, listType, page, limit = 12 }) =>
+  ({ title, listType, page, limit = 12, genreId }) =>
   async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const params = { page, limit, title, listType };
+      const params = { page, limit, title, listType, genreId };
       const response = await apiService.get(`/movies/lists`, {
         params,
       });
