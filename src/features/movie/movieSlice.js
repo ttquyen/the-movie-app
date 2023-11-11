@@ -165,6 +165,7 @@ export const removeFavoriteMovieAsync =
       const response = await apiService.delete(`/favorites/${movieId}`);
       dispatch(slice.actions.removeFavoriteMovieSuccess(response));
       toast.success("Remove favorite movie successful");
+      dispatch(getFavoriteListAsync({}));
     } catch (error) {
       console.log(error);
       dispatch(slice.actions.hasError(error.message));

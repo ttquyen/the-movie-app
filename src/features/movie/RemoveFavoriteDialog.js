@@ -4,18 +4,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import React from "react";
 import { Button, DialogContent, DialogContentText } from "@mui/material";
 import { useDispatch } from "react-redux";
+import { removeFavoriteMovieAsync } from "./movieSlice";
 
-import { deletePostAsync } from "./postSlice";
-
-export default function DeletePostDialog({ open, setOpen, post, callback }) {
+export default function RemoveFavoriteDialog({ open, setOpen, movie }) {
   const dispatch = useDispatch();
 
   const handleClose = () => {
     setOpen(false);
   };
-  const handleDeletePost = () => {
-    dispatch(deletePostAsync(post._id));
-    callback("OK");
+  const handleRemove = () => {
+    handleClose();
+    dispatch(removeFavoriteMovieAsync({ movieId: movie._id }));
   };
   return (
     <div>
@@ -23,18 +22,18 @@ export default function DeletePostDialog({ open, setOpen, post, callback }) {
         <DialogTitle id="alert-dialog-title">{"Delete Post"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure to delete this post?
+            Are you sure to remove this favorite movie from list?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button
-            onClick={handleDeletePost}
+            onClick={handleRemove}
             autoFocus
             color="error"
             variant="contained"
           >
-            Delete
+            Remove
           </Button>
         </DialogActions>
       </Dialog>

@@ -5,12 +5,14 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, IconButton, Stack } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/Favorite";
 import GradeIcon from "@mui/icons-material/Grade";
 import ShareIcon from "@mui/icons-material/Share";
+import RemoveFavoriteDialog from "./RemoveFavoriteDialog";
 
 function MovieDetailCard({ movie, isFavorite = false }) {
   const navigate = useNavigate();
+  const [openRemoveDialog, setOpenRemoveDialog] = React.useState(false);
   const handleSelectCard = () => {
     navigate(`/movies/detail/${movie._id}`);
   };
@@ -56,9 +58,7 @@ function MovieDetailCard({ movie, isFavorite = false }) {
           >
             {movie.overview.slice(0, 100)}...
           </Typography>
-          {isFavorite ? (
-            <FavoriteIcon color="error" />
-          ) : (
+          {!isFavorite && (
             <Stack direction="row" alignItems="center">
               <Typography variant="subtitle2">Rated: </Typography>
               <Typography
@@ -83,13 +83,20 @@ function MovieDetailCard({ movie, isFavorite = false }) {
           pt: 0,
         }}
       >
-        {/* <IconButton size="small" disabled>
-          <FavoriteBorderIcon color="error" />
-        </IconButton> */}
+        {isFavorite && (
+          <IconButton size="small" onClick={() => setOpenRemoveDialog(true)}>
+            <FavoriteBorderIcon color="error" />
+          </IconButton>
+        )}
         <IconButton size="small">
           <ShareIcon />
         </IconButton>
       </CardActions>
+      <RemoveFavoriteDialog
+        open={openRemoveDialog}
+        setOpen={setOpenRemoveDialog}
+        movie={movie}
+      />
     </Card>
   );
 }
