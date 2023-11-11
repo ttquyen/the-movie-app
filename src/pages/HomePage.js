@@ -11,10 +11,10 @@ import Pagination from "../components/AppPagination";
 import AppSearch from "../components/AppSearch";
 import AppDrawer from "../components/AppDrawer";
 import Typography from "@mui/material/Typography";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import TextField from "@mui/material/TextField";
 import { getMovieListAsync } from "../features/movie/movieSlice";
-
 const applyFilter = (movies, filters) => {
   let filteredProducts = movies;
   if (filters.genre !== "All") {
@@ -29,8 +29,9 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [searchValue, setSearchValue] = useState("");
+  const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
-  const location = useLocation();
   const defaultValues = {
     genre: "All",
   };
@@ -41,6 +42,8 @@ const HomePage = () => {
   const filters = watch();
   const filterProducts = applyFilter(movieData.movies, filters);
   const dispatch = useDispatch();
+  // const history = useHistory();
+  const location = useLocation();
   useEffect(() => {
     const getGenreList = async () => {
       setLoading(true);
@@ -54,22 +57,32 @@ const HomePage = () => {
       setLoading(false);
     };
     getGenreList();
+  }, []);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    console.log(params);
+    const title = params.get("title");
+    const page = params.get("page");
     const listType = location.pathname?.substring(1);
-    if (listType) {
-      dispatch(getMovieListAsync({ listType, page }));
-    } else {
-      dispatch(getMovieListAsync({ page }));
-    }
+
+    dispatch(getMovieListAsync({ listType, page, title }));
+    if (title) setSearchValue(title);
+    // }
   }, [dispatch, location, page]);
 
   const handleChangePagination = (event, value) => {
     setPage(value);
+    const params = new URLSearchParams(location.search);
+    params.set("page", value);
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
 
   return (
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
         <AppSearch />
+
         <FormProvider methods={methods}>
           <ProductFilter resetFilter={reset} filterOptions={genreList} />
         </FormProvider>

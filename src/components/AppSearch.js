@@ -3,9 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
 import { IconButton } from "@mui/material";
-import { useDispatch } from "react-redux";
-import { getMovieListAsync } from "../features/movie/movieSlice";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
@@ -35,19 +33,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 function AppSearch() {
-  const [searchValue, setSearchValue] = useState("");
-  const dispatch = useDispatch();
   const location = useLocation();
-  const listType = location.pathname?.substring(1);
+  let currentSearch = new URLSearchParams(location.search);
+  const [searchValue, setSearchValue] = useState(currentSearch.get("title"));
+  const navigate = useNavigate();
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    dispatch(getMovieListAsync({ listType, title: searchValue }));
+    handleGetMovie();
   };
   const onChange = (e) => {
     setSearchValue(e.target.value);
+    if (e.target.value === "") {
+      const params = new URLSearchParams(location.search);
+      params.delete("title");
+      navigate({ pathname: location.pathname, search: params.toString() });
+    }
   };
   const handleGetMovie = () => {
-    dispatch(getMovieListAsync({ listType, title: searchValue }));
+    const params = new URLSearchParams(location.search);
+    if (searchValue) {
+      params.set("title", searchValue);
+    }
+    navigate({ pathname: location.pathname, search: params.toString() });
   };
   // eslint-disable-next-line
   const delayedQuery = useCallback(debounce(handleGetMovie, 500), [
@@ -65,7 +72,7 @@ function AppSearch() {
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
-        name="Seach"
+        name="title"
         onChange={onChange}
       />
       <IconButton sx={{ position: "absolute", right: 0, borderRadius: "8px" }}>
