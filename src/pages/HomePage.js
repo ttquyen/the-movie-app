@@ -11,9 +11,8 @@ import Pagination from "../components/AppPagination";
 import AppSearch from "../components/AppSearch";
 import AppDrawer from "../components/AppDrawer";
 import Typography from "@mui/material/Typography";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import TextField from "@mui/material/TextField";
 import { getMovieListAsync } from "../features/movie/movieSlice";
 const applyFilter = (movies, filters) => {
   let filteredProducts = movies;
@@ -29,7 +28,6 @@ const HomePage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
-  const [searchValue, setSearchValue] = useState("");
   const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
   const defaultValues = {
@@ -42,7 +40,6 @@ const HomePage = () => {
   const filters = watch();
   const filterProducts = applyFilter(movieData.movies, filters);
   const dispatch = useDispatch();
-  // const history = useHistory();
   const location = useLocation();
   useEffect(() => {
     const getGenreList = async () => {
@@ -67,8 +64,6 @@ const HomePage = () => {
     const listType = location.pathname?.substring(1);
 
     dispatch(getMovieListAsync({ listType, page, title }));
-    if (title) setSearchValue(title);
-    // }
   }, [dispatch, location, page]);
 
   const handleChangePagination = (event, value) => {
