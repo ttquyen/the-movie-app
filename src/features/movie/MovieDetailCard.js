@@ -9,12 +9,23 @@ import FavoriteBorderIcon from "@mui/icons-material/Favorite";
 import GradeIcon from "@mui/icons-material/Grade";
 import ShareIcon from "@mui/icons-material/Share";
 import RemoveFavoriteDialog from "./RemoveFavoriteDialog";
+import CopyToClipboard from "react-copy-to-clipboard";
+import { toast } from "react-toastify";
 
 function MovieDetailCard({ movie, isFavorite = false }) {
   const navigate = useNavigate();
   const [openRemoveDialog, setOpenRemoveDialog] = React.useState(false);
+  const [copyPath, setCopyPath] = React.useState({
+    value: "",
+    state: false,
+  });
   const handleSelectCard = () => {
     navigate(`/movies/detail/${movie._id}`);
+  };
+  const handleCopyPath = () => {
+    const uri = window.location.origin;
+    setCopyPath({ value: `${uri}/movies/detail/${movie._id}`, state: true });
+    toast.success("Copied to clipboard");
   };
   return (
     <Card
@@ -88,9 +99,11 @@ function MovieDetailCard({ movie, isFavorite = false }) {
             <FavoriteBorderIcon color="error" />
           </IconButton>
         )}
-        <IconButton size="small">
-          <ShareIcon />
-        </IconButton>
+        <CopyToClipboard text={copyPath.value} onCopy={() => handleCopyPath()}>
+          <IconButton size="small">
+            <ShareIcon />
+          </IconButton>
+        </CopyToClipboard>
       </CardActions>
       <RemoveFavoriteDialog
         open={openRemoveDialog}
