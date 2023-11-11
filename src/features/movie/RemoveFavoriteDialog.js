@@ -19,7 +19,9 @@ export default function RemoveFavoriteDialog({ open, setOpen, movie }) {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle id="alert-dialog-title">{"Delete Post"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {"Remove Favorite Movie"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             Are you sure to remove this favorite movie from list?
