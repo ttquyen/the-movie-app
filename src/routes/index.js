@@ -9,6 +9,8 @@ import AuthRequire from "./AuthRequire";
 import MovieDetail from "../pages/MovieDetail";
 import RegisterPage from "../pages/RegisterPage";
 import CustomMovieListPage from "../pages/CustomMovieListPage";
+import VerifyEmailPage from "../pages/VerifyEmailPage";
+import ChangePasswordPage from "../pages/ChangePasswordPage";
 
 function AppRouter() {
   return (
@@ -34,6 +36,8 @@ function AppRouter() {
       <Route element={<BlankLayout />}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

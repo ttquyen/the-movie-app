@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 const initialState = {
   isInitialized: false, //help to handle refreshing page
   isAuthenticated: false, //help to control log in
+  isVerified: false, //help to check user verification
   user: null, //store user info
 };
 const INITIALIZE = "AUTH.INITIALIZE";
 const LOGIN_SUCCESS = "AUTH.LOGIN_SUCCESS";
 const REGISTER_SUCCESS = "AUTH.REGISTER_SUCCESS";
+const VERIFY_SUCCESS = "AUTH.VERIFY_SUCCESS";
 const LOGOUT = "AUTH.LOGOUT";
 const UPDATE_PROFILE = "AUTH.UPDATE_PROFILE";
 
@@ -35,6 +37,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         isAuthenticated: true,
+        user: payload.user,
+      };
+    case VERIFY_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isVerified: true,
         user: payload.user,
       };
     case LOGOUT:

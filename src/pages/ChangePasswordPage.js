@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
 import FTextField from "../components/form/FTextField";
 import FormProvider from "../components/form/FormProvider";
 import {
@@ -16,12 +14,12 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoadingButton } from "@mui/lab";
-import Link from "@mui/material/Link";
+import { useDispatch } from "react-redux";
+import { changePassWordAsync } from "../features/user/userSlice";
+import TokenDialog from "./TokenDialog";
 
 const registerSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
-  email: Yup.string().email("Invalid email").required("Email is required"),
-
+  currentPassword: Yup.string().required("Current password is required"),
   password: Yup.string()
     .required("Password is required")
     .min(6, "At least 6 characters in length"),
@@ -31,13 +29,13 @@ const registerSchema = Yup.object().shape({
 });
 
 const defaultValues = {
-  name: "",
-  email: "",
+  currentPassword: "",
   password: "",
   passwordConfirmation: "",
 };
-function RegisterPage() {
-  const auth = useAuth();
+function ChangePasswordPage() {
+  const [openDialog, setOpenDialog] = useState(false);
+  const dispatch = useDispatch();
   const methods = useForm({
     resolver: yupResolver(registerSchema),
     defaultValues,
@@ -46,25 +44,34 @@ function RegisterPage() {
     handleSubmit,
     reset,
     setError,
+    getValues,
     formState: { errors, isSubmitting },
   } = methods;
-  const navigate = useNavigate();
+  const [showCurrentPassWord, setShowCurrentPassWord] = useState(false);
   const [showPassWord, setShowPassWord] = useState(false);
   const [showPassWordConfirmation, setShowPassWordConfirmation] =
     useState(false);
 
   const onSubmit = async (data) => {
-    //receive the location from AuthRequire
-    let { email, password, name } = data;
+    let { currentPassword, password } = data;
+    console.log(data);
+    console.log("call api change pasword");
+    setOpenDialog(true);
     try {
-      await auth.register({ email, password, name }, () => {
-        //navigate(from, { replace: true }); //navigate to exact location received above
-        navigate("/verify-email");
-      });
+      //TODO
+      dispatch(changePassWordAsync({ currentPassword, newPassword: password }));
     } catch (error) {
       reset();
       setError("responseError", error.response.data.errors);
     }
+  };
+  const handleCallback = (token) => {
+    const formData = {
+      currentPassword: getValues("currentPassword"),
+      newPassword: getValues("password"),
+      token,
+    };
+    dispatch(changePassWordAsync(formData));
   };
   return (
     <Container maxWidth="xs">
@@ -73,14 +80,28 @@ function RegisterPage() {
           {!!errors.responseError && (
             <Alert severity="error">{errors.responseError.message}</Alert>
           )}
-          <Alert severity="info">
-            Already have an account?{" "}
-            <Link variant="subtitle2" to="/login" component={RouterLink}>
-              Login
-            </Link>
-          </Alert>
-          <FTextField name="name" label="Name" />
-          <FTextField name="email" label="Email Address" />
+
+          <FTextField
+            name="currentPassword"
+            type={showCurrentPassWord ? "text" : "password"}
+            label="Current Password"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    edge="end"
+                    onClick={() => setShowCurrentPassWord((pre) => !pre)}
+                  >
+                    {showCurrentPassWord ? (
+                      <VisibilityIcon />
+                    ) : (
+                      <VisibilityOffIcon />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
           <FTextField
             name="password"
             type={showPassWord ? "text" : "password"}
@@ -129,11 +150,16 @@ function RegisterPage() {
           loading={isSubmitting}
           sx={{ mt: 3 }}
         >
-          Register
+          Change Password
         </LoadingButton>
       </FormProvider>
+      <TokenDialog
+        open={openDialog}
+        setOpen={setOpenDialog}
+        callback={handleCallback}
+      />
     </Container>
   );
 }
 
-export default RegisterPage;
+export default ChangePasswordPage;

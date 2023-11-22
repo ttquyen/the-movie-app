@@ -49,6 +49,8 @@ const MovieDetail = () => {
   const handleRating = (newValue) => {
     if (!user) {
       navigate("/login");
+    } else if (!user.verified) {
+      navigate("/verify-email");
     } else {
       dispatch(sendMovieRatingAsync({ star: newValue, movieId: id }));
     }
@@ -56,6 +58,8 @@ const MovieDetail = () => {
   const handleFavorite = (type) => {
     if (!user) {
       navigate("/login");
+    } else if (!user.verified) {
+      navigate("/verify-email");
     } else {
       if (type === "add") {
         dispatch(addFavoriteMovieAsync({ movieId: id }));
@@ -159,7 +163,12 @@ const MovieDetail = () => {
             }}
             spacing={{ xs: 1, md: 2 }}
           >
-            <Typography sx={{ fontWeight: 600, fontSize: { xs: 30, md: 50 } }}>
+            <Typography
+              sx={{
+                fontWeight: 600,
+                fontSize: { xs: 30, md: 50 },
+              }}
+            >
               {currentMovieDetail ? currentMovieDetail.original_title : ""}
             </Typography>
             <Typography variant="body2">
@@ -244,7 +253,10 @@ const MovieDetail = () => {
                   href={currentMovieDetail.homepage}
                   target="_blank"
                   rel="noreferrer"
-                  style={{ textDecoration: "none", color: "#FFF" }}
+                  style={{
+                    textDecoration: "none",
+                    color: "#FFF",
+                  }}
                 >
                   Homepage
                 </Link>

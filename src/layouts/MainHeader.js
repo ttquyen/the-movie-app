@@ -53,6 +53,8 @@ export default function MainHeader() {
       navigate("/my-list");
     } else if (closeType === "info") {
       setOpenEditUserDialog(true);
+    } else if (closeType === "change-password") {
+      navigate("/change-password");
     }
     setAnchorEl(null);
   };
@@ -81,6 +83,9 @@ export default function MainHeader() {
       <MenuItem onClick={() => handleMenuClose("info")}>My Account</MenuItem>
       <MenuItem onClick={() => handleMenuClose("rated")}>
         My Movie Lists
+      </MenuItem>
+      <MenuItem onClick={() => handleMenuClose("change-password")}>
+        Change Password
       </MenuItem>
       <MenuItem onClick={() => handleMenuClose("logout")}>Logout</MenuItem>
     </Menu>
@@ -210,7 +215,10 @@ export default function MainHeader() {
                 variant="h6"
                 color="inherit"
                 component="div"
-                sx={{ pl: 1, display: { xs: "none", md: "flex" } }}
+                sx={{
+                  pl: 1,
+                  display: { xs: "none", md: "flex" },
+                }}
               >
                 {user?.name}
               </Typography>

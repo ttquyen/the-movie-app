@@ -15,6 +15,8 @@ function CommentForm({ movieId }) {
     e.preventDefault();
     if (!user) {
       navigate("/login");
+    } else if (!user.verified) {
+      navigate("/verify-email");
     } else {
       dispatch(createCommentAsync({ content, movieId }));
       setContent("");
