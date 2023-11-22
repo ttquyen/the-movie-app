@@ -72,7 +72,7 @@ function CommentCard({ comment, movieId }) {
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {comment.author?.name}
           </Typography>
-          {user?._id === comment?.author._id && (
+          {user?._id === comment?.author?._id && (
             <IconButton size="small" onClick={handleMenuOpen}>
               <MoreVertIcon />
             </IconButton>

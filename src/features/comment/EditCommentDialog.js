@@ -52,7 +52,7 @@ export default function EditCommentDialog({
                   bottom: "10px",
                 }}
               >
-                {comment.author.name}
+                {comment.author?.name}
               </Typography>
             </Box>
             <Typography
