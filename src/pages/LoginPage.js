@@ -97,9 +97,14 @@ function LoginPage() {
           alignItems="center"
         >
           <FCheckbox name="remember" label="Remember me" />
-          {/* <Link variant="subtitle2" to="/" component={RouterLink} aria-disabled>
+          <Link
+            variant="subtitle2"
+            to="/reset-password"
+            component={RouterLink}
+            aria-disabled
+          >
             Forgot Password?
-          </Link> */}
+          </Link>
         </Stack>
         <LoadingButton
           fullWidth

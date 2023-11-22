@@ -87,4 +87,18 @@ export const changePassWordAsync =
       toast.error(error.response.data.errors.message);
     }
   };
+export const resetPasswordAsync =
+  ({ email }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post("/auth/reset", {
+        email,
+      });
+      toast.success(response.message);
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error.response.data.errors.message);
+    }
+  };
 export default slice.reducer;

@@ -25,6 +25,7 @@ const reducer = (state, action) => {
         ...state,
         isInitialized: true,
         isAuthenticated: payload.isAuthenticated,
+        isVerified: payload.user?.verified,
         user: payload.user,
       };
     case LOGIN_SUCCESS:
