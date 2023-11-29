@@ -3,7 +3,7 @@ import useAuth from "../hooks/useAuth";
 import LoadingScreen from "../components/LoadingScreen";
 
 function AuthRequire({ children }) {
-  const { isAuthenticated, isInitialized } = useAuth();
+  const { isAuthenticated, isInitialized, isVerified } = useAuth();
   const location = useLocation();
 
   if (!isInitialized) {
@@ -12,6 +12,9 @@ function AuthRequire({ children }) {
 
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+  if (!isVerified) {
+    return <Navigate to="/verify-email" state={{ from: location }} replace />;
   }
 
   return children;

@@ -16,7 +16,7 @@ apiService.interceptors.request.use(
 
 apiService.interceptors.response.use(
   (response) => {
-    return response;
+    return response.data;
   },
   function (error) {
     return Promise.reject(error);

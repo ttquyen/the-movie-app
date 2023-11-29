@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
-import { MovieContext } from "../contexts/MovieContext";
+import { IconButton } from "@mui/material";
+import { useLocation, useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
 const Search = styled("form")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.common.black, 0.95),
   "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.common.black, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
@@ -19,22 +21,10 @@ const Search = styled("form")(({ theme }) => ({
   },
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    padding: theme.spacing(1),
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
@@ -43,24 +33,53 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 function AppSearch() {
-  const { setMovieSearchCtx } = React.useContext(MovieContext);
-  const [searchValue, setSearchValue] = useState("");
-
+  const location = useLocation();
+  let currentSearch = new URLSearchParams(location.search);
+  const [searchValue, setSearchValue] = useState(
+    currentSearch.get("title") || ""
+  );
+  const navigate = useNavigate();
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    setMovieSearchCtx(searchValue);
+    handleGetMovie();
   };
+  const onChange = (e) => {
+    setSearchValue(e.target.value);
+    if (e.target.value === "") {
+      const params = new URLSearchParams(location.search);
+      params.delete("title");
+      navigate({ pathname: location.pathname, search: params.toString() });
+    }
+  };
+  const handleGetMovie = () => {
+    const params = new URLSearchParams(location.search);
+    if (searchValue) {
+      params.set("title", searchValue);
+    }
+    navigate({ pathname: location.pathname, search: params.toString() });
+  };
+  // eslint-disable-next-line
+  const delayedQuery = useCallback(debounce(handleGetMovie, 500), [
+    searchValue,
+  ]);
+  useEffect(() => {
+    delayedQuery();
+
+    // Cancel previous debounce calls during useEffect cleanup.
+    return delayedQuery.cancel;
+  }, [searchValue, delayedQuery]);
   return (
     <Search onSubmit={handleSearchMovie}>
-      <SearchIconWrapper>
-        <SearchIcon />
-      </SearchIconWrapper>
       <StyledInputBase
         placeholder="Search…"
         inputProps={{ "aria-label": "search" }}
         value={searchValue}
-        onChange={(e) => setSearchValue(e.target.value)}
+        name="title"
+        onChange={onChange}
       />
+      <IconButton sx={{ position: "absolute", right: 0, borderRadius: "8px" }}>
+        <SearchIcon />
+      </IconButton>
     </Search>
   );
 }

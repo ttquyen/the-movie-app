@@ -5,10 +5,13 @@
 .list__cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
 }
 @media (max-width: 600px) {
   .movie__list {
     padding: 0;
+  }
+  .list__cards {
+    justify-content: center;
   }
 }
