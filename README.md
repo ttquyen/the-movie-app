@@ -60,24 +60,30 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Some screenshots of the application
 
 ### Web UI
-
-![Movie List with Carousel](/public/assets/screenshots/movie.jpeg)
-![Hove on a movie](/public/assets/screenshots/hover-on-list.jpeg)
-![Movie Detail](/public/assets/screenshots/movie-detail.jpeg)
-![Movie Comments](/public/assets/screenshots/comment.jpeg)
-![Favorite List](/public/assets/screenshots/favorite-list.png)
-![Rated List with Sorting](/public/assets/screenshots/sorted-rating.png)
-![Change Password](/public/assets/screenshots/change-pwd.png)
+Movie List with Carousel
+<img width="1512" alt="Movie List with Carousel" src="/public/assets/screenshots/movie.jpeg">
+Hove on a movie
+<img width="1512" alt="Hove on a movie" src="/public/assets/screenshots/hover-on-list.jpeg">
+Movie Detail
+<img width="1512" alt="Movie Detail" src="/public/assets/screenshots/movie-detail.jpeg">
+Movie Comments
+<img width="1512" alt="Movie Comments" src="/public/assets/screenshots/comment.png">
+Favorite List
+<img width="1512" alt="Favorite List" src="/public/assets/screenshots/favorite-list.png">
+Rated List with Sorting
+<img width="1512" alt="Rated List with Sorting" src="/public/assets/screenshots/sorted-rating.png">
+Change Password
+<img width="1512" alt="Change Password" src="/public/assets/screenshots/change-pwd.png">
 
 ### Mobile Responsiveness
 
-![Movie List with Carousel](/public/assets/screenshots/mobile-homepage.png)
-![Movie Detail](/public/assets/screenshots/mobile-detail.png)
-![Movie Comments](/public/assets/screenshots/mobile-comment.png)
-![Favorite List](/public/assets/screenshots/mobile-fvr.png)
-![Search and Filter](/public/assets/screenshots/mobile-drawer.png)
-![Login](/public/assets/screenshots/mobile-login.png)
-![Change Password](/public/assets/screenshots/mobile-change-pwd.png)
+Movie List with Carousel           | Movie Detail
+:-------------------------:|:-------------------------:
+<img width="404" alt="Movie List with Carousel" src="/public/assets/screenshots/mobile-homepage.png"> | <img width="404" alt="Movie Detail" src="/public/assets/screenshots/mobile-detail.png">
+Favorite List            |  Search and Filter
+<img width="404" alt="Favorite List" src="/public/assets/screenshots/mobile-fvr.png"> | <img width="404" alt="Search and Filter" src="/public/assets/screenshots/mobile-drawer.png">
+Login            |  Change Password
+<img width="404" alt="Login" src="/public/assets/screenshots/mobile-login.png"> | <img width="404" alt="Change Password" src="/public/assets/screenshots/mobile-change-pwd.png">
 
 ## Usage
 
