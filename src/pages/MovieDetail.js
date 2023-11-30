@@ -44,7 +44,8 @@ const MovieDetail = () => {
   useEffect(() => {
     dispatch(getSingleMovieAsync({ movieId: id, userId: user?._id }));
     window.scrollTo(0, 0);
-  }, [id, dispatch, user]);
+    // eslint-disable-next-line
+  }, []);
 
   const handleRating = (newValue) => {
     if (!user) {
@@ -169,7 +170,7 @@ const MovieDetail = () => {
                 fontSize: { xs: 30, md: 50 },
               }}
             >
-              {currentMovieDetail ? currentMovieDetail.original_title : ""}
+              {currentMovieDetail ? currentMovieDetail.title : ""}
             </Typography>
             <Typography variant="body2">
               {currentMovieDetail ? currentMovieDetail.tagline : ""}

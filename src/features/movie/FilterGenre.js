@@ -10,18 +10,18 @@ const FilterGenre = ({ genres }) => {
   const navigate = useNavigate();
   const currentQuery = new URLSearchParams(location.search);
 
-  const [value, setValue] = React.useState(
-    currentQuery.get("genreId") || "all"
-  );
+  const [value, setValue] = React.useState(currentQuery.get("genreId") || "");
   const handleChange = (e) => {
-    setValue(e.target.value);
-    // console.log(value);
-    // if (e.target.value !== "all") {
     const params = new URLSearchParams(location.search);
-    params.set("genreId", e.target.value);
-    //   params.delete("title");
-    navigate({ pathname: location.pathname, search: params.toString() });
-    // }
+    if (e.target.value === value) {
+      setValue("");
+      params.delete("genreId", e.target.value);
+      navigate({ pathname: location.pathname, search: params.toString() });
+    } else {
+      setValue(e.target.value);
+      params.set("genreId", e.target.value);
+      navigate({ pathname: location.pathname, search: params.toString() });
+    }
   };
   return (
     <Stack spacing={3} sx={{ p: 3, width: 250 }}>
@@ -32,13 +32,13 @@ const FilterGenre = ({ genres }) => {
         <RadioGroup
           // name="controlled-radio-buttons-group"
           value={value}
-          onChange={handleChange}
+          // onChange={handleChange}
         >
           {genres?.map((o) => (
             <FormControlLabel
               key={o.id}
               value={o.id}
-              control={<Radio />}
+              control={<Radio onClick={handleChange} />}
               label={o.name}
             />
           ))}

@@ -67,7 +67,7 @@ function MovieDetailCard({ movie, isFavorite = false }) {
             paragraph
             sx={{ display: { md: "none", xs: "block" } }}
           >
-            {movie.overview.slice(0, 100)}...
+            {movie.overview?.slice(0, 100)}...
           </Typography>
           {!isFavorite && (
             <Stack direction="row" alignItems="center">
