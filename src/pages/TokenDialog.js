@@ -16,6 +16,7 @@ export default function TokenDialog({ open, setOpen, callback }) {
   const handleSubmit = () => {
     handleClose();
     callback(token);
+    setToken("");
   };
   return (
     <div>
@@ -24,7 +25,7 @@ export default function TokenDialog({ open, setOpen, callback }) {
           Change Password Verification
         </DialogTitle>
         <DialogContent>
-          <Stack>
+          <Stack sx={{ pt: 3 }}>
             <TextField
               fullWidth
               size="small"
