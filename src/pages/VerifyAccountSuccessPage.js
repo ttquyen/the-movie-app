@@ -3,31 +3,28 @@ import { Box, Button, Typography, Container } from "@mui/material";
 import { useDispatch } from "react-redux";
 import useAuth from "../hooks/useAuth";
 import { reSendEmailAsync } from "../features/user/userSlice";
+import { useEffect } from "react";
 
-function VerifyEmailPage() {
+function VerifyAccountSuccessPage() {
   const dispatch = useDispatch();
   const { user } = useAuth();
-
-  const handleResendEmail = () => {
-    console.log(user);
-    dispatch(reSendEmailAsync({ email: user?.email, type: "register" }));
-  };
+  console.log(user);
+  useEffect(() => {
+    //
+    //TODO: call api verify here
+  }, []);
 
   return (
     <Container sx={{ display: "flex", height: "100%", alignItems: "center" }}>
       <Box sx={{ maxWidth: 480, margin: "auto", textAlign: "center" }}>
         <Typography variant="h4" paragraph>
-          Verify Your Email
+          Welcome to The Movie Application
         </Typography>
         <Typography sx={{ color: "text.secondary", mb: "1rem" }}>
-          You're almost there.
+          🍿 Greetings, movie aficionado! Your ticket to a world of
+          entertainment awaits. Explore genres, curate your watchlist, and let
+          the movie marathon begin. Enjoy the show!
         </Typography>
-        <Typography sx={{ color: "text.secondary", mb: "1rem" }}>
-          Please check your mailbox to complete your signup.
-        </Typography>
-        <Button variant="contained" sx={{ m: 2 }} onClick={handleResendEmail}>
-          Resend Verification Email
-        </Button>
         <Button to="/" variant="contained" component={RouterLink}>
           Back to HomePage
         </Button>
@@ -35,4 +32,4 @@ function VerifyEmailPage() {
     </Container>
   );
 }
-export default VerifyEmailPage;
+export default VerifyAccountSuccessPage;

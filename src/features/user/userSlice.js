@@ -29,6 +29,10 @@ const slice = createSlice({
       state.error = null;
       state.updatedProfile = action.payload;
     },
+    resendEmailSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+    },
   },
 });
 export const getUserByIdAsync =
@@ -99,6 +103,21 @@ export const resetPasswordAsync =
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error.response.data.errors.message);
+    }
+  };
+export const reSendEmailAsync =
+  ({ email, type }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.post("/users/resend-email", {
+        email,
+        type,
+      });
+      dispatch(slice.actions.resendEmailSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
     }
   };
 export default slice.reducer;
