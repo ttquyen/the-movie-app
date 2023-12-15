@@ -33,6 +33,10 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
     },
+    verifyEmailSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+    },
   },
 });
 export const getUserByIdAsync =
@@ -115,6 +119,19 @@ export const reSendEmailAsync =
         type,
       });
       dispatch(slice.actions.resendEmailSuccess(response.data));
+      toast.success(response.message);
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
+    }
+  };
+export const verifyEmailAsync =
+  ({ userId, token }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.get(`/users/verify/${userId}/${token}`);
+      dispatch(slice.actions.verifyEmailSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error?.response?.data?.errors?.message);
