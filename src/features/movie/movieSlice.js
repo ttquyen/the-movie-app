@@ -104,7 +104,6 @@ export const getFavoriteListAsync =
       });
       dispatch(slice.actions.getRatedMovieSuccess(response.data));
     } catch (error) {
-      console.log(error);
       dispatch(slice.actions.hasError(error.message));
       toast.error(error?.response?.data?.errors?.message);
     }
@@ -167,7 +166,6 @@ export const removeFavoriteMovieAsync =
       toast.success("Remove favorite movie successful");
       dispatch(getFavoriteListAsync({}));
     } catch (error) {
-      console.log(error);
       dispatch(slice.actions.hasError(error.message));
       toast.error(error?.response?.data?.errors?.message);
     }

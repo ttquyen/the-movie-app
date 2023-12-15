@@ -12,6 +12,7 @@ import CustomMovieListPage from "../pages/CustomMovieListPage";
 import VerifyEmailPage from "../pages/VerifyEmailPage";
 import ChangePasswordPage from "../pages/ChangePasswordPage";
 import ForgotPasswordPage from "../pages/ForgotPasswordPage";
+import VerifyAccountSuccessPage from "../pages/VerifyAccountSuccessPage";
 
 function AppRouter() {
   return (
@@ -40,6 +41,10 @@ function AppRouter() {
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/reset-password" element={<ForgotPasswordPage />} />
+        <Route
+          path="users/verify/:userId/:token"
+          element={<VerifyAccountSuccessPage />}
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>

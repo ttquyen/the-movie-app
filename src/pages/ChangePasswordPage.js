@@ -54,8 +54,6 @@ function ChangePasswordPage() {
 
   const onSubmit = async (data) => {
     let { currentPassword, password } = data;
-    console.log(data);
-    console.log("call api change pasword");
     setOpenDialog(true);
     try {
       //TODO
