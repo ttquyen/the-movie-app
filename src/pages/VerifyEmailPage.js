@@ -1,4 +1,4 @@
-import { Link as RouterLink, useSearchParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Box, Button, Typography, Container } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import useAuth from "../hooks/useAuth";
