@@ -76,7 +76,7 @@ function MovieDetailCard({ movie, isFavorite = false }) {
                 variant="subtitle2"
                 sx={{ fontWeight: 600, fontSize: { md: 20, xs: 16 }, pl: 0.5 }}
               >
-                {movie ? movie.user_rated?.toFixed(2) : ""}{" "}
+                {movie ? movie.star?.toFixed(2) : ""}{" "}
               </Typography>
               <Typography variant="body2" sx={{ mt: 1, mx: 0.5 }}>
                 /10
