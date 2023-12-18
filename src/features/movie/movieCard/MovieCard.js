@@ -31,9 +31,13 @@ const MovieCard = ({ movie }) => {
             <img
               alt="card-img"
               className="cards__img"
-              src={`https://image.tmdb.org/t/p/original${
-                movie ? movie.poster_path : ""
-              }`}
+              src={
+                movie.poster_path
+                  ? movie.imdb_id
+                    ? `https://image.tmdb.org/t/p/original${movie.poster_path}`
+                    : movie.poster_path
+                  : "https://picsum.photos/200/300?grayscale"
+              }
             />
             <div className="cards__overlay">
               <div className="card__title">{movie ? movie.title : ""}</div>

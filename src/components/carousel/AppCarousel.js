@@ -23,9 +23,13 @@ function AppCarousel({ movieList }) {
           <div className="posterImage">
             <img
               alt="backdrop"
-              src={`https://image.tmdb.org/t/p/original${
-                movie && movie.backdrop_path
-              }`}
+              src={
+                movie.backdrop_path
+                  ? movie.imdb_id
+                    ? `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
+                    : movie.backdrop_path
+                  : "https://annenberg.usc.edu/sites/default/files/AII.8.17.23.jpg"
+              }
             />
           </div>
           <div className="posterImage__overlay">

@@ -134,18 +134,23 @@ const MovieDetail = () => {
       {/* BACKDROP */}
 
       <Stack height={{ xs: 300, md: 400 }} sx={{ width: "100%", mt: 6 }}>
-        {currentMovieDetail?.backdrop_path && (
-          <img
-            style={{
-              width: "100%",
-              objectFit: "cover",
-              objectPosition: "0 35%",
-              maxHeight: "500px",
-            }}
-            src={`https://image.tmdb.org/t/p/original${currentMovieDetail.backdrop_path}`}
-            alt="movie__backdrop"
-          />
-        )}
+        <img
+          style={{
+            width: "100%",
+            objectFit: "cover",
+            objectPosition: "0 35%",
+            maxHeight: "500px",
+          }}
+          src={
+            currentMovieDetail.backdrop_path
+              ? currentMovieDetail.imdb_id
+                ? `https://image.tmdb.org/t/p/original${currentMovieDetail.backdrop_path}`
+                : currentMovieDetail.backdrop_path
+              : "https://annenberg.usc.edu/sites/default/files/AII.8.17.23.jpg"
+          }
+          alt="movie__backdrop"
+        />
+
         {user?.role === "ADMIN" && (
           <IconButton
             size="small"
@@ -182,7 +187,7 @@ const MovieDetail = () => {
               minWidth: { xs: "100px", md: "150px" },
             }}
           >
-            {currentMovieDetail?.poster_path && (
+            {
               <img
                 className="movie__poster"
                 style={{
@@ -190,10 +195,17 @@ const MovieDetail = () => {
                   objectFit: "cover",
                   objectPosition: "0 35%",
                 }}
-                src={`https://image.tmdb.org/t/p/original${currentMovieDetail?.poster_path}`}
+                src={
+                  currentMovieDetail.poster_path
+                    ? currentMovieDetail.imdb_id
+                      ? `https://image.tmdb.org/t/p/original${currentMovieDetail.poster_path}`
+                      : currentMovieDetail.poster_path
+                    : "https://picsum.photos/200/300?grayscale"
+                }
+                // src={`https://image.tmdb.org/t/p/original${currentMovieDetail?.poster_path}`}
                 alt="movie__poster"
               />
-            )}
+            }
             {currentMovieDetail?.isFavorite ? (
               <IconButton
                 color="error"
