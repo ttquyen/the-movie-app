@@ -21,6 +21,9 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import MovieIcon from "@mui/icons-material/Movie";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import {
   addFavoriteMovieAsync,
   getSingleMovieAsync,
@@ -30,12 +33,17 @@ import {
 import useAuth from "../hooks/useAuth";
 import LoadingScreen from "./LoadingScreen";
 import TrailerDialog from "./TrailerDialog";
+import MovieInfoDialog from "../features/movie/MovieInfoDialog";
+import DeleteMovieDialog from "../features/movie/DeteleMovieDialog";
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [openTrailer, setOpenTrailer] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDel, setOpenDel] = useState(false);
   const {
     currentMovie: currentMovieDetail,
     currentRating,
@@ -46,7 +54,49 @@ const MovieDetail = () => {
     window.scrollTo(0, 0);
     // eslint-disable-next-line
   }, []);
-
+  const handleDeleteDialog = (message) => {
+    if (message === "OK") {
+      navigate("/");
+    }
+  };
+  const handleEditDialog = (message) => {
+    if (message === "OK") {
+    }
+  };
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleEditComment = () => {
+    setOpenEdit(true);
+    handleMenuClose();
+  };
+  const handleDeleteComment = () => {
+    setOpenDel(true);
+    handleMenuClose();
+  };
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id="comment-menu"
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(anchorEl)}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleEditComment}>Edit</MenuItem>
+      <MenuItem onClick={handleDeleteComment}>Delete</MenuItem>
+    </Menu>
+  );
   const handleRating = (newValue) => {
     if (!user) {
       navigate("/login");
@@ -96,6 +146,15 @@ const MovieDetail = () => {
             alt="movie__backdrop"
           />
         )}
+        {user?.role === "ADMIN" && (
+          <IconButton
+            size="small"
+            sx={{ position: "absolute", right: 30, top: 70 }}
+            onClick={handleMenuOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        )}
       </Stack>
       {/* INFO */}
       <Stack
@@ -111,7 +170,6 @@ const MovieDetail = () => {
           className="title__poster"
           direction="row"
           justifyContent="center"
-          // justifyContent={{ xs: "center", md: "space-evenly" }}
           alignItems="center"
         >
           <Box
@@ -316,11 +374,21 @@ const MovieDetail = () => {
           >
             <CommentList movieId={currentMovieDetail?._id} />
             <CommentForm movieId={currentMovieDetail?._id} />
-            {/* <Stack></Stack> */}
-            {/* <Stack className="comment__form"></Stack> */}
           </Stack>
         </Stack>
       </Stack>
+      <DeleteMovieDialog
+        open={openDel}
+        setOpen={setOpenDel}
+        movie={currentMovieDetail}
+        callback={handleDeleteDialog}
+      />
+      <MovieInfoDialog
+        open={openEdit}
+        setOpen={setOpenEdit}
+        movie={currentMovieDetail}
+        callback={handleEditDialog}
+      />
       {currentMovieDetail?.trailer?.length > 0 && (
         <TrailerDialog
           open={openTrailer}
@@ -328,6 +396,7 @@ const MovieDetail = () => {
           video={currentMovieDetail?.trailer[0]}
         />
       )}
+      {renderMenu}
     </Container>
   );
 };

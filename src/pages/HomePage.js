@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Box, Container, Stack } from "@mui/material";
+import { Alert, Box, Container, Stack, Button } from "@mui/material";
 import apiService from "../app/apiService";
 import LoadingScreen from "../components/LoadingScreen";
 import MovieList from "../features/movie/movieList/movieList";
@@ -11,6 +11,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovieListAsync } from "../features/movie/movieSlice";
 import FilterGenre from "../features/movie/FilterGenre";
+import useAuth from "../hooks/useAuth";
 
 const HomePage = () => {
   const [genreList, setGenreList] = useState([]);
@@ -19,6 +20,7 @@ const HomePage = () => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
+  const { user } = useAuth();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -73,6 +75,17 @@ const HomePage = () => {
                   <Stack sx={{ mb: 2 }}>
                     <AppCarousel movieList={movieData.movies?.slice(0, 10)} />
                   </Stack>
+                  <Stack sx={{ mb: 2 }}>
+                    {user?.role === "ADMIN" && (
+                      <Button
+                        variant="contained"
+                        onClick={() => navigate("/login")}
+                      >
+                        + New Movie
+                      </Button>
+                    )}
+                  </Stack>
+
                   <Stack>
                     <MovieList movieList={movieData.movies} />
                   </Stack>
