@@ -60,6 +60,10 @@ const slice = createSlice({
       state.error = null;
       state.currentMovie.isFavorite = false;
     },
+    deleteMovieSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+    },
   },
 });
 
@@ -165,6 +169,19 @@ export const removeFavoriteMovieAsync =
       dispatch(slice.actions.removeFavoriteMovieSuccess(response));
       toast.success("Remove favorite movie successful");
       dispatch(getFavoriteListAsync({}));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error.message));
+      toast.error(error?.response?.data?.errors?.message);
+    }
+  };
+export const deleteMovieAsync =
+  ({ movieId }) =>
+  async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await apiService.delete(`/movies/detail/${movieId}`);
+      dispatch(slice.actions.deleteMovieSuccess(response));
+      toast.success("Delete movie successful");
     } catch (error) {
       dispatch(slice.actions.hasError(error.message));
       toast.error(error?.response?.data?.errors?.message);
