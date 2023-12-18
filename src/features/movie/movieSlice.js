@@ -68,6 +68,11 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = null;
     },
+    updateMovieSuccess(state, action) {
+      state.isLoading = false;
+      state.error = null;
+      console.log(action.payload);
+    },
   },
 });
 
@@ -199,6 +204,20 @@ export const addMovieAsync = (movie) => async (dispatch) => {
     });
     dispatch(slice.actions.addMovieSuccess(response));
     toast.success("Add favorite movie successful");
+  } catch (error) {
+    dispatch(slice.actions.hasError(error.message));
+    toast.error(error?.response?.data?.errors?.message);
+  }
+};
+export const updateMovieAsync = (movie) => async (dispatch) => {
+  dispatch(slice.actions.startLoading());
+  try {
+    console.log(movie);
+    const response = await apiService.put(`/movies/detail/${movie._id}`, {
+      ...movie,
+    });
+    dispatch(slice.actions.updateMovieSuccess(response));
+    toast.success("Update favorite movie successful");
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
     toast.error(error?.response?.data?.errors?.message);
