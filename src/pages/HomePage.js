@@ -12,12 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMovieListAsync } from "../features/movie/movieSlice";
 import FilterGenre from "../features/movie/FilterGenre";
 import useAuth from "../hooks/useAuth";
+import MovieInfoDialog from "../features/movie/MovieInfoDialog";
 
 const HomePage = () => {
   const [genreList, setGenreList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [openNewMovie, setOpenNewMovie] = useState(false);
   const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
   const { user } = useAuth();
@@ -55,7 +57,9 @@ const HomePage = () => {
     params.set("page", value);
     navigate({ pathname: location.pathname, search: params.toString() });
   };
-
+  const handleAddNewMovie = (a) => {
+    console.log(a);
+  };
   return (
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
@@ -79,7 +83,7 @@ const HomePage = () => {
                     {user?.role === "ADMIN" && (
                       <Button
                         variant="contained"
-                        onClick={() => navigate("/login")}
+                        onClick={() => setOpenNewMovie(true)}
                       >
                         + New Movie
                       </Button>
@@ -107,6 +111,11 @@ const HomePage = () => {
           )}
         </Box>
       </Stack>
+      <MovieInfoDialog
+        open={openNewMovie}
+        setOpen={setOpenNewMovie}
+        callback={handleAddNewMovie}
+      />
     </Container>
   );
 };

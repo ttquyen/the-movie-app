@@ -383,12 +383,14 @@ const MovieDetail = () => {
         movie={currentMovieDetail}
         callback={handleDeleteDialog}
       />
-      <MovieInfoDialog
-        open={openEdit}
-        setOpen={setOpenEdit}
-        movie={currentMovieDetail}
-        callback={handleEditDialog}
-      />
+      {currentMovieDetail && (
+        <MovieInfoDialog
+          open={openEdit}
+          setOpen={setOpenEdit}
+          movie={currentMovieDetail}
+          callback={handleEditDialog}
+        />
+      )}
       {currentMovieDetail?.trailer?.length > 0 && (
         <TrailerDialog
           open={openTrailer}
