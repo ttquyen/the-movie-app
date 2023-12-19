@@ -58,11 +58,18 @@ const HomePage = () => {
     navigate({ pathname: location.pathname, search: params.toString() });
   };
   const handleAddNewMovie = (a) => {
-    console.log(a);
+    console.log("Add new movie");
   };
   return (
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
+        <Stack sx={{ m: 2 }}>
+          {user?.role === "ADMIN" && (
+            <Button variant="contained" onClick={() => setOpenNewMovie(true)}>
+              + New Movie
+            </Button>
+          )}
+        </Stack>
         <AppSearch />
         <FilterGenre genres={genreList} />
       </Stack>
@@ -78,16 +85,6 @@ const HomePage = () => {
                 <>
                   <Stack sx={{ mb: 2 }}>
                     <AppCarousel movieList={movieData.movies?.slice(0, 10)} />
-                  </Stack>
-                  <Stack sx={{ mb: 2 }}>
-                    {user?.role === "ADMIN" && (
-                      <Button
-                        variant="contained"
-                        onClick={() => setOpenNewMovie(true)}
-                      >
-                        + New Movie
-                      </Button>
-                    )}
                   </Stack>
 
                   <Stack>

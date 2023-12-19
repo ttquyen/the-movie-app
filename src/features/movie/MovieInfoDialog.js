@@ -12,12 +12,12 @@ import { useDispatch } from "react-redux";
 import { LoadingButton } from "@mui/lab";
 import { fDate } from "../../utils/formatTime";
 import Box from "@mui/material/Box";
-import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { useTheme } from "@mui/material/styles";
 import apiService from "../../app/apiService";
+import moment from "moment";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -29,10 +29,10 @@ const MenuProps = {
   },
 };
 
-function getStyles(name, personName, theme) {
+function getStyles(name, genreId, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      genreId.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium,
   };
@@ -45,7 +45,7 @@ const UpdateUserSchema = yup.object().shape({
 export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
   const dispatch = useDispatch();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [genreId, setGenreId] = React.useState([]);
   const [genreList, setGenreList] = useState([]);
 
   useEffect(() => {
@@ -92,18 +92,30 @@ export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
       setValue(key, defaultValues[key])
     );
 
-    setPersonName(
+    setGenreId(
       genreList.filter((obj) => defaultValues.genre_ids.includes(obj.id))
     );
-    // console.log(currentGenres);
   }, [defaultValues, setValue, methods, genreList]);
 
   const onSubmit = (data) => {
     if (movie) {
-      dispatch(updateMovieAsync({ ...data, _id: movie._id }));
+      dispatch(
+        updateMovieAsync({
+          ...data,
+          _id: movie._id,
+          genre_ids: genreId.map((g) => g.id),
+          release_date: moment(data.release_date, "DD/MM/YYYY").toDate(),
+        })
+      );
       handleClose();
     } else {
-      dispatch(addMovieAsync({ ...data }));
+      dispatch(
+        addMovieAsync({
+          ...data,
+          genre_ids: genreId.map((g) => g.id),
+          release_date: moment(data.release_date, "DD/MM/YYYY").toDate(),
+        })
+      );
       handleClose();
     }
   };
@@ -116,8 +128,7 @@ export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
     const {
       target: { value },
     } = event;
-    setPersonName(typeof value === "string" ? value.split(",") : value);
-    console.log(personName);
+    setGenreId(typeof value === "string" ? value.split(",") : value);
   };
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -136,20 +147,16 @@ export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
                   label="Overview"
                 />
                 <FTextField name="tagline" label="Tag Line" />
-                {/* <FTextField name="genres_ids" label="Genres" /> */}
               </Stack>
             </Grid>
             <Grid item xs={12}>
               <Select
                 name="genres_ids"
                 label="Genres"
-                labelId="demo-multiple-chip-label"
-                id="demo-multiple-chip"
                 multiple
                 fullWidth
-                value={personName}
+                value={genreId}
                 onChange={handleChange}
-                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {selected.map((value) => (
@@ -161,9 +168,10 @@ export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
               >
                 {genreList.map((genre) => (
                   <MenuItem
+                    label="Genres"
                     key={genre._id}
                     value={genre}
-                    style={getStyles(genre, personName, theme)}
+                    style={getStyles(genre, genreId, theme)}
                   >
                     {genre.name}
                   </MenuItem>
@@ -187,15 +195,24 @@ export default function MovieInfoDialog({ open, setOpen, movie, callback }) {
               </Stack>
             </Grid>
           </Grid>
-          <Button onClick={handleClose}>Cancel</Button>
-
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
+          <Stack
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              pt: 2,
+            }}
           >
-            {movie ? "Save" : " Add"}
-          </LoadingButton>
+            <Button onClick={handleClose}>Cancel</Button>
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+              sx={{ ml: 2 }}
+            >
+              {movie ? "Save" : " Add"}
+            </LoadingButton>
+          </Stack>
         </FormProvider>
       </DialogContent>
     </Dialog>

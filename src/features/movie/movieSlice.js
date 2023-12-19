@@ -71,7 +71,6 @@ const slice = createSlice({
     updateMovieSuccess(state, action) {
       state.isLoading = false;
       state.error = null;
-      console.log(action.payload);
     },
   },
 });
@@ -212,12 +211,12 @@ export const addMovieAsync = (movie) => async (dispatch) => {
 export const updateMovieAsync = (movie) => async (dispatch) => {
   dispatch(slice.actions.startLoading());
   try {
-    console.log(movie);
     const response = await apiService.put(`/movies/detail/${movie._id}`, {
       ...movie,
     });
     dispatch(slice.actions.updateMovieSuccess(response));
     toast.success("Update favorite movie successful");
+    dispatch(getSingleMovieAsync({ movieId: movie._id }));
   } catch (error) {
     dispatch(slice.actions.hasError(error.message));
     toast.error(error?.response?.data?.errors?.message);
