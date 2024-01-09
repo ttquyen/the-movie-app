@@ -1,4 +1,4 @@
-# the-movie-app-be
+# the-movie-app
 
 The demo app is running on: https://quyentt-movie-app-final.netlify.app/
 
@@ -16,37 +16,38 @@ Besides that users can add a movie to their favorite list, leave comments, and v
 
 ### Authentication
 
--   [x] As a user, I can register for a new account with name, email and password.
--   [x] As a user, I can sign in with my email and password.
+- [x] As a user, I can register for a new account with name, email and password.
+- [x] As a user, I can sign in with my email and password.
+- [x] As a user, I can change or reset my password by email verification.
 
 ### Users
 
--   [x] As a user, I can get my current profile info (stay signed in with refreshing page).
--   [x] As a user, I can update my profile info (name)
+- [x] As a user, I can get my current profile info (stay signed in with refreshing page).
+- [x] As a user, I can update my profile info (name)
 
 ### Comments
 
--   [x] As a user, I can see a list of comments on a film.
--   [x] As a user, I can write comments on a film.
--   [x] As a user, I can update my comments.
--   [x] As a user, I can delete my comments.
+- [x] As a user, I can see a list of comments on a film.
+- [x] As a user, I can write comments on a film.
+- [x] As a user, I can update my comments.
+- [x] As a user, I can delete my comments.
 
 ### Rating
 
--   [x] As a user, I can rate to a film (up to 10 stars).
--   [x] As a user, I can see a list of my rated movies.
+- [x] As a user, I can rate to a film (up to 10 stars).
+- [x] As a user, I can see a list of my rated movies.
 
 ### Favorite
 
--   [x] As a user, I can add a film to my favorite movie list.
--   [x] As a user, I can see a list of my favorite movies.
+- [x] As a user, I can add a film to my favorite movie list.
+- [x] As a user, I can see a list of my favorite movies.
 
 ### Movies
 
--   [x] As a user, I can see a list of popular, now-playing, and top-rated films.
--   [x] As a user, I can search a film by name and filter them by genre.
--   [x] As a user, I can see the film detail.
--   [x] As a user, I can see the official trailer of a film.
+- [x] As a user, I can see a list of popular, now-playing, and top-rated films.
+- [x] As a user, I can search a film by name and filter them by genre.
+- [x] As a user, I can see the film detail.
+- [x] As a user, I can see the official trailer of a film.
 
 ## Endpoint APIs
 
@@ -56,10 +57,38 @@ Please refer [API Endpoints](https://github.com/ttquyen/the-movie-app-be/blob/ma
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+## Some screenshots of the application
+
+### Web UI
+Movie List with Carousel
+<img width="1512" alt="Movie List with Carousel" src="/public/assets/screenshots/movie.jpeg">
+Hove on a movie
+<img width="1512" alt="Hove on a movie" src="/public/assets/screenshots/hover-on-list.jpeg">
+Movie Detail
+<img width="1512" alt="Movie Detail" src="/public/assets/screenshots/movie-detail.jpeg">
+Movie Comments
+<img width="1512" alt="Movie Comments" src="/public/assets/screenshots/comment.png">
+Favorite List
+<img width="1512" alt="Favorite List" src="/public/assets/screenshots/favorite-list.png">
+Rated List with Sorting
+<img width="1512" alt="Rated List with Sorting" src="/public/assets/screenshots/sorted-rating.png">
+Change Password
+<img width="1512" alt="Change Password" src="/public/assets/screenshots/change-pwd.png">
+
+### Mobile Responsiveness
+
+Movie List with Carousel           | Movie Detail
+:-------------------------:|:-------------------------:
+<img width="404" alt="Movie List with Carousel" src="/public/assets/screenshots/mobile-homepage.png"> | <img width="404" alt="Movie Detail" src="/public/assets/screenshots/mobile-detail.png">
+Favorite List            |  Search and Filter
+<img width="404" alt="Favorite List" src="/public/assets/screenshots/mobile-fvr.png"> | <img width="404" alt="Search and Filter" src="/public/assets/screenshots/mobile-drawer.png">
+Login            |  Change Password
+<img width="404" alt="Login" src="/public/assets/screenshots/mobile-login.png"> | <img width="404" alt="Change Password" src="/public/assets/screenshots/mobile-change-pwd.png">
+
 ## Usage
 
--   Please refer `.env.example` and add a new `.env` file in the same root.
--   Note that the [Back-end server](https://github.com/ttquyen/the-movie-app-be) is running.
+- Please refer `.env.example` and add a new `.env` file in the same root.
+- Note that the [Back-end server](https://github.com/ttquyen/the-movie-app-be) is running.
 
 In the project directory, you can run:
 

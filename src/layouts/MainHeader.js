@@ -37,28 +37,33 @@ export default function MainHeader() {
     { type: "now-playing", label: "NOW PLAYING" },
     { type: "top-rated", label: "TOP RATED" },
   ];
-
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = async (closeType) => {
-    if (closeType === "logout") {
-      try {
-        await logout(() => {
-          navigate("/login");
-        });
-      } catch (error) {}
-    } else if (closeType === "rated") {
-      navigate("/my-list");
-    } else if (closeType === "info") {
-      setOpenEditUserDialog(true);
-    } else if (closeType === "change-password") {
-      navigate("/change-password");
+    switch (closeType) {
+      case "logout":
+        try {
+          await logout(() => navigate("/login"));
+        } catch (error) {}
+        break;
+      case "rated":
+        navigate("/my-list");
+        break;
+      case "info":
+        setOpenEditUserDialog(true);
+        break;
+      case "change-password":
+        navigate("/change-password");
+        break;
+      default:
+        break;
     }
     setAnchorEl(null);
   };
-  const handeleCloseDrawer = ({ target }) => {
+
+  const handleCloseDrawer = ({ target }) => {
     navigate(target);
     setOpenDrawer(false);
   };
@@ -103,7 +108,7 @@ export default function MainHeader() {
             <ListItem
               key={mvType.type}
               disablePadding
-              onClick={() => handeleCloseDrawer({ target: mvType.type })}
+              onClick={() => handleCloseDrawer({ target: mvType.type })}
             >
               <ListItemButton>
                 <Link

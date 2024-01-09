@@ -14,10 +14,9 @@ function FavoriteList({ userId }) {
   );
 
   useEffect(() => {
-    if (userId) {
-      dispatch(getFavoriteListAsync({ userId, page }));
-    }
-  }, [userId, page, dispatch]);
+    dispatch(getFavoriteListAsync({ userId, page }));
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <Container>

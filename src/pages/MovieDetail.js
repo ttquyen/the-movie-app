@@ -21,6 +21,9 @@ import LaunchIcon from "@mui/icons-material/Launch";
 import MovieIcon from "@mui/icons-material/Movie";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import {
   addFavoriteMovieAsync,
   getSingleMovieAsync,
@@ -30,12 +33,17 @@ import {
 import useAuth from "../hooks/useAuth";
 import LoadingScreen from "./LoadingScreen";
 import TrailerDialog from "./TrailerDialog";
+import MovieInfoDialog from "../features/movie/MovieInfoDialog";
+import DeleteMovieDialog from "../features/movie/DeteleMovieDialog";
 const MovieDetail = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [openTrailer, setOpenTrailer] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDel, setOpenDel] = useState(false);
   const {
     currentMovie: currentMovieDetail,
     currentRating,
@@ -44,8 +52,51 @@ const MovieDetail = () => {
   useEffect(() => {
     dispatch(getSingleMovieAsync({ movieId: id, userId: user?._id }));
     window.scrollTo(0, 0);
-  }, [id, dispatch, user]);
-
+    // eslint-disable-next-line
+  }, []);
+  const handleDeleteDialog = (message) => {
+    if (message === "OK") {
+      navigate("/");
+    }
+  };
+  const handleEditDialog = (message) => {
+    if (message === "OK") {
+    }
+  };
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+  const handleEditComment = () => {
+    setOpenEdit(true);
+    handleMenuClose();
+  };
+  const handleDeleteComment = () => {
+    setOpenDel(true);
+    handleMenuClose();
+  };
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id="comment-menu"
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={Boolean(anchorEl)}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleEditComment}>Edit</MenuItem>
+      <MenuItem onClick={handleDeleteComment}>Delete</MenuItem>
+    </Menu>
+  );
   const handleRating = (newValue) => {
     if (!user) {
       navigate("/login");
@@ -83,17 +134,31 @@ const MovieDetail = () => {
       {/* BACKDROP */}
 
       <Stack height={{ xs: 300, md: 400 }} sx={{ width: "100%", mt: 6 }}>
-        {currentMovieDetail?.backdrop_path && (
-          <img
-            style={{
-              width: "100%",
-              objectFit: "cover",
-              objectPosition: "0 35%",
-              maxHeight: "500px",
-            }}
-            src={`https://image.tmdb.org/t/p/original${currentMovieDetail.backdrop_path}`}
-            alt="movie__backdrop"
-          />
+        <img
+          style={{
+            width: "100%",
+            objectFit: "cover",
+            objectPosition: "0 35%",
+            maxHeight: "500px",
+          }}
+          src={
+            currentMovieDetail.backdrop_path
+              ? currentMovieDetail.imdb_id
+                ? `https://image.tmdb.org/t/p/original${currentMovieDetail.backdrop_path}`
+                : currentMovieDetail.backdrop_path
+              : "https://annenberg.usc.edu/sites/default/files/AII.8.17.23.jpg"
+          }
+          alt="movie__backdrop"
+        />
+
+        {user?.role === "ADMIN" && (
+          <IconButton
+            size="small"
+            sx={{ position: "absolute", right: 30, top: 70 }}
+            onClick={handleMenuOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
         )}
       </Stack>
       {/* INFO */}
@@ -110,7 +175,6 @@ const MovieDetail = () => {
           className="title__poster"
           direction="row"
           justifyContent="center"
-          // justifyContent={{ xs: "center", md: "space-evenly" }}
           alignItems="center"
         >
           <Box
@@ -123,7 +187,7 @@ const MovieDetail = () => {
               minWidth: { xs: "100px", md: "150px" },
             }}
           >
-            {currentMovieDetail?.poster_path && (
+            {
               <img
                 className="movie__poster"
                 style={{
@@ -131,10 +195,17 @@ const MovieDetail = () => {
                   objectFit: "cover",
                   objectPosition: "0 35%",
                 }}
-                src={`https://image.tmdb.org/t/p/original${currentMovieDetail?.poster_path}`}
+                src={
+                  currentMovieDetail.poster_path
+                    ? currentMovieDetail.imdb_id
+                      ? `https://image.tmdb.org/t/p/original${currentMovieDetail.poster_path}`
+                      : currentMovieDetail.poster_path
+                    : "https://picsum.photos/200/300?grayscale"
+                }
+                // src={`https://image.tmdb.org/t/p/original${currentMovieDetail?.poster_path}`}
                 alt="movie__poster"
               />
-            )}
+            }
             {currentMovieDetail?.isFavorite ? (
               <IconButton
                 color="error"
@@ -169,7 +240,7 @@ const MovieDetail = () => {
                 fontSize: { xs: 30, md: 50 },
               }}
             >
-              {currentMovieDetail ? currentMovieDetail.original_title : ""}
+              {currentMovieDetail ? currentMovieDetail.title : ""}
             </Typography>
             <Typography variant="body2">
               {currentMovieDetail ? currentMovieDetail.tagline : ""}
@@ -315,11 +386,23 @@ const MovieDetail = () => {
           >
             <CommentList movieId={currentMovieDetail?._id} />
             <CommentForm movieId={currentMovieDetail?._id} />
-            {/* <Stack></Stack> */}
-            {/* <Stack className="comment__form"></Stack> */}
           </Stack>
         </Stack>
       </Stack>
+      <DeleteMovieDialog
+        open={openDel}
+        setOpen={setOpenDel}
+        movie={currentMovieDetail}
+        callback={handleDeleteDialog}
+      />
+      {currentMovieDetail && (
+        <MovieInfoDialog
+          open={openEdit}
+          setOpen={setOpenEdit}
+          movie={currentMovieDetail}
+          callback={handleEditDialog}
+        />
+      )}
       {currentMovieDetail?.trailer?.length > 0 && (
         <TrailerDialog
           open={openTrailer}
@@ -327,6 +410,7 @@ const MovieDetail = () => {
           video={currentMovieDetail?.trailer[0]}
         />
       )}
+      {renderMenu}
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Alert, Box, Container, Stack } from "@mui/material";
+import { Alert, Box, Container, Stack, Button } from "@mui/material";
 import apiService from "../app/apiService";
 import LoadingScreen from "../components/LoadingScreen";
 import MovieList from "../features/movie/movieList/movieList";
@@ -11,14 +11,18 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getMovieListAsync } from "../features/movie/movieSlice";
 import FilterGenre from "../features/movie/FilterGenre";
+import useAuth from "../hooks/useAuth";
+import MovieInfoDialog from "../features/movie/MovieInfoDialog";
 
 const HomePage = () => {
   const [genreList, setGenreList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [page, setPage] = useState(1);
+  const [openNewMovie, setOpenNewMovie] = useState(false);
   const navigate = useNavigate();
   const movieData = useSelector((state) => state.movie);
+  const { user } = useAuth();
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -53,10 +57,19 @@ const HomePage = () => {
     params.set("page", value);
     navigate({ pathname: location.pathname, search: params.toString() });
   };
-
+  const handleAddNewMovie = (a) => {
+    console.log("Add new movie");
+  };
   return (
     <Container sx={{ display: "flex", minHeight: "100vh", mt: 10 }}>
       <Stack sx={{ display: { xs: "none", md: "flex" } }}>
+        <Stack sx={{ m: 2 }}>
+          {user?.role === "ADMIN" && (
+            <Button variant="contained" onClick={() => setOpenNewMovie(true)}>
+              + New Movie
+            </Button>
+          )}
+        </Stack>
         <AppSearch />
         <FilterGenre genres={genreList} />
       </Stack>
@@ -73,6 +86,7 @@ const HomePage = () => {
                   <Stack sx={{ mb: 2 }}>
                     <AppCarousel movieList={movieData.movies?.slice(0, 10)} />
                   </Stack>
+
                   <Stack>
                     <MovieList movieList={movieData.movies} />
                   </Stack>
@@ -94,6 +108,11 @@ const HomePage = () => {
           )}
         </Box>
       </Stack>
+      <MovieInfoDialog
+        open={openNewMovie}
+        setOpen={setOpenNewMovie}
+        callback={handleAddNewMovie}
+      />
     </Container>
   );
 };
